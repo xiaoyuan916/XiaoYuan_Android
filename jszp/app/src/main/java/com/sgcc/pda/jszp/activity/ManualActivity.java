@@ -28,7 +28,7 @@ public class ManualActivity extends BaseActivity {
     ImageView ivRight;
     private int type;
     private int sub_type;//子分类
-
+    private int position;
     @Override
     public int getLayoutResId() {
         return R.layout.activity_manual;
@@ -39,6 +39,8 @@ public class ManualActivity extends BaseActivity {
         type = getIntent().getIntExtra("type", -1);
         //0是配送装车，1是返回装车，2是返回装车清点，3是配送签收，4是配送扫码签收和口令签收
         sub_type = getIntent().getIntExtra("sub_type", 0);
+
+        position =  getIntent().getIntExtra("position", 0);
         switch (type) {
             case MyComment.SCAN_DELIVERY:
                 tvTitle.setText("配送装车");
@@ -91,6 +93,15 @@ public class ManualActivity extends BaseActivity {
                 tvTitle.setText(R.string.cx1);
                 tvHead.setText("请输入设备编号");
                 break;
+            case MyComment.SCAN_EXPRESS_DEVICE:
+                if (sub_type == 0) {
+                    tvTitle.setText("设备条码输入");
+                    tvHead.setText("请输入设备条码");
+                }else if (sub_type == 1) {
+                    tvTitle.setText("快递单号输入");
+                    tvHead.setText("请输入快递单号");
+                }
+                break;
 
         }
 
@@ -135,6 +146,10 @@ public class ManualActivity extends BaseActivity {
                 } else {
 
                 }
+                break;
+            case MyComment.SCAN_EXPRESS_DEVICE:
+                intent.putExtra("position",position);
+                setResult(RESULT_OK, intent);
                 break;
         }
         finish();

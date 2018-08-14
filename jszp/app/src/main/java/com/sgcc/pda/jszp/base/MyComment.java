@@ -16,5 +16,5 @@ public class MyComment {
     public static final int SCAN_DEVICE_IN=7;//0是扫描配送单编号，1是扫描设备资产编号
     public static final int SCAN_DEVICE_PICK=9;//0是开始设备编号，1是结束设备编号
     public static final int QUERY_DEVICE =10;
-
+    public static final int SCAN_EXPRESS_DEVICE =11;//快递绑定扫描设备  0扫描设备  1扫描快递单号
 }

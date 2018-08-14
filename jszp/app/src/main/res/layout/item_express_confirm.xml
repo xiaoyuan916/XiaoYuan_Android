@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:background="@color/white"
+    >
+
+    <TextView
+        android:id="@+id/tv_task_no"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="配送任务：32343243242"
+        android:textColor="@color/text2"
+        android:drawableLeft="@mipmap/icon_psrw"
+        android:drawablePadding="7dp"
+        android:textSize="14sp"
+        />
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="15:30"
+        android:textColor="@color/darkgray"
+        android:textSize="14sp"
+        />
+
+    <TextView
+        android:id="@+id/tv_express_company"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="快递公司：顺丰快速"
+        android:layout_below="@id/tv_task_no"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="22dp"
+        android:textSize="14sp"
+        />
+    <TextView
+        android:id="@+id/tv_addr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="配送地点：六合供电公司"
+        android:layout_below="@id/tv_express_company"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="22dp"
+        android:textSize="14sp"
+        />
+    <TextView
+        android:id="@+id/tv_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="设备总数：2"
+        android:layout_below="@id/tv_addr"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="22dp"
+        android:textSize="14sp"
+        />
+
+    <TextView
+        android:id="@+id/tv_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="待确认"
+        android:layout_alignBottom="@id/tv_num"
+        android:textSize="13sp"
+        />
+</RelativeLayout>

@@ -16,6 +16,7 @@ import com.freelib.multiitem.adapter.holder.BaseViewHolder;
 import com.freelib.multiitem.listener.OnItemClickListener;
 import com.sgcc.pda.jszp.activity.DeviceOutActivity;
 import com.sgcc.pda.jszp.activity.DevicePickActivity;
+import com.sgcc.pda.jszp.activity.ExpressConfirmListActivity;
 import com.sgcc.pda.jszp.activity.LogisticsSendActivity;
 import com.sgcc.pda.jszp.activity.QueryOrderActivity;
 import com.sgcc.pda.jszp.activity.ReturnWarehouseActivity;
@@ -87,7 +88,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initView() {
-
         dsc_margin_left = getResources().getDimension(R.dimen.dsc_margin_left);
         dsc_margin_right = getResources().getDimension(R.dimen.dsc_margin_right);
         dsc_margin_top = getResources().getDimension(R.dimen.dsc_margin_top);
@@ -194,8 +194,8 @@ public class MainActivity extends BaseActivity {
                         startActivity(intent);
                     }
                     break;
-                    case 3: {
-                    }
+                    case 3:
+                        startActivity(new Intent(MainActivity.this, ExpressConfirmListActivity.class));
                     break;
                     case 4:
                         startActivity(new Intent(MainActivity.this, SendCheckActivity.class));

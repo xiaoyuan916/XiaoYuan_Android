@@ -43,6 +43,7 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
     LinearLayout llCheckCount;
     private int type;
     private int sub_type=0;//子分类
+    private int position;//列表位置
 
 
     @Override
@@ -54,6 +55,7 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
     public void initView() {
         type = getIntent().getIntExtra("type", 0);
         sub_type = getIntent().getIntExtra("sub_type", 0);
+        position =  getIntent().getIntExtra("position", 0);
 
         switch (type) {
             case MyComment.SCAN_DELIVERY:
@@ -125,7 +127,15 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
                 tvtitle.setText(R.string.cx1);
                 tvcontent.setText("请扫描或者手动输入返回设备条码进行设备拣选");
                 break;
-
+            case MyComment.SCAN_EXPRESS_DEVICE:
+                if (sub_type == 0) {
+                    tvtitle.setText("设备扫描");
+                    tvcontent.setText("请扫描或者手动输入设备条码");
+                }else if (sub_type == 1) {
+                    tvtitle.setText("快递单号扫描");
+                    tvcontent.setText("请扫描或者手动输入快递单号");
+                }
+                break;
 
         }
         scannerView.setOnScannerCompletionListener(this);
@@ -235,7 +245,10 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
             case MyComment.QUERY_DEVICE:
                 startActivityForResult(intent, requestCode);
                 break;
-
+            case MyComment.SCAN_EXPRESS_DEVICE:
+                intent.putExtra("position",position);
+                startActivityForResult(intent, requestCode);
+                break;
         }
 
     }
@@ -268,6 +281,8 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
                 case 100 + MyComment.SCAN_DEVICE_OUT:
                     break;
                 case 100 + MyComment.QUERY_DEVICE:
+                    break;
+                case 100 + MyComment.SCAN_EXPRESS_DEVICE:
                     break;
             }
         }
@@ -344,6 +359,12 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
                 setResult(RESULT_OK, data);
                 finish();
                 break;
+                case MyComment.SCAN_EXPRESS_DEVICE:
+                    //快递绑定扫描
+                    data.putExtra("position",position);
+                    setResult(RESULT_OK, data);
+                    finish();
+                   break;
         }
     }
 }
