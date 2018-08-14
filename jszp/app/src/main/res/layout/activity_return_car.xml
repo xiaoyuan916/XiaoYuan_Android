@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".activity.ReturnCarActivity">
+
+	<include layout="@layout/layout_title"/>
+	
+
+	<Button
+		android:id="@+id/bt_sure"
+		android:layout_width="match_parent"
+		android:layout_height="48dp"
+		android:background="@color/white"
+		android:text="返回装车"
+		android:textSize="16sp"
+		android:textColor="@color/gray1"
+		android:gravity="center"
+		android:layout_alignParentBottom="true"/>
+
+	<android.support.v7.widget.RecyclerView
+		android:id="@+id/rv_returns"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_below="@id/rl_title"
+		android:layout_above="@id/bt_sure"/>
+</RelativeLayout>

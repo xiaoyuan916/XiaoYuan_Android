@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@drawable/bg"
+	tools:context=".activity.LoginActivity">
+
+
+	<ImageView
+		android:layout_width="80dp"
+		android:layout_height="81dp"
+		android:layout_centerHorizontal="true"
+		android:layout_marginTop="70dp"
+		android:src="@drawable/logo"/>
+
+	<TextView
+		android:id="@+id/login_title"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_centerHorizontal="true"
+		android:layout_marginTop="167dp"
+		android:text="订单式配送"
+		android:textColor="@color/white"
+		android:textSize="19sp"
+		/>
+
+	<LinearLayout
+		android:id="@+id/login_title2"
+		android:layout_width="93dp"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/login_title"
+		android:layout_marginTop="7dp"
+		android:layout_centerHorizontal="true"
+		android:gravity="center_vertical">
+
+		<View
+			android:layout_width="0dp"
+			android:layout_height="1dp"
+			android:layout_weight="1"
+			android:background="@color/white"/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="江苏"
+			android:textColor="@color/white"
+			android:textSize="16sp"
+			/>
+
+		<View
+			android:layout_width="0dp"
+			android:layout_height="1dp"
+			android:layout_weight="1"
+			android:background="@color/white"/>
+	</LinearLayout>
+
+	<LinearLayout
+		android:id="@+id/ll_user"
+		android:layout_width="match_parent"
+		android:layout_height="39dp"
+		android:layout_below="@id/login_title2"
+		android:layout_marginLeft="27dp"
+		android:layout_marginRight="27dp"
+		android:layout_marginTop="43dp"
+		android:background="@drawable/bg_alpha_black"
+		android:gravity="center_vertical"
+		>
+
+		<ImageView
+			android:layout_width="16dp"
+			android:layout_height="19dp"
+			android:layout_marginLeft="12dp"
+			android:layout_marginRight="12dp"
+			android:src="@drawable/user"/>
+
+		<View
+			android:layout_width="1dp"
+			android:layout_height="19dp"
+			android:background="@color/indicator"/>
+
+		<EditText
+			android:id="@+id/et_user"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="12dp"
+			android:layout_marginRight="12dp"
+			android:background="@null"
+			android:hint="请输入账号"
+			android:textColor="@color/indicator"
+			android:textColorHint="@color/indicator"
+
+			/>
+	</LinearLayout>
+
+	<LinearLayout
+		android:id="@+id/ll_pwd"
+		android:layout_width="match_parent"
+		android:layout_height="39dp"
+		android:layout_below="@id/ll_user"
+		android:layout_marginLeft="27dp"
+		android:layout_marginRight="27dp"
+		android:layout_marginTop="17dp"
+		android:background="@drawable/bg_alpha_black"
+		android:gravity="center_vertical"
+		>
+
+		<ImageView
+			android:layout_width="16dp"
+			android:layout_height="19dp"
+			android:layout_marginLeft="12dp"
+			android:layout_marginRight="12dp"
+			android:src="@drawable/password"/>
+
+		<View
+			android:layout_width="1dp"
+			android:layout_height="19dp"
+			android:background="@color/indicator"/>
+
+		<EditText
+			android:id="@+id/et_pwd"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="12dp"
+			android:layout_marginRight="12dp"
+			android:background="@null"
+			android:hint="请输入密码"
+			android:inputType="textPassword"
+			android:textColor="@color/indicator"
+			android:textColorHint="@color/indicator"
+			/>
+	</LinearLayout>
+
+	<Button
+		android:id="@+id/bt_login"
+		android:layout_width="match_parent"
+		android:layout_height="39dp"
+		android:layout_alignParentBottom="true"
+		android:layout_marginBottom="80dp"
+		android:layout_marginLeft="27dp"
+		android:layout_marginRight="27dp"
+		android:background="@drawable/select_login_bt"
+		android:gravity="center"
+		android:text="登陆"
+		android:textColor="@color/white"
+		android:textSize="16sp"
+		/>
+</RelativeLayout>

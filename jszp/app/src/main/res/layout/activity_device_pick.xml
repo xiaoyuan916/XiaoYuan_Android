@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".activity.DevicePickActivity">
+
+	<include layout="@layout/layout_title"/>
+
+	<Button
+		android:id="@+id/bt_sure"
+		android:layout_width="match_parent"
+		android:layout_height="48dp"
+		android:layout_alignParentBottom="true"
+		android:background="@drawable/select_white_bt"
+		android:gravity="center"
+		android:text="开始拣选"
+		android:textColor="@color/title_green"
+		android:textSize="16sp"
+		/>
+
+	<android.support.v4.widget.NestedScrollView
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_above="@id/bt_sure"
+		android:layout_below="@id/rl_title"
+		>
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:orientation="vertical">
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="132dp"
+				android:gravity="center_vertical"
+				android:orientation="vertical"
+				android:paddingLeft="16dp"
+				android:paddingRight="16dp"
+				>
+
+				<RelativeLayout
+					android:layout_width="match_parent"
+					android:layout_height="39dp"
+					android:background="@drawable/bg_green_rectangle">
+
+					<ImageView
+						android:id="@+id/iv_search"
+						android:layout_width="15dp"
+						android:layout_height="15dp"
+						android:layout_centerVertical="true"
+						android:layout_marginLeft="11dp"
+						android:layout_marginRight="7dp"
+						android:scaleType="center"
+						android:src="@drawable/search_hui_small"
+						/>
+
+					<ImageView
+						android:id="@+id/iv_saoma"
+						android:layout_width="29dp"
+						android:layout_height="match_parent"
+						android:layout_alignParentRight="true"
+						android:layout_centerVertical="true"
+						android:paddingLeft="7dp"
+						android:paddingRight="7dp"
+						android:scaleType="center"
+						android:src="@drawable/saoma"
+						/>
+
+					<EditText
+						android:id="@+id/et_start"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_centerVertical="true"
+						android:layout_toLeftOf="@id/iv_saoma"
+						android:layout_toRightOf="@id/iv_search"
+						android:background="@null"
+						android:hint="请输入开始资产条形码"
+						android:textSize="16sp"
+						/>
+				</RelativeLayout>
+
+				<RelativeLayout
+					android:layout_width="match_parent"
+					android:layout_height="39dp"
+					android:layout_marginTop="15dp"
+					android:background="@drawable/bg_green_rectangle">
+
+					<ImageView
+						android:id="@+id/iv_end_search"
+						android:layout_width="15dp"
+						android:layout_height="15dp"
+						android:layout_centerVertical="true"
+						android:layout_marginLeft="11dp"
+						android:layout_marginRight="7dp"
+						android:scaleType="center"
+						android:src="@drawable/search_hui_small"
+						/>
+
+					<ImageView
+						android:id="@+id/iv_end_saoma"
+						android:layout_width="29dp"
+						android:layout_height="match_parent"
+						android:layout_alignParentRight="true"
+						android:layout_centerVertical="true"
+						android:paddingLeft="7dp"
+						android:paddingRight="7dp"
+						android:scaleType="center"
+						android:src="@drawable/saoma"
+						/>
+
+					<EditText
+						android:id="@+id/et_end"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_centerVertical="true"
+						android:layout_toLeftOf="@id/iv_end_saoma"
+						android:layout_toRightOf="@id/iv_end_search"
+						android:background="@null"
+						android:hint="请输入结束资产条形码"
+						android:textSize="16sp"
+						/>
+				</RelativeLayout>
+
+			</LinearLayout>
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="7dp"
+				android:background="@color/fenge"/>
+
+			<RelativeLayout
+				android:id="@+id/rl_leibie"
+				android:layout_width="match_parent"
+				android:layout_height="45dp"
+				android:background="@drawable/select_white_bt">
+
+				<ImageView
+					style="@style/style_left_iv"
+					android:src="@drawable/shape_leibie"/>
+
+				<TextView
+					style="@style/style_tv_left"
+					android:text="类别"/>
+
+				<TextView
+					android:id="@+id/tv_leibie"
+					style="@style/style_tv_right"/>
+
+				<ImageView
+					style="@style/style_iv_right"/>
+			</RelativeLayout>
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="1dp"
+				android:background="@color/fenge"/>
+
+			<RelativeLayout
+				android:id="@+id/rl_leixing"
+				android:layout_width="match_parent"
+				android:layout_height="45dp"
+				android:background="@drawable/select_white_bt">
+
+				<ImageView
+					style="@style/style_left_iv"
+					android:src="@drawable/shape_leixing"/>
+
+				<TextView
+					style="@style/style_tv_left"
+					android:text="类型"/>
+
+				<TextView
+					android:id="@+id/tv_leixing"
+					style="@style/style_tv_right"/>
+
+				<ImageView
+					style="@style/style_iv_right"/>
+			</RelativeLayout>
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="1dp"
+				android:background="@color/fenge"/>
+
+			<RelativeLayout
+				android:id="@+id/rl_jiexian"
+				android:layout_width="match_parent"
+				android:layout_height="45dp"
+				android:background="@drawable/select_white_bt">
+
+				<ImageView
+					style="@style/style_left_iv"
+					android:src="@drawable/shape_jiexian"/>
+
+				<TextView
+					style="@style/style_tv_left"
+					android:text="接线方式"/>
+
+				<TextView
+					android:id="@+id/tv_jiexian"
+					style="@style/style_tv_right"/>
+
+				<ImageView
+					style="@style/style_iv_right"/>
+			</RelativeLayout>
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="1dp"
+				android:background="@color/fenge"/>
+
+			<RelativeLayout
+				android:id="@+id/rl_dianya"
+				android:layout_width="match_parent"
+				android:layout_height="45dp"
+				android:background="@drawable/select_white_bt">
+
+				<ImageView
+					style="@style/style_left_iv"
+					android:src="@drawable/shape_dianya"/>
+
+				<TextView
+					style="@style/style_tv_left"
+					android:text="电压"/>
+
+				<TextView
+					android:id="@+id/tv_dianya"
+					style="@style/style_tv_right"/>
+
+				<ImageView
+					style="@style/style_iv_right"/>
+			</RelativeLayout>
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="7dp"
+				android:background="@color/fenge"/>
+
+			<RelativeLayout
+				android:id="@+id/rl_dianliu"
+				android:layout_width="match_parent"
+				android:layout_height="45dp"
+				android:background="@drawable/select_white_bt">
+
+				<ImageView
+					style="@style/style_left_iv"
+					android:src="@drawable/shape_dianliu"/>
+
+				<TextView
+					style="@style/style_tv_left"
+					android:text="电流"/>
+
+				<TextView
+					android:id="@+id/tv_dianliu"
+					style="@style/style_tv_right"/>
+
+				<ImageView
+					style="@style/style_iv_right"/>
+			</RelativeLayout>
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="1dp"
+				android:background="@color/fenge"/>
+
+			<RelativeLayout
+				android:id="@+id/rl_zhunque"
+				android:layout_width="match_parent"
+				android:layout_height="45dp"
+				android:background="@drawable/select_white_bt">
+
+				<ImageView
+					style="@style/style_left_iv"
+					android:src="@drawable/shape_dengji"/>
+
+				<TextView
+					style="@style/style_tv_left"
+					android:text="准确等级"/>
+
+				<TextView
+					android:id="@+id/tv_zhunque"
+					style="@style/style_tv_right"/>
+
+				<ImageView
+					style="@style/style_iv_right"/>
+			</RelativeLayout>
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="1dp"
+				android:background="@color/fenge"/>
+
+			<RelativeLayout
+				android:id="@+id/rl_shiduan"
+				android:layout_width="match_parent"
+				android:layout_height="45dp"
+				android:background="@drawable/select_white_bt">
+
+				<ImageView
+					style="@style/style_left_iv"
+					android:src="@drawable/shape_shiduan"/>
+
+				<TextView
+					style="@style/style_tv_left"
+					android:text="时段"/>
+
+				<TextView
+					android:id="@+id/tv_shiduan"
+					style="@style/style_tv_right"/>
+
+				<ImageView
+					style="@style/style_iv_right"/>
+			</RelativeLayout>
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="1dp"
+				android:background="@color/fenge"/>
+
+			<RelativeLayout
+				android:id="@+id/rl_daohuo"
+				android:layout_width="match_parent"
+				android:layout_height="45dp"
+				android:background="@drawable/select_white_bt">
+
+				<ImageView
+					style="@style/style_left_iv"
+					android:src="@drawable/shape_picihao"/>
+
+				<TextView
+					style="@style/style_tv_left"
+					android:text="到货批次号"/>
+
+				<EditText
+					android:id="@+id/et_daohuo"
+					style="@style/style_tv_right"
+					android:hint="请输入到货批次号"
+					android:text=""/>
+
+			</RelativeLayout>
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="7dp"
+				android:background="@color/fenge"/>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:paddingLeft="15dp"
+				android:paddingRight="15dp"
+				android:paddingTop="15dp">
+
+				<CheckBox
+					android:id="@+id/cb_chaoqi"
+					style="@style/checkboxstyle_fenjian"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:text="超期"/>
+
+				<CheckBox
+					android:id="@+id/cb_hege"
+					style="@style/checkboxstyle_fenjian"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:text="合格在库"/>
+
+				<CheckBox
+					android:id="@+id/cb_daifenjian"
+					style="@style/checkboxstyle_fenjian"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:text="待分拣"/>
+
+
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:padding="15dp">
+
+				<CheckBox
+					android:id="@+id/cb_daijianding"
+					style="@style/checkboxstyle_fenjian"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:text="待拣定"/>
+
+				<CheckBox
+					android:id="@+id/cb_daifanchang"
+					style="@style/checkboxstyle_fenjian"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:text="待返厂"/>
+
+				<CheckBox
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:checked="true"
+					android:text="待分拣"
+					android:visibility="invisible"/>
+
+
+			</LinearLayout>
+		</LinearLayout>
+
+
+	</android.support.v4.widget.NestedScrollView>
+</RelativeLayout>

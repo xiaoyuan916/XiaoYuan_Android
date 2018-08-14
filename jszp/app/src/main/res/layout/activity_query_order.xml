@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical"
+	android:background="@color/fenge"
+	tools:context=".activity.QueryOrderActivity">
+
+	<include layout="@layout/layout_title"/>
+	<RelativeLayout
+		style="@style/style_option_rl"
+		android:focusable="true"
+		android:focusableInTouchMode="true">
+
+		<TextView
+			style="@style/style_tv_left1"
+			android:text="订单编号"/>
+
+		<EditText
+			android:id="@+id/et_order_num"
+			android:layout_width="200dp"
+			android:layout_height="wrap_content"
+			android:hint="请输入订单编号"
+			android:gravity="right"
+			android:layout_alignParentRight="true"
+			android:background="@null"
+			android:layout_centerVertical="true"
+			android:layout_marginRight="16dp"
+			/>
+
+	</RelativeLayout>
+
+	<include layout="@layout/layout_fenge_1dp"/>
+	<RelativeLayout
+		android:id="@+id/rl_order_type"
+		style="@style/style_option_rl">
+
+		<TextView
+			style="@style/style_tv_left1"
+			android:text="订单类型"/>
+
+		<TextView
+			android:id="@+id/tv_order_type"
+			style="@style/style_tv_right"/>
+
+		<ImageView
+			style="@style/style_iv_right"/>
+
+	</RelativeLayout>
+
+	<include layout="@layout/layout_fenge_1dp"/>
+	<RelativeLayout
+		android:id="@+id/rl_company"
+		style="@style/style_option_rl">
+
+		<TextView
+			style="@style/style_tv_left1"
+			android:text="供电公司"/>
+
+		<TextView
+			android:id="@+id/tv_company"
+			style="@style/style_tv_right"/>
+
+		<ImageView
+			style="@style/style_iv_right"/>
+
+	</RelativeLayout>
+
+	<include layout="@layout/layout_fenge_1dp"/>
+	<RelativeLayout
+		android:id="@+id/rl_supply"
+		style="@style/style_option_rl">
+
+		<TextView
+			style="@style/style_tv_left1"
+			android:text="供电所"/>
+
+		<TextView
+			android:id="@+id/tv_supply"
+			style="@style/style_tv_right"/>
+
+		<ImageView
+			style="@style/style_iv_right"/>
+
+	</RelativeLayout>
+
+	<include layout="@layout/layout_fenge_7dp"/>
+	<RelativeLayout
+		android:id="@+id/rl_order_state"
+		style="@style/style_option_rl">
+
+		<TextView
+			style="@style/style_tv_left1"
+			android:text="订单状态"/>
+
+		<TextView
+			android:id="@+id/tv_order_state"
+			style="@style/style_tv_right"/>
+
+		<ImageView
+			style="@style/style_iv_right"/>
+
+	</RelativeLayout>
+
+	<include layout="@layout/layout_fenge_1dp"/>
+	<RelativeLayout
+		android:id="@+id/rl_start_time"
+		style="@style/style_option_rl">
+
+		<TextView
+			style="@style/style_tv_left1"
+			android:text="开始申请时间"/>
+
+		<TextView
+			android:id="@+id/tv_start_time"
+			style="@style/style_tv_right"/>
+
+		<ImageView
+			style="@style/style_iv_right"/>
+
+	</RelativeLayout>
+
+	<include layout="@layout/layout_fenge_1dp"/>
+	<RelativeLayout
+		android:id="@+id/rl_end_time"
+		style="@style/style_option_rl">
+
+		<TextView
+			style="@style/style_tv_left1"
+			android:text="结束申请时间"/>
+
+		<TextView
+			android:id="@+id/tv_end_time"
+			style="@style/style_tv_right"/>
+
+		<ImageView
+			style="@style/style_iv_right"/>
+
+	</RelativeLayout>
+
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+		<Button
+			android:id="@+id/bt_query"
+			android:layout_width="match_parent"
+			android:layout_height="45dp"
+			android:background="@drawable/select_white_bt"
+			android:gravity="center"
+			android:layout_alignParentBottom="true"
+			android:textColor="@color/title_green"
+			android:text="查询"
+			android:textSize="16sp"
+			/>
+	</RelativeLayout>
+	
+	
+</LinearLayout>

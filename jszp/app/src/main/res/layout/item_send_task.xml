@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="114dp"
+	android:id="@+id/ll_item"
+	android:background="@color/white">
+
+	<ImageView
+		android:id="@+id/iv_state"
+		android:layout_width="15dp"
+		android:layout_height="13dp"
+		android:layout_marginLeft="16dp"
+		android:layout_marginRight="10dp"
+		android:layout_marginTop="16dp"
+		android:src="@drawable/huoche"
+		/>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:gravity="center_vertical"
+		android:orientation="vertical"
+		>
+
+		<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_centerVertical="true">
+
+				<TextView
+					android:id="@+id/tv_head"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="配送任务："
+					android:textColor="@color/tv_black"
+					android:textSize="16sp"
+					/>
+
+				<TextView
+					android:id="@+id/tv_task_num"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="201805221234567890"
+					android:textColor="@color/title_green"
+					android:textSize="16sp"/>
+
+			</LinearLayout>
+
+			<CheckBox
+				android:id="@+id/cb_selecte"
+				android:layout_width="16dp"
+				android:layout_height="16dp"
+				android:layout_alignParentRight="true"
+				android:layout_centerVertical="true"
+				android:layout_marginRight="16dp"
+				style="@style/checkboxstyle_send"
+				android:visibility="gone"/>
+		</RelativeLayout>
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="5dp">
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="车辆信息："
+				android:textColor="@color/darkgray"
+				android:textSize="13sp"
+				/>
+
+			<TextView
+				android:id="@+id/tv_car_info"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="李文泽 豫A86F2C 15638749576"
+				android:textColor="@color/darkgray"
+				android:textSize="13sp"/>
+
+		</LinearLayout>
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="3dp">
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="设备总数："
+				android:textColor="@color/darkgray"
+				android:textSize="13sp"
+				/>
+
+			<TextView
+				android:id="@+id/tv_count"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="3900只/50箱"
+				android:textColor="@color/darkgray"
+				android:textSize="13sp"/>
+
+		</LinearLayout>
+
+		<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="5dp">
+
+			<TextView
+				android:id="@+id/tv_state"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="待发车"
+				android:textColor="@color/title_green"
+				android:textSize="13sp"
+				/>
+
+			<TextView
+				android:id="@+id/tv_time"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentRight="true"
+				android:layout_marginRight="16dp"
+				android:text="15:30"
+				android:textColor="@color/darkgray"
+				android:textSize="13sp"
+				/>
+
+		</RelativeLayout>
+	</LinearLayout>
+
+</LinearLayout>

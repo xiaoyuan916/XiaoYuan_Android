@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/gray_bg"
+	tools:context=".activity.SendCheckDetailActivity">
+
+	<include layout="@layout/layout_title"/>
+
+	<Button
+		android:id="@+id/bt_sure"
+		android:layout_width="match_parent"
+		android:layout_height="48dp"
+		android:layout_alignParentBottom="true"
+		android:background="@drawable/select_white_bt"
+		android:text="确认出发"
+		android:textColor="@color/title_green"
+		android:textSize="16sp"
+		/>
+
+	<android.support.v7.widget.RecyclerView
+		android:id="@+id/rv_address"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_above="@id/bt_sure"
+		android:layout_below="@id/rl_title"
+		android:background="@color/white"
+
+		/>
+
+</RelativeLayout>

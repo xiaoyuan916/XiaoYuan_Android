@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".activity.OrderDetailActivity">
+
+	<include layout="@layout/layout_title"/>
+
+	<android.support.v4.widget.NestedScrollView
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_below="@id/rl_title">
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:orientation="vertical"
+			>
+
+			<RelativeLayout
+				android:layout_width="match_parent"
+				android:layout_height="45dp">
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_centerVertical="true"
+					android:layout_marginLeft="16dp"
+					android:text="配送单编号"
+					android:textColor="@color/tv_black"
+					android:textSize="16sp"
+					/>
+
+				<TextView
+					android:id="@+id/tv_order_num"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_alignParentRight="true"
+					android:layout_centerVertical="true"
+					android:layout_marginRight="16dp"
+					android:text="201806291234567890"
+					android:textColor="@color/tv_black"
+					android:textSize="16sp"
+					/>
+			</RelativeLayout>
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="1dp"
+				android:background="@color/fenge"/>
+
+			<RelativeLayout
+				android:layout_width="match_parent"
+				android:layout_height="45dp">
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_centerVertical="true"
+					android:layout_marginLeft="16dp"
+					android:text="配送地点"
+					android:textColor="@color/tv_black"
+					android:textSize="16sp"
+					/>
+
+				<TextView
+					android:id="@+id/tv_order_address"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_alignParentRight="true"
+					android:layout_centerVertical="true"
+					android:layout_marginRight="16dp"
+					android:text="浦口区供电公司"
+					android:textColor="@color/tv_black"
+					android:textSize="16sp"
+					/>
+			</RelativeLayout>
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="1dp"
+				android:background="@color/fenge"/>
+
+			<RelativeLayout
+				android:layout_width="match_parent"
+				android:layout_height="45dp">
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_centerVertical="true"
+					android:layout_marginLeft="16dp"
+					android:text="设备数量"
+					android:textColor="@color/tv_black"
+					android:textSize="16sp"
+					/>
+
+				<EditText
+					android:id="@+id/et_boxcount"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_alignParentRight="true"
+					android:layout_centerVertical="true"
+					android:layout_marginLeft="150dp"
+					android:layout_marginRight="16dp"
+					android:background="@null"
+					android:gravity="right"
+					android:hint="请输入设备箱数"
+					android:inputType="number"
+					android:textColor="@color/tv_black"
+					android:textSize="16sp"
+					/>
+			</RelativeLayout>
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="7dp"
+				android:background="@color/fenge"/>
+
+			<android.support.v7.widget.RecyclerView
+				android:id="@+id/rv_types"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="17dp"
+				android:layout_marginLeft="16dp"
+				android:layout_marginRight="16dp"
+				android:layout_marginTop="17dp"
+				/>
+
+			<include layout="@layout/foot_orders"/>
+		</LinearLayout>
+
+
+	</android.support.v4.widget.NestedScrollView>
+</RelativeLayout>

@@ -1,0 +1,50 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+    defaultConfig {
+        applicationId "com.sgcc.pda.jszp"
+        minSdkVersion 19
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    implementation 'com.jakewharton:butterknife:8.5.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+    implementation 'com.android.support:support-v4:25.3.1'
+    implementation 'com.android.support:appcompat-v7:25.3.1'
+    implementation 'com.android.support:design:25.3.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.android.support:recyclerview-v7:25.3.1'
+    implementation 'com.google.code.gson:gson:2.6.2'
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
+    implementation 'com.google.zxing:core:3.3.0'
+    implementation 'com.github.free46000:MultiItem:0.9.7'
+    implementation project(path: ':sdk')
+    implementation project(path: ':hardware')
+    implementation project(path: ':xutils')
+    implementation project(path: ':cepriaidl')
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    //获取网络数据okgo框架
+    implementation 'com.lzy.net:okgo:3.0.4'
+//    implementation 'com.squareup.okhttp3:okhttp:3.8.1'
+}
+project.tasks.whenTaskAdded {
+    if (it.name.contains("Test") || it.name.contains("lint")) {
+        it.enabled false
+    }
+}

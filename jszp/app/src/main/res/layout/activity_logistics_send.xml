@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical"
+	tools:context=".activity.LogisticsSendActivity">
+
+	<include layout="@layout/layout_title"/>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="39dp">
+
+		<ImageView
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:layout_weight="2"/>
+
+		<TextView
+			android:id="@+id/tv_previous"
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:layout_weight="3"
+			android:gravity="center"
+			android:text="前一天"
+			android:textColor="@color/darkgray"
+			android:textSize="16sp"
+			/>
+
+		<TextView
+			android:id="@+id/tv_date"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:text="2018年5月6日"
+			android:textColor="@color/title_green"
+			android:textSize="16sp"
+			/>
+
+		<TextView
+			android:id="@+id/tv_next"
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:layout_weight="3"
+			android:gravity="center"
+			android:text="后一天"
+			android:textColor="@color/darkgray"
+			android:textSize="16sp"
+			/>
+
+		<ImageView
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:layout_weight="2"/>
+	</LinearLayout>
+
+	<View
+		android:layout_width="match_parent"
+		android:layout_height="1dp"
+		android:background="@color/fenge"
+		/>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="45dp">
+
+		<LinearLayout
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:layout_weight="1"
+			android:gravity="center">
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="未派车:"
+				android:textColor="@color/darkgray"
+				android:textSize="16sp"
+				/>
+
+			<TextView
+				android:id="@+id/tv_not_send_count"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="1辆"
+				android:textColor="@color/tv_black"
+				android:textSize="16sp"/>
+		</LinearLayout>
+
+		<LinearLayout
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:layout_weight="1"
+			android:gravity="center">
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="已派车:"
+				android:textColor="@color/darkgray"
+				android:textSize="16sp"
+				/>
+
+			<TextView
+				android:id="@+id/tv_sended_count"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="1辆"
+				android:textColor="@color/tv_black"
+				android:textSize="16sp"/>
+		</LinearLayout>
+
+
+	</LinearLayout>
+
+
+
+	<android.support.v7.widget.RecyclerView
+		android:id="@+id/rv_cars"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:background="@color/fenge"/>
+</LinearLayout>

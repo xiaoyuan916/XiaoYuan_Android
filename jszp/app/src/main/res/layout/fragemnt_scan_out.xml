@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:orientation="vertical"
+
+	>
+
+	<LinearLayout
+		android:id="@+id/ll_edit"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical">
+
+		<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="39dp"
+			android:layout_marginLeft="16dp"
+			android:layout_marginRight="16dp"
+			android:layout_marginTop="20dp"
+			android:background="@drawable/bg_green_rectangle"
+			android:focusable="true"
+			android:focusableInTouchMode="true">
+
+			<ImageView
+				android:id="@+id/iv_search"
+				android:layout_width="15dp"
+				android:layout_height="15dp"
+				android:layout_centerVertical="true"
+				android:layout_marginLeft="11dp"
+				android:layout_marginRight="7dp"
+				android:scaleType="center"
+				android:src="@drawable/search_hui_small"
+				/>
+
+			<ImageView
+				android:id="@+id/iv_saoma"
+				android:layout_width="29dp"
+				android:layout_height="match_parent"
+				android:layout_alignParentRight="true"
+				android:layout_centerVertical="true"
+				android:paddingLeft="7dp"
+				android:paddingRight="7dp"
+				android:scaleType="center"
+				android:src="@drawable/saoma"
+				/>
+
+			<EditText
+				android:id="@+id/et_device_num"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_centerVertical="true"
+				android:layout_toLeftOf="@id/iv_saoma"
+				android:layout_toRightOf="@id/iv_search"
+				android:background="@null"
+				android:hint="请输入资产编号"
+				android:textSize="16sp"
+				/>
+		</RelativeLayout>
+
+		<RelativeLayout
+			android:id="@+id/rl_end"
+			android:layout_width="match_parent"
+			android:layout_height="39dp"
+			android:layout_marginLeft="16dp"
+			android:layout_marginRight="16dp"
+			android:layout_marginTop="20dp"
+			android:background="@drawable/bg_green_rectangle"
+			android:focusable="true"
+			android:focusableInTouchMode="true"
+			android:visibility="gone">
+
+			<ImageView
+				android:id="@+id/iv_end_search"
+				android:layout_width="15dp"
+				android:layout_height="15dp"
+				android:layout_centerVertical="true"
+				android:layout_marginLeft="11dp"
+				android:layout_marginRight="7dp"
+				android:scaleType="center"
+				android:src="@drawable/search_hui_small"
+				/>
+
+			<ImageView
+				android:id="@+id/iv_end_saoma"
+				android:layout_width="29dp"
+				android:layout_height="match_parent"
+				android:layout_alignParentRight="true"
+				android:layout_centerVertical="true"
+				android:paddingLeft="7dp"
+				android:paddingRight="7dp"
+				android:scaleType="center"
+				android:src="@drawable/saoma"
+				/>
+
+			<EditText
+				android:id="@+id/et_end_device_num"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_centerVertical="true"
+				android:layout_toLeftOf="@id/iv_end_saoma"
+				android:layout_toRightOf="@id/iv_end_search"
+				android:background="@null"
+				android:hint="请输入结束资产编号"
+				android:textSize="16sp"
+
+				/>
+		</RelativeLayout>
+
+	</LinearLayout>
+
+
+	<LinearLayout
+		android:id="@+id/ll_leiji"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/ll_edit"
+		android:gravity="center"
+		android:paddingBottom="15dp"
+		android:paddingTop="15dp"
+		>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="累计："
+			android:textColor="@color/darkgray"
+			android:textSize="14sp"/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="0只"
+			android:textColor="@color/title_green"
+			android:textSize="14sp"/>
+	</LinearLayout>
+
+	<Button
+		android:id="@+id/bt_sure"
+		android:layout_width="match_parent"
+		android:layout_height="48dp"
+		android:layout_alignParentBottom="true"
+		android:background="@drawable/select_white_bt"
+		android:gravity="center"
+		android:text="确定出库"
+		android:textColor="@color/title_green"
+		android:textSize="16sp"
+		android:visibility="gone"
+		/>
+
+	<android.support.v7.widget.RecyclerView
+		android:id="@+id/rv_devices"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_above="@id/bt_sure"
+		android:layout_below="@id/ll_leiji"
+		android:background="@color/fenge"
+		/>
+</RelativeLayout>

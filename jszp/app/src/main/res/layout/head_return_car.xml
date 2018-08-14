@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="45dp">
+<ImageView
+	android:id="@+id/iv_gongsi"
+	android:layout_width="15dp"
+	android:layout_height="16dp"
+	android:src="@drawable/gongdiangongsi"
+	android:layout_marginLeft="16dp"
+	android:layout_centerVertical="true"
+	/>
+	<TextView
+		android:id="@+id/tv_gongsi"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_toRightOf="@id/iv_gongsi"
+		android:layout_marginLeft="8dp"
+		android:text="浦口供电公司"
+		android:textColor="@color/tv_black"
+		android:layout_centerVertical="true"
+		android:textSize="16sp"/>
+
+	<TextView
+		android:id="@+id/tv_box"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="8dp"
+		android:text="20箱/174只"
+		android:textColor="@color/title_green"
+		android:layout_alignParentRight="true"
+		android:layout_centerVertical="true"
+		android:textSize="16sp"/>
+</RelativeLayout>

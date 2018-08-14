@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical"
+	tools:context=".activity.DeliveryActivity">
+
+	<include layout="@layout/layout_title"/>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="71dp"
+		android:gravity="center_vertical"
+		android:orientation="vertical"
+		>
+
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="16dp"
+			android:gravity="center_vertical">
+
+			<ImageView
+				android:layout_width="13dp"
+				android:layout_height="16dp"
+				android:src="@drawable/peisongrenwu"/>
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="10dp"
+				android:text="配送任务："
+				android:textColor="@color/darkgray"
+				android:textSize="16sp"
+				/>
+
+			<TextView
+				android:id="@+id/tv_task_num"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="201805221234567890"
+				android:textColor="@color/tv_black"
+				android:textSize="16sp"
+
+				/>
+		</LinearLayout>
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="39dp"
+			android:layout_marginTop="9dp"
+			android:gravity="center_vertical">
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="设备总数："
+				android:textColor="@color/darkgray"
+				android:textSize="16sp"
+				/>
+
+			<TextView
+				android:id="@+id/tv_box_count"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="50箱"
+				android:textColor="@color/tv_black"
+				android:textSize="16sp"
+
+				/>
+		</LinearLayout>
+
+
+	</LinearLayout>
+
+<View
+	android:layout_width="match_parent"
+	android:layout_height="1dp"
+	android:background="@color/fenge"/>
+
+	<LinearLayout
+		android:layout_width="wrap_content"
+		android:layout_height="45dp">
+
+		<RelativeLayout
+			android:id="@+id/rl_order"
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:layout_weight="1">
+
+			<TextView
+				android:id="@+id/tv_order_title"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_centerInParent="true"
+				android:text="配送单信息"
+				android:textColor="@color/title_green"
+				android:textSize="16sp"
+				/>
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="1dp"
+				android:layout_alignParentBottom="true"
+				android:background="@color/fenge"/>
+
+			<View
+				android:id="@+id/v_indicator_left"
+				android:layout_width="match_parent"
+				android:layout_height="1dp"
+				android:layout_alignParentBottom="true"
+				android:background="@color/title_green"/>
+
+		</RelativeLayout>
+
+		<RelativeLayout
+			android:id="@+id/rl_driver"
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:layout_weight="1">
+
+			<TextView
+				android:id="@+id/tv_driver_title"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_centerInParent="true"
+				android:text="司机信息"
+				android:textColor="@color/tv_black"
+				android:textSize="16sp"
+				/>
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="1dp"
+				android:layout_alignParentBottom="true"
+				android:background="@color/fenge"/>
+
+			<View
+				android:id="@+id/v_indicator_right"
+				android:layout_width="match_parent"
+				android:layout_height="1dp"
+				android:layout_alignParentBottom="true"
+				android:background="@color/title_green"
+				android:visibility="gone"/>
+
+		</RelativeLayout>
+	</LinearLayout>
+
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+
+		<Button
+			android:id="@+id/bt_order_sure"
+			android:layout_width="match_parent"
+			android:layout_height="48dp"
+			android:layout_alignParentBottom="true"
+			android:background="@drawable/select_white_bt"
+			android:gravity="center"
+			android:text="任务信息确认"
+			android:textColor="@color/title_green"
+			android:textSize="16sp"/>
+
+		<FrameLayout
+			android:id="@+id/fl_content"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_above="@id/bt_order_sure"/>
+
+
+	</RelativeLayout>
+</LinearLayout>

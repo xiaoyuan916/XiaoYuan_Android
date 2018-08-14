@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="160dp"
+	android:background="@color/white">
+
+	<LinearLayout
+		android:layout_width="wrap_content"
+		android:layout_height="match_parent"
+		android:gravity="center"
+		android:orientation="vertical"
+		android:paddingLeft="16dp"
+		android:paddingRight="16dp">
+
+		<TextView
+			android:id="@+id/tv_state"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="未发车"
+			android:textColor="@color/title_green"
+			android:textSize="16sp"
+			/>
+
+		<ImageView
+			android:id="@+id/iv_state"
+			android:layout_width="50dp"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="7dp"
+			android:src="@drawable/psfache"
+			/>
+
+		<TextView
+			android:id="@+id/tv_car_num"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="7dp"
+			android:text="苏A12345"
+			android:textColor="@color/darkgray"
+			android:textSize="14sp"
+			/>
+
+
+	</LinearLayout>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_marginBottom="16dp"
+		android:layout_marginRight="16dp"
+		android:layout_marginTop="16dp"
+		android:background="@drawable/bg_gray_stroke"
+		android:orientation="vertical"
+		>
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="45dp"
+			android:gravity="center_vertical"
+			android:paddingLeft="16dp"
+			android:paddingRight="16dp">
+
+			<TextView
+				android:id="@+id/tv_srcaddress"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="无锡分中心"
+				android:textColor="@color/tv_black"
+				android:textSize="16sp"
+				/>
+
+			<ImageView
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"/>
+
+			<TextView
+				android:id="@+id/tv_dscaddress"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="南京供电公司"
+				android:textColor="@color/tv_black"
+				android:textSize="16sp"
+				/>
+
+		</LinearLayout>
+
+		<View
+			android:layout_width="match_parent"
+			android:layout_height="1dp"
+			android:background="@color/fenge"/>
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			>
+
+			<LinearLayout
+				android:layout_width="0dp"
+				android:layout_height="match_parent"
+				android:layout_weight="1"
+				android:orientation="vertical"
+				android:gravity="center_vertical"
+				android:paddingLeft="16dp"
+				android:paddingRight="16dp">
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textSize="14sp"
+					android:textColor="@color/darkgray"
+					android:text="司机："
+					/>
+				<TextView
+					android:id="@+id/tv_driver"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:textSize="14sp"
+					android:textColor="@color/darkgray"
+					android:text="未指定"
+					android:gravity="right"
+					/>
+
+			</LinearLayout>
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="7dp">
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:textSize="14sp"
+						android:textColor="@color/darkgray"
+						android:text="到位时间："
+						/>
+					<TextView
+						android:id="@+id/tv_driver_time"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:textSize="14sp"
+						android:textColor="@color/darkgray"
+						android:text="未指定"
+						android:gravity="right"
+						/>
+
+				</LinearLayout>
+
+
+			</LinearLayout>
+			<View
+				android:layout_width="1dp"
+				android:layout_height="match_parent"
+				android:background="@color/fenge"/>
+
+			<ImageView
+				android:layout_width="30dp"
+				android:layout_height="match_parent"
+				android:scaleType="center"
+				android:src="@drawable/more_hui"/>
+
+
+		</LinearLayout>
+	</LinearLayout>
+</LinearLayout>

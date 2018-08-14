@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.sgcc.pda.jszp">
+
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <application
+        android:name=".base.BaseApplication"
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:replace="android:allowBackup">
+        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".activity.WelcomeActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.LoginActivity"></activity>
+        <activity android:name=".activity.ScanActivity"></activity>
+        <activity android:name=".activity.ManualActivity"></activity>
+        <activity android:name=".activity.DeliveryActivity"></activity>
+        <activity android:name=".activity.DeliverySendResultActivity"></activity>
+        <activity android:name=".activity.OrderDetailActivity"></activity>
+        <activity android:name=".activity.ReturnCarActivity"></activity>
+        <activity android:name=".activity.ModifierCountActivity"></activity>
+        <activity android:name=".activity.ReturnSuccessActivity"></activity>
+        <activity android:name=".activity.DeliverySignActivity"></activity>
+        <activity android:name=".activity.SignForResultActivity"></activity>
+        <activity android:name=".activity.ReturnSignActivity"></activity>
+        <activity android:name=".activity.ReturnSignOrderActivity"></activity>
+        <activity android:name=".activity.SendCheckActivity"></activity>
+        <activity android:name=".activity.SendCheckDetailActivity"></activity>
+        <activity android:name=".activity.DevicePickActivity"></activity>
+        <activity android:name=".activity.PickOptionActivity"></activity>
+        <activity android:name=".activity.DeviceOutActivity"></activity>
+        <activity android:name=".activity.DeviceOutDetailActivity"></activity>
+        <activity android:name=".activity.DeviceInActivity"></activity>
+        <activity android:name=".activity.DeviceInDetailActivity"></activity>
+        <activity android:name=".activity.LogisticsSendActivity"></activity>
+        <activity android:name=".activity.LogisticScanActivity"></activity>
+        <activity android:name=".activity.LogisticDetailActivity"></activity>
+        <activity android:name=".activity.QueryDeviceActivity"></activity>
+        <activity android:name=".activity.QueryOrderActivity"></activity>
+        <activity android:name=".activity.QueryOrderListActivity"></activity>
+        <activity android:name=".activity.ReturnWarehouseActivity"></activity>
+    </application>
+
+</manifest>

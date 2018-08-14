@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<dimen name="small_text_size">16sp</dimen>
+	<dimen name="small_text_size1">13sp</dimen>
+	<dimen name="app_bar_height">90dp</dimen>
+	<dimen name="tool_bar_height">53dp</dimen>
+	<dimen name="dsc_margin_left">45dp</dimen>
+	<dimen name="dsc_margin_right">70dp</dimen>
+	<dimen name="src_margin">16dp</dimen>
+	<dimen name="src_margin_top">101dp</dimen>
+	<dimen name="dsc_margin_top">12dp</dimen>
+	<dimen name="src_et_height">39dp</dimen>
+	<dimen name="dsc_et_height">35dp</dimen>
+	<dimen name="text_margin">16dp</dimen>
+	<dimen name="activity_horizontal_margin">16dp</dimen>
+	<dimen name="activity_vertical_margin">16dp</dimen>
+</resources>

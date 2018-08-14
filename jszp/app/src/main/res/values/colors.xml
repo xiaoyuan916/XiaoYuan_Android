@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<color name="colorPrimary">#3F51B5</color>
+	<color name="colorPrimaryDark">#303F9F</color>
+	<color name="colorAccent">#FF4081</color>
+	<color name="gray_bg">#EBEBEB</color>
+	<color name="gray">#E5E5E5</color>
+	<color name="gray1">#BEBEBE</color>
+	<color name="gray2">#F5F5F5</color>
+	<color name="alphagray">#44E5E5E5</color>
+	<color name="darkgray">#999999</color>
+
+	<color name="darkgreen">#0BA1BA</color>
+	<color name="alphablue">#220BA1BA</color>
+	<color name="white">#FFFFFF</color>
+	<color name="black">#000000</color>
+	<color name="fenge">#DBDBDB</color>
+	<color name="tv_black">#292929</color>
+	<color name="alphablack">#59000000</color>
+	<color name="alphablack1">#8c000000</color>
+	<color name="alphablack2">#a5262626</color>
+	<color name="green1">#b300e3c0</color>
+	<color name="indicator">#84CAC0</color>
+	<color name="title_green">#009d85</color>
+	<color name="alpha_green">#22009d85</color>
+	<color name="title_green1">#008d75</color>
+	<color name="lightgreen">#8BC34A</color>
+	<color name="background">#FFFFFF</color>
+	<color name="split_line">#11112233</color>
+	<color name="text1">#59B29C</color>
+	<color name="text2">#333333</color>
+
+	<color name="color1">#F0F0F0</color>
+	<color name="color2">#FFFFFF</color>
+	<color name="color3">#B0B0B0</color>
+	<color name="color4">#666666</color>
+	<color name="color5">#57C5E8</color>
+</resources>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".activity.ManualActivity">
+
+	<include
+		layout="@layout/layout_title"/>
+
+	<TextView
+		android:id="@+id/tv_head"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="27dp"
+		android:layout_marginTop="110dp"
+		android:text="请输入配送单编号"
+		android:textColor="@color/black"
+		android:textSize="21sp"
+		android:textStyle="bold"
+		/>
+
+	<EditText
+		android:id="@+id/et_ordernum"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="27dp"
+		android:layout_marginTop="168dp"
+		android:hint="请输入例如：201806010000"
+		android:textSize="16sp"
+		android:theme="@style/MyEditText"
+		/>
+	
+	<Button
+		android:id="@+id/bt_sure"
+		android:layout_width="match_parent"
+		android:layout_height="39dp"
+		android:background="@drawable/select_sure_bt"
+		android:text="查询"
+		android:textColor="@color/white"
+		android:textSize="16sp"
+		android:gravity="center"
+		android:layout_marginLeft="27dp"
+		android:layout_marginRight="27dp"
+		android:layout_marginTop="251dp"
+		/>
+</RelativeLayout>

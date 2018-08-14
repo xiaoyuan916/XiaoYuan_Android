@@ -38,3 +38,9 @@ captures/
 
 # Keystore files
 *.jks
+/jszp/.idea
+/jszp/.gradle
+/jszp/gradle
+/jszp/hardware/*.iml
+/jszp/sdk/sdk.iml
+/jszp/xutils/xutils.iml
