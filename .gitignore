@@ -44,3 +44,5 @@ captures/
 /jszp/hardware/*.iml
 /jszp/sdk/sdk.iml
 /jszp/xutils/xutils.iml
+/JszpDemo/.idea
+/JszpDemo/.gradle
