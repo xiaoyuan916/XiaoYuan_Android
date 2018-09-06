@@ -18,7 +18,7 @@ import java.util.HashMap;
 /**
  * 读取集中器日冻结正向有功电能示值
  *
- * @author: hzwq
+ * @author: wgj
  * @date: 2017/2/15
  * @time: 10:43
  */

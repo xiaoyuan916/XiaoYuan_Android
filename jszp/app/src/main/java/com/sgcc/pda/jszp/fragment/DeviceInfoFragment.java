@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.sgcc.pda.jszp.R;
+import com.sgcc.pda.jszp.bean.DeviceQueryResultEntity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,6 +34,9 @@ public class DeviceInfoFragment extends Fragment {
     TextView tvFactory;
     @BindView(R.id.tv_company)
     TextView tvCompany;
+    /**
+     * 依赖主体的上下文
+     */
     private Context context;
 
 
@@ -61,8 +65,8 @@ public class DeviceInfoFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         initView();
-        initListener();
         initData();
+        initListener();
     }
 
     public void initView() {
@@ -76,4 +80,18 @@ public class DeviceInfoFragment extends Fragment {
     }
 
 
+    /**
+     * 更新数据UI
+     * @param obj
+     */
+    public void upDataUI(DeviceQueryResultEntity obj) {
+        tvState.setText(obj.getAsset().getStatusLabel());
+        tvType.setText(obj.getAsset().getEquipCateg());
+        tvTender.setText(obj.getAsset().getBidBachNo());
+        tvAog.setText(obj.getAsset().getArriveBatchNo());
+        tvNum.setText(obj.getAsset().getBarCode());
+        tvBoxNum.setText(obj.getAsset().getBoxBarCode());
+        tvFactory.setText(obj.getAsset().getManufacturer());
+        tvCompany.setText(obj.getAsset().getOrgName());
+    }
 }

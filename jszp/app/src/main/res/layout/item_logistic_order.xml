@@ -11,19 +11,26 @@
 		android:gravity="center_horizontal"
 		android:orientation="vertical"
 		android:layout_marginLeft="16dp">
-
-		<ImageView
-			android:layout_width="15dp"
-			android:layout_height="15dp"
-			android:src="@drawable/weizhi_hui"/>
-
 		<View
-			android:id="@+id/dotted_line"
+			android:id="@+id/dotted_line_top"
 			android:layout_width="5dp"
-			android:layout_height="match_parent"
+			android:layout_height="15dp"
 			android:background="@drawable/shape_yoko_xuxian"
 			android:layerType="software"
 
+			/>
+		<ImageView
+			android:id="@+id/iv_dp"
+			android:layout_width="15dp"
+			android:layout_height="15dp"
+			/>
+
+		<View
+			android:id="@+id/dotted_line_bottom"
+			android:layout_width="5dp"
+			android:layout_height="15dp"
+			android:background="@drawable/shape_yoko_xuxian"
+			android:layerType="software"
 			/>
 	</LinearLayout>
 

@@ -1,7 +1,5 @@
 package com.sgcc.pda.hardware.shell;
 
-import android.os.Build;
-
 import com.cepri.dev.IRDA;
 import com.cepri.dev.LaserIRDA;
 import com.cepri.dev.LibInfo;
@@ -21,14 +19,20 @@ public class Shell {
      * 安全单元初始化，包括打开电源和通信
      *
      * @return 0:成功 其它：错误号
+     *  -1  SO库加载失败
      */
     public static int SecurityUnit_init() {
         int ret = 0;
-        if (NewProtocol.isNewProtocol()) {
-            ret = cepri.device.utils.SecurityUnit.Init();
-        } else {
-            ret = SecurityUnit.init();
+        try {
+            if (NewProtocol.isNewProtocol()) {
+                ret = cepri.device.utils.SecurityUnit.Init();
+            } else {
+                ret = SecurityUnit.init();
+            }
+        }catch (Throwable e){
+            return -1;
         }
+
         return ret;
     }
 
@@ -106,19 +110,6 @@ public class Shell {
     }
 
     /**
-     * 设置通信参数
-     *
-     * @param mode     SPI模式。0，1，2，3分别对应模式0，1，2，3   默认 给  3
-     * @param speed    SPI时钟。单位为Hz，范围为0－18M。  默认 给  500000
-     * @param halfword 传输模式。 0为8位，1为16位。 默认 给0
-     * @return 0：成功 -1：失败
-     */
-    public static int SecurityUnit_spiConfig(int mode, int speed, int halfword) {
-        return cepri.device.utils.SecurityUnit.SpiConfig(mode, speed, halfword);
-
-    }
-
-    /**
      * 发送数据
      *
      * @param data   发送数据缓冲区
@@ -130,7 +121,7 @@ public class Shell {
         int ret = 0;
         if (NewProtocol.isNewProtocol()) {
             ret = cepri.device.utils.SecurityUnit.SendData(data, offset, length);
-        } else {
+        } else  {
             ret = SecurityUnit.sendData(data, offset, length);
         }
         return ret;
@@ -170,7 +161,8 @@ public class Shell {
         int ret = 0;
         if (NewProtocol.isNewProtocol()) {
             ret = cepri.device.utils.SecurityUnit.SetTimeOut(direction, timeout);
-        } else {
+        }
+        else {
             ret = SecurityUnit.setTimeOut(direction, timeout);
         }
         return ret;
@@ -182,13 +174,7 @@ public class Shell {
      * @return 0:成功  其它：错误号
      */
     public static int RESAM_init() {
-        int ret = 0;
-        if (NewProtocol.isNewProtocol()) {
-            ret = cepri.device.utils.RESAM.Init();
-        } else {
-            ret = RESAM.init();
-        }
-        return ret;
+        return RESAM.init();
     }
 
     /**
@@ -197,13 +183,7 @@ public class Shell {
      * @return 0：成功 其它：错误号
      */
     public static int RESAM_deInit() {
-        int ret = 0;
-        if (NewProtocol.isNewProtocol()) {
-            ret = cepri.device.utils.RESAM.DeInit();
-        } else {
-            ret = RESAM.deInit();
-        }
-        return ret;
+        return RESAM.deInit();
     }
 
     /**
@@ -212,13 +192,7 @@ public class Shell {
      * @return 0：成功 其它：错误号
      */
     public static int RESAM_clearSendCache() {
-        int ret = 0;
-        if (NewProtocol.isNewProtocol()) {
-            ret = cepri.device.utils.RESAM.ClearSendCache();
-        } else {
-            ret = RESAM.clearSendCache();
-        }
-        return ret;
+        return RESAM.clearSendCache();
     }
 
     /**
@@ -227,13 +201,7 @@ public class Shell {
      * @return 0：成功 其它：错误号
      */
     public static int RESAM_clearRevCache() {
-        int ret = 0;
-        if (NewProtocol.isNewProtocol()) {
-            ret = cepri.device.utils.RESAM.ClearRecvCache();
-        } else {
-            ret = RESAM.clearRevCache();
-        }
-        return ret;
+        return RESAM.clearRevCache();
     }
 
     /**
@@ -243,36 +211,12 @@ public class Shell {
      * @param databits 数据位
      * @param parity   校验位 0为无校验，1为奇校验，2为偶校验，3为Mark校验，4为Space校验
      * @param stopbits 停止位 0为无停止位，1为1位停止位，2为2位停止位，3为1.5位停止位
-     * @param stopbits 阻塞模式 0为无阻塞，1为阻塞
      * @return 0:成功 其它：错误号
      */
-    public static int RESAM_config(int baudrate, int databits, int parity, int stopbits, int blockmode) {
-        int ret = 0;
-        if (NewProtocol.isNewProtocol()) {
-            ret = cepri.device.utils.RESAM.Config(baudrate, databits, parity, stopbits, blockmode);
-        } else {
-            ret = RESAM.config(baudrate, databits, parity, stopbits);
-        }
-        return ret;
+    public static int RESAM_config(int baudrate, int databits, int parity, int stopbits) {
+        return RESAM.config(baudrate, databits, parity, stopbits);
     }
 
-    /**
-     * 设置通信参数
-     *
-     * @param mode     SPI模式。0，1，2，3分别对应模式0，1，2，3   默认 给 3
-     * @param speed    SPI时钟。单位为Hz，范围为0－18M。  默认 给  500000
-     * @param halfword 传输模式。0为8位，1为16位。  默认 给0
-     * @return 0：成功 -1：失败
-     */
-    public static int RESAM_spiConfig(int mode, int speed, int halfword) {
-        return cepri.device.utils.RESAM.SpiConfig(mode, speed, halfword);
-
-    }
-
-    public static int RESAM_reset(){
-        return cepri.device.utils.RESAM.Reset();
-
-    }
     /**
      * 发送数据
      *
@@ -285,7 +229,7 @@ public class Shell {
         int ret = 0;
         if (NewProtocol.isNewProtocol()) {
             ret = cepri.device.utils.RESAM.SendData(data, offset, length);
-        } else {
+        } else  {
             ret = RESAM.sendData(data, offset, length);
         }
         return ret;
@@ -296,7 +240,6 @@ public class Shell {
      *
      * @param data   接收数据缓冲区
      * @param offset 偏移量
-     * @param count  数据数量
      * @return 成功接收的字节数
      */
     public static int RESAM_recvData(byte[] data, int offset, int count) {
@@ -317,13 +260,7 @@ public class Shell {
      * @return 0：成功 其它：错误号
      */
     public static int RESAM_setTimeOut(int direction, int timeout) {
-        int ret = 0;
-        if (NewProtocol.isNewProtocol()) {
-            ret = cepri.device.utils.RESAM.SetTimeOut(direction, timeout);
-        } else {
-            ret = RESAM.setTimeOut(direction, timeout);
-        }
-        return ret;
+        return RESAM.setTimeOut(direction, timeout);
     }
 
     /**
@@ -335,7 +272,7 @@ public class Shell {
         int ret = 0;
         if (NewProtocol.isNewProtocol()) {
             ret = cepri.device.utils.IRDA.Init();
-        } else {
+        } else  {
             ret = IRDA.init();
         }
         return ret;
@@ -350,7 +287,7 @@ public class Shell {
         int ret = 0;
         if (NewProtocol.isNewProtocol()) {
             ret = cepri.device.utils.IRDA.DeInit();
-        } else {
+        } else  {
             ret = IRDA.deInit();
         }
         return ret;
@@ -380,7 +317,7 @@ public class Shell {
         int ret = 0;
         if (NewProtocol.isNewProtocol()) {
             ret = cepri.device.utils.IRDA.ClearRecvCache();
-        } else {
+        }else{
             ret = IRDA.clearRevCache();
         }
         return ret;
@@ -425,7 +362,7 @@ public class Shell {
         int ret = 0;
         if (NewProtocol.isNewProtocol()) {
             ret = cepri.device.utils.IRDA.SendData(data, offset, length);
-        } else {
+        }else{
             ret = IRDA.sendData(data, offset, length);
         }
         return ret;
@@ -464,8 +401,8 @@ public class Shell {
     public static int IRDA_setTimeOut(int direction, int timeout) {
         int ret = 0;
         if (NewProtocol.isNewProtocol()) {
-            ret = cepri.device.utils.IRDA.SetTimeOut(direction, timeout);
-        } else {
+            ret = cepri.device.utils.IRDA.SetTimeOut(direction,timeout);
+        }else{
             ret = IRDA.setTimeOut(direction, timeout);
         }
         return ret;
@@ -532,7 +469,7 @@ public class Shell {
         int ret = 0;
         if (NewProtocol.isNewProtocol()) {
             ret = cepri.device.utils.LaserIRDA.SendData(data, offset, length);
-        } else {
+        }else {
             ret = LaserIRDA.sendData(data, offset, length);
         }
         return ret;
@@ -580,7 +517,7 @@ public class Shell {
         int ret = 0;
         if (NewProtocol.isNewProtocol()) {
             ret = cepri.device.utils.Scanner.Init();
-        } else {
+        }else {
             ret = Scanner.init();
         }
         return ret;
@@ -595,7 +532,7 @@ public class Shell {
         int ret = 0;
         if (NewProtocol.isNewProtocol()) {
             ret = cepri.device.utils.Scanner.DeInit();
-        } else {
+        }else{
             ret = Scanner.deInit();
         }
         return ret;
@@ -612,8 +549,8 @@ public class Shell {
     public static int Scanner_decode(int timeout, byte[] code, int offset) {
         int ret = 0;
         if (NewProtocol.isNewProtocol()) {
-            ret = cepri.device.utils.Scanner.Decode(timeout, code, offset, 0);
-        } else {
+            ret = cepri.device.utils.Scanner.Decode(timeout, code, offset);
+        }else {
             ret = Scanner.decode(timeout, code, offset);
         }
         return ret;
@@ -626,10 +563,10 @@ public class Shell {
      */
     public static int Serialport_init() {
         int ret = 0;
-        if (NewProtocol.isNewProtocol()) {
+        if (NewProtocol.isNewProtocol()){
             ret = RS485.Init();
-        } else {
-            ret = Serialport.init();
+        }else {
+            ret =  Serialport.init();
         }
         return ret;
     }
@@ -641,10 +578,10 @@ public class Shell {
      */
     public static int Serialport_deInit() {
         int ret = 0;
-        if (NewProtocol.isNewProtocol()) {
+        if (NewProtocol.isNewProtocol()){
             ret = RS485.DeInit();
-        } else {
-            ret = Serialport.deInit();
+        }else {
+             ret = Serialport.deInit();
         }
         return ret;
 
@@ -658,9 +595,9 @@ public class Shell {
      */
     public static int Serialport_clearSendCache() {
         int ret = 0;
-        if (NewProtocol.isNewProtocol()) {
+        if (NewProtocol.isNewProtocol()){
             ret = RS485.ClearSendCache();
-        } else {
+        }else {
             ret = Serialport.clearSendCache();
         }
         return ret;
@@ -673,9 +610,9 @@ public class Shell {
      */
     public static int Serialport_clearRevCache() {
         int ret = 0;
-        if (NewProtocol.isNewProtocol()) {
+        if (NewProtocol.isNewProtocol()){
             ret = RS485.ClearRecvCache();
-        } else {
+        }else {
             ret = Serialport.clearRevCache();
         }
         return ret;
@@ -703,8 +640,8 @@ public class Shell {
      * @param stopbits 停止位  0为无停止位，1为1位停止位，2为2位停止位，3为1.5位停止位
      * @return 0:成功 其它：错误号
      */
-    public static int Serialport_config(int baudrate, int databits, int parity, int stopbits, int blockmode) {
-        return RS485.Config(baudrate, databits, parity, stopbits, blockmode);
+    public static int Serialport_config(int baudrate, int databits, int parity, int stopbits,int blockmode) {
+        return RS485.Config(baudrate, databits, parity, stopbits,blockmode);
     }
 
     /**
@@ -717,9 +654,9 @@ public class Shell {
      */
     public static int Serialport_sendData(byte[] data, int offset, int length) {
         int ret = 0;
-        if (NewProtocol.isNewProtocol()) {
-            ret = RS485.SendData(data, offset, length);
-        } else {
+        if (NewProtocol.isNewProtocol()){
+            ret = RS485.SendData(data,offset,length);
+        }else {
             ret = Serialport.sendData(data, offset, length);
         }
         return ret;
@@ -735,7 +672,6 @@ public class Shell {
     public static int Serialport_recvData(byte[] data, int offset) {
         return Serialport.recvData(data, offset);
     }
-
     /**
      * 接收数据
      *
@@ -743,8 +679,8 @@ public class Shell {
      * @param offset 偏移量
      * @return 成功接收的字节数
      */
-    public static int Serialport_recvData(byte[] data, int offset, int count) {
-        return RS485.RecvData(data, offset, count);
+    public static int Serialport_recvData(byte[] data, int offset,int count) {
+        return RS485.RecvData(data, offset,count);
     }
 
     /**
@@ -756,9 +692,9 @@ public class Shell {
      */
     public static int Serialport_setTimeOut(int direction, int timeout) {
         int ret = 0;
-        if (NewProtocol.isNewProtocol()) {
+        if (NewProtocol.isNewProtocol()){
             ret = RS485.SetTimeOut(direction, timeout);
-        } else {
+        }else {
             ret = Serialport.setTimeOut(direction, timeout);
         }
         return ret;

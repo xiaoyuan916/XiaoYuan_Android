@@ -1,1 +1,1 @@
-include ':app', ':hardware', ':sdk', ':xutils', ':cepriaidl'
+include ':app', ':hardware', ':sdk',  ':cepriaidl', ':scan2'

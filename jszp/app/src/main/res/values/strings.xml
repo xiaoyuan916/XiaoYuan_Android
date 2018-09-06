@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">订单式配送江苏</string>
     <string name="ps1">物流派车</string>
-    <string name="ps2">设备出库</string>
-    <string name="ps3">配送装车</string>
-    <string name="ps4">快递配送</string>
+    <string name="ps2">平库出库</string>
+    <string name="ps3">装车确认</string>
+    <string name="ps4">快递确认</string>
     <string name="ps5">出发确认</string>
     <string name="ps6">配送签收</string>
     <string name="ps7">补库入库</string>

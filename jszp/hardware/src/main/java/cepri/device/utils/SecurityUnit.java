@@ -3,7 +3,6 @@ package cepri.device.utils;
 import android.os.Build;
 
 import com.sgcc.pda.hardware.SOConfig;
-import com.sgcc.pda.hardware.util.Constant;
 import com.sgcc.pda.sdk.utils.FileUtils;
 import com.sgcc.pda.sdk.utils.LogUtil;
 
@@ -13,22 +12,32 @@ import com.sgcc.pda.sdk.utils.LogUtil;
 public class SecurityUnit {
 
     static {
-
+//        if (Build.MODEL.equals("HE5001-II")||Build.MODEL.equals("TCHN-105W")||Build.MODEL.equals("SC3402A")) {
+//            System.load("data/data/com.sgcc.pda/lib/libcepri_dev.so");
+//
+//        } else if (Build.MODEL.equals("TCHN-106")) {
+//            System.load("data/data/com.sgcc.pda/lib/libcepri_tchn.so");
+//        }else if (Build.MODEL.equals("7202G3A")||Build.MODEL.equals("7202G")){
+//            System.load("data/data/com.sgcc.pda/lib/libcepri_kl.so");
+////            System.loadLibrary("cepri_dev");
+//        }else if(Build.MODEL.equals("HT380")){
+//            System.loadLibrary("cepri_tchn_tc");
+//        }
         /**
          * 优化后 最终加载SO 的代码
          */
-        if (FileUtils.fileIsExists("system/lib/libcepri_dev.so")) {
+        if(FileUtils.fileIsExists("system/lib/libcepri_dev.so")){
             //优先加载掌机中SO
-            LogUtil.d("TL", "掌机中SO库存在");
+            LogUtil.d("TL","掌机中SO库存在");
             System.loadLibrary("cepri_dev");
-        } else {
+        }else{
             //掌机中没有 从程序中加载
-            String deviceTypte = Build.MODEL; //获取掌机设备型号
-            LogUtil.d("TL", "掌机中SO库不存在" + deviceTypte);
-            if (SOConfig.isTC()) {
+            String   deviceTypte=Build.MODEL; //获取掌机设备型号
+            LogUtil.d("TL","掌机中SO库不存在"+deviceTypte);
+            if (SOConfig.isTC()){
                 System.loadLibrary("cepri_HT380");
             }
-            System.load(Constant.ASSETS_URL + deviceTypte + ".so");
+            System.load("/data/data/com.sgcc.pda.jszp/lib/libcepri_"+ deviceTypte+".so");
 
         }
     }
@@ -99,16 +108,5 @@ public class SecurityUnit {
      * @return 0：成功 其它：错误号
      */
     public native static int SetTimeOut(int direction, int timeout);
-
-
-    /**
-     * 设置通信参数
-     *
-     * @param mode     SPI模式。0，1，2，3分别对应模式0，1，2，3
-     * @param speed    SPI时钟。单位为Hz，范围为0－18M。
-     * @param halfword 传输模式。 0为8位，1为16位。
-     * @return 0：成功 -1：失败
-     */
-    public native static int SpiConfig(int mode, int speed, int halfword);
 
 }

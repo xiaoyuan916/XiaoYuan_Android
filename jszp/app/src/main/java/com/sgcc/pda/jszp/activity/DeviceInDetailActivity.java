@@ -1,23 +1,56 @@
 package com.sgcc.pda.jszp.activity;
 
+import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.sgcc.pda.jszp.R;
+import com.sgcc.pda.jszp.adapter.JSZPDeliveryReceipIoPlanDetsAdapter;
+import com.sgcc.pda.jszp.adapter.JSZPOutboundScanQueryAdapter;
+import com.sgcc.pda.jszp.adapter.SpaceItemDecoration;
 import com.sgcc.pda.jszp.base.BaseActivity;
 import com.sgcc.pda.jszp.base.MyComment;
+import com.sgcc.pda.jszp.bean.IoTaskDets;
+import com.sgcc.pda.jszp.bean.JSZPDeliveryReceiptResultEntity;
+import com.sgcc.pda.jszp.bean.JSZPOutboundScanQueryRequestEntity;
+import com.sgcc.pda.jszp.bean.JSZPOutboundScanQueryResultEntity;
+import com.sgcc.pda.jszp.bean.JSZPReplenishmentLibraryRequestEntity;
+import com.sgcc.pda.jszp.bean.JSZPReplenishmentLibraryResultEntity;
 import com.sgcc.pda.jszp.fragment.ScanOutFragment;
+import com.sgcc.pda.jszp.http.JSZPOkgoHttpUtils;
+import com.sgcc.pda.jszp.http.JSZPUrls;
+import com.sgcc.pda.jszp.util.JSZPProgressDialogUtils;
+import com.sgcc.pda.jszp.util.JzspConstants;
+import com.sgcc.pda.sdk.utils.ToastUtils;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class DeviceInDetailActivity extends BaseActivity implements ScanOutFragment.OnCountChangedListener {
-
+public class DeviceInDetailActivity extends BaseActivity {
+    /**
+     * 各种码
+     */
+    private static final int GO_JSZP_SCAN_IT_ACTIVITY_REQUEST = 3001;
+    public static final int OUTBOUND_STORAGE_DEVICE_SCAN_RESULT_QUERY_WHAT = 3002;
+    public static final int URL_POSITIVE_IN_WHAT = 3003;
+    /**
+     * 控件UI
+     */
     @BindView(R.id.tv_title)
     TextView tvTitle;
     @BindView(R.id.bt_sure)
@@ -28,19 +61,78 @@ public class DeviceInDetailActivity extends BaseActivity implements ScanOutFragm
     TextView tvDeviceDescrible;
     @BindView(R.id.tv_task_count)
     TextView tvTaskCount;
-    @BindView(R.id.tv_saoma)
-    TextView tvSaoma;
-    @BindView(R.id.v_indicator0)
-    View vIndicator0;
-    @BindView(R.id.tv_xiangzi)
-    TextView tvXiangzi;
-    @BindView(R.id.v_indicator1)
-    View vIndicator1;
+    @BindView(R.id.bt_scan_it)
+    Button bt_scan_it;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
+    @BindView(R.id.rv_outbound_device)
+    RecyclerView rv_outbound_device;
+    /**
+     * 数据bean
+     */
+    private IoTaskDets jszpDeliveryReceiptResultIoPlanDetsEntity;
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case OUTBOUND_STORAGE_DEVICE_SCAN_RESULT_QUERY_WHAT:
+                    JSZPOutboundScanQueryResultEntity jszpOutboundScanQueryResultEntity =
+                            (JSZPOutboundScanQueryResultEntity) msg.obj;
+                    if (mRequestEntity.getPageNo() != 1) {
+                        refreshUIMore(jszpOutboundScanQueryResultEntity.getScanResult().getDevData());
+                        if (jszpOutboundScanQueryResultEntity.getScanResult().getDevData().size() < 0) {
+                            refreshLayout.setEnableLoadmore(false);
+                        }
+                        return;
+                    }
+                    refreshUI(jszpOutboundScanQueryResultEntity.getScanResult().getDevData());
+                    refreshLayout.setEnableLoadmore(true);
+                    break;
+                case URL_POSITIVE_IN_WHAT:
+                    JSZPReplenishmentLibraryResultEntity jszpReplenishmentLibraryResultEntity =
+                            (JSZPReplenishmentLibraryResultEntity) msg.obj;
+                    if ("1".equals(jszpReplenishmentLibraryResultEntity.getRT_F())) {
+                        ToastUtils.showToast(DeviceInDetailActivity.this, "入库完成");
+                        finish();
+                    }
+                    break;
+            }
+        }
+    };
+    /**
+     * 列表adapter
+     */
+    private JSZPOutboundScanQueryAdapter jszpOutboundScanQueryAdapter;
+    /**
+     * 请求的bean
+     */
+    private JSZPOutboundScanQueryRequestEntity mRequestEntity;
 
-    private ArrayList<Fragment> fragments = new ArrayList<>();
-    private int index = 0;
-    private TextView tv_sleected;
-    private View v_selected;
+    private void refreshUIMore(ArrayList<JSZPOutboundScanQueryResultEntity.
+            JSZPOutboundScanQueryScanResultEntity.JSZPOutboundScanQueryDevData> devData) {
+        jszpOutboundScanQueryAdapter.setDatas(devData);
+    }
+
+    /**
+     * 数据bean
+     */
+    private ArrayList<JSZPOutboundScanQueryResultEntity.JSZPOutboundScanQueryScanResultEntity.
+            JSZPOutboundScanQueryDevData> devDatas;
+
+    /**
+     * 数据请求回来刷新界面
+     *
+     * @param devData
+     */
+    private void refreshUI(ArrayList<JSZPOutboundScanQueryResultEntity.
+            JSZPOutboundScanQueryScanResultEntity.JSZPOutboundScanQueryDevData> devData) {
+        devDatas = devData;
+        rv_outbound_device.setNestedScrollingEnabled(false);
+        rv_outbound_device.setLayoutManager(new LinearLayoutManager(this));
+        jszpOutboundScanQueryAdapter = new JSZPOutboundScanQueryAdapter(devDatas);
+        rv_outbound_device.setAdapter(jszpOutboundScanQueryAdapter);
+    }
 
     @Override
     public int getLayoutResId() {
@@ -49,94 +141,103 @@ public class DeviceInDetailActivity extends BaseActivity implements ScanOutFragm
 
     @Override
     public void initView() {
-        tv_sleected = tvSaoma;
-        v_selected = vIndicator0;
         tvTitle.setText("补库入库");
-        fragments.add(new ScanOutFragment(0, MyComment.SCAN_DEVICE_IN, this));
-        fragments.add(new ScanOutFragment(1, MyComment.SCAN_DEVICE_IN, this));
-        fragments.add(new ScanOutFragment(2, MyComment.SCAN_DEVICE_IN, this));
-        switchFragment(0);
-
-        btSure.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
+        refreshLayout.setEnableLoadmore(true);
+        refreshLayout.setEnableRefresh(true);
     }
 
     @Override
     public void initData() {
+        Intent intent = getIntent();
+        Serializable serializable
+                = (Serializable) intent.getSerializableExtra("jszpDeliveryReceiptResultIoPlanDetsEntity");
+        //强转Serializable
+        if (serializable instanceof IoTaskDets) {
+            jszpDeliveryReceiptResultIoPlanDetsEntity = (IoTaskDets) serializable;
+            //UI赋值
+            initHeaderView(jszpDeliveryReceiptResultIoPlanDetsEntity);
+        }
+        //获取当前入库的资产
+        obtainNetData();
+    }
 
+    /**
+     * 顶层UI赋值
+     *
+     * @param jszpDeliveryReceiptResultIoPlanDetsEntity
+     */
+    private void initHeaderView(IoTaskDets
+                                        jszpDeliveryReceiptResultIoPlanDetsEntity) {
+        tvInTaskNum.setText(jszpDeliveryReceiptResultIoPlanDetsEntity.getPlanNo());
+        tvDeviceDescrible.setText(jszpDeliveryReceiptResultIoPlanDetsEntity.getEquipDesc());
+        tvTaskCount.setText(jszpDeliveryReceiptResultIoPlanDetsEntity.getQty() + "");
     }
 
     @Override
     public void initListener() {
-
-    }
-
-    @OnClick({R.id.rl_saoma, R.id.rl_xiangzi})
-    public void onViewClicked(View view) {
-        tv_sleected.setTextColor(getResources().getColor(R.color.tv_black));
-        v_selected.setVisibility(View.GONE);
-        switch (view.getId()) {
-            case R.id.rl_saoma:
-                if (index != 0) {
-                    tv_sleected = tvSaoma;
-                    v_selected = vIndicator0;
-                    index = 0;
-                    switchFragment(0);
-                }
-
-                break;
-            case R.id.rl_xiangzi:
-                if (index != 1) {
-                    tv_sleected = tvXiangzi;
-                    v_selected = vIndicator1;
-                    index = 1;
-                    switchFragment(1);
-                }
-
-
-                break;
-        }
-        tv_sleected.setTextColor(getResources().getColor(R.color.title_green));
-        v_selected.setVisibility(View.VISIBLE);
-    }
-
-    public void switchFragment(int position) {
-        //开启事务
-        FragmentTransaction fragmentTransaction =
-                getSupportFragmentManager().beginTransaction();
-        //遍历集合
-        for (int i = 0; i < fragments.size(); i++) {
-            Fragment fragment = fragments.get(i);
-            if (i == position) {
-                //显示fragment
-                if (fragment.isAdded()) {
-                    //如果这个fragment已经被事务添加,显示
-                    fragmentTransaction.show(fragment);
-                } else {
-                    //如果这个fragment没有被事务添加过,添加
-                    fragmentTransaction.add(R.id.fl_content, fragment);
-                }
-            } else {
-                //隐藏fragment
-                if (fragment.isAdded()) {
-                    //如果这个fragment已经被事务添加,隐藏
-                    fragmentTransaction.hide(fragment);
-                }
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                obtainNetData();
             }
-        }
-        //提交事务
-        fragmentTransaction.commit();
+        });
+
+        refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                mRequestEntity.setPageSize(mRequestEntity.getPageNo() + 1);
+                getListData();
+            }
+        });
     }
 
 
+    /**
+     * 请求获取当前的单据的条码数据
+     */
+    private void obtainNetData() {
+        mRequestEntity = new JSZPOutboundScanQueryRequestEntity();
+        mRequestEntity.setPageNo(JzspConstants.PageStart);
+        mRequestEntity.setPageNo(JzspConstants.PageSize);
+        getListData();
+    }
+
+    private void getListData() {
+        mRequestEntity.setRelaNo(jszpDeliveryReceiptResultIoPlanDetsEntity.getSplitTaskNo());
+        JSZPOkgoHttpUtils.postString(JSZPUrls.URL_OUTBOUND_STORAGE_DEVICE_SCAN_RESULT_QUERY, this,
+                mRequestEntity, mHandler,
+                OUTBOUND_STORAGE_DEVICE_SCAN_RESULT_QUERY_WHAT, JSZPOutboundScanQueryResultEntity.class);
+    }
+
+    @OnClick({R.id.bt_scan_it, R.id.bt_sure})
+    public void onViewClicked(View v) {
+        switch (v.getId()) {
+            case R.id.bt_scan_it:
+                Intent intent = new Intent(DeviceInDetailActivity.this, JSZPScanItActivity.class);
+                intent.putExtra("jszpDeliveryReceiptResultIoPlanDetsEntity", (Serializable) jszpDeliveryReceiptResultIoPlanDetsEntity);
+                startActivityForResult(intent, GO_JSZP_SCAN_IT_ACTIVITY_REQUEST);
+                break;
+            case R.id.bt_sure:
+                obtainNetSubmit();
+                break;
+        }
+    }
     @Override
-    public void onCountChanged(int count) {
-        if (count == 0) btSure.setVisibility(View.GONE);
-        else
-            btSure.setText("确定入库(" + count + ")");
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GO_JSZP_SCAN_IT_ACTIVITY_REQUEST && resultCode == RESULT_OK) {
+            obtainNetData();
+        }
+    }
+    /**
+     * 确认出库接口
+     */
+    private void obtainNetSubmit() {
+        JSZPReplenishmentLibraryRequestEntity jszpReplenishmentLibraryRequestEntity =
+                new JSZPReplenishmentLibraryRequestEntity();
+        jszpReplenishmentLibraryRequestEntity.setPlanDetNo(jszpDeliveryReceiptResultIoPlanDetsEntity.getPlanDetNo());
+        JSZPOkgoHttpUtils.postString(JSZPUrls.URL_POSITIVE_IN, this,
+                jszpReplenishmentLibraryRequestEntity, mHandler,
+                URL_POSITIVE_IN_WHAT, JSZPReplenishmentLibraryResultEntity.class);
     }
 }

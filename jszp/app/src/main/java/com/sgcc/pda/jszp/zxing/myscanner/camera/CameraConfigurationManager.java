@@ -48,7 +48,7 @@ final class CameraConfigurationManager {
     // 相机分辨率
     private Point cameraResolution;
     private Point bestPreviewSize;
-    //    private Point previewSizeOnScreen;
+    //  private Point previewSizeOnScreen;
     private ScannerOptions scannerOptions;
 
     CameraConfigurationManager(Context context, ScannerOptions scannerOptions) {
@@ -102,13 +102,7 @@ final class CameraConfigurationManager {
         cwRotationFromDisplayToCamera =
                 (360 + cwRotationFromNaturalToCamera - cwRotationFromNaturalToDisplay) % 360;
         Log.i(TAG, "Final display orientation: " + cwRotationFromDisplayToCamera);
-//        if (camera.getFacing() == CameraFacing.FRONT) {
-//            Log.i(TAG, "Compensating rotation for front camera");
-//            cwNeededRotation = (360 - cwRotationFromDisplayToCamera) % 360;
-//        } else {
-//            cwNeededRotation = cwRotationFromDisplayToCamera;
-//        }
-//        Log.i(TAG, "Clockwise rotation from display to camera: " + cwNeededRotation);
+
 
         Point theScreenResolution = new Point();
         display.getSize(theScreenResolution);
@@ -127,15 +121,6 @@ final class CameraConfigurationManager {
         bestPreviewSize = CameraConfigurationUtils.findBestPreviewSizeValue(parameters, screenResolutionForCamera);
         Log.i(TAG, "Best available preview size: " + bestPreviewSize);
 
-//        boolean isScreenPortrait = screenResolution.x < screenResolution.y;
-//        boolean isPreviewSizePortrait = bestPreviewSize.x < bestPreviewSize.y;
-//
-//        if (isScreenPortrait == isPreviewSizePortrait) {
-//            previewSizeOnScreen = bestPreviewSize;
-//        } else {
-//            previewSizeOnScreen = new Point(bestPreviewSize.y, bestPreviewSize.x);
-//        }
-//        Log.i(TAG, "Preview size on screen: " + previewSizeOnScreen);
     }
 
     /**

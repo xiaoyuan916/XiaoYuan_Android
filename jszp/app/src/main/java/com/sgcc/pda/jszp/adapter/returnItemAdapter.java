@@ -1,7 +1,6 @@
 package com.sgcc.pda.jszp.adapter;
 
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -9,14 +8,15 @@ import android.widget.TextView;
 import com.freelib.multiitem.adapter.holder.BaseViewHolder;
 import com.freelib.multiitem.adapter.holder.BaseViewHolderManager;
 import com.sgcc.pda.jszp.R;
-import com.sgcc.pda.jszp.bean.ReturnItem;
+import com.sgcc.pda.jszp.bean.IoTaskDets;
+import com.sgcc.pda.jszp.util.JzspConstants;
 
-public class returnItemAdapter<T extends ReturnItem> extends BaseViewHolderManager<T> {
+public class ReturnItemAdapter<T extends IoTaskDets> extends BaseViewHolderManager<T> {
     private onChildClickCallBack onChildClickCallBack;
 
     @Override
     public void onBindViewHolder(final BaseViewHolder baseViewHolder, final T t) {
-        CheckBox cbSelected = getView(baseViewHolder, R.id.cb_selected);
+        ImageView ivReturnType = getView(baseViewHolder, R.id.iv_return_type);
         ImageView ivSaoma = getView(baseViewHolder, R.id.iv_saoma);
         ImageView ivType = getView(baseViewHolder, R.id.iv_type);
         TextView tvTaskNum = getView(baseViewHolder, R.id.tv_task_num);
@@ -24,32 +24,57 @@ public class returnItemAdapter<T extends ReturnItem> extends BaseViewHolderManag
         TextView tvPlanNum = getView(baseViewHolder, R.id.tv_plan_num);
         TextView tvRealNum = getView(baseViewHolder, R.id.tv_real_num);
         LinearLayout llContent = getView(baseViewHolder, R.id.ll_content);
-        cbSelected.setChecked(t.isSelected());
-        tvTaskNum.setText(t.getTasknum());
-        tvDeviceName.setText(t.getDevicename());
-        tvPlanNum.setText(String.valueOf(t.getPlancount()) + "只");
-        if (t.getRealcount() > 0) tvRealNum.setText(String.valueOf(t.getRealcount()) + "只");
-        else
-            tvRealNum.setText("--");
-        switch (t.getDevicetype()) {
-            case 0:
+        tvTaskNum.setText(t.getPlanDetNo()+"");
+        tvDeviceName.setText(t.getEquipDesc());
+        tvPlanNum.setText(String.valueOf(t.getQty()) + "只");
+        if (t.getRealCount() > 0) {
+            tvRealNum.setText(String.valueOf(t.getRealCount()) + "只");
+        } else {
+            tvRealNum.setText("请输入实际数量");
+        }
+        switch (t.getEquipCateg()) {
+            case JzspConstants.Device_Category_DianNengBiao:
                 ivType.setImageResource(R.drawable.diannengf);
                 break;
-            case 1:
+            case JzspConstants.Device_Category_CaiJiZhongDuan:
                 ivType.setImageResource(R.drawable.caijiqif);
                 break;
-            case 2:
-                ivType.setImageResource(R.drawable.jizhongqif);
+            case JzspConstants.Device_Category_ZhouZhuanXiang:
+                ivType.setImageResource(R.mipmap.zhouzhuanxiangf);
                 break;
-            case 3:
+            case JzspConstants.Device_Category_TongXunMoKuai:
                 ivType.setImageResource(R.drawable.tongxunf);
                 break;
-            case 4:
+            case JzspConstants.Device_Category_DianLiuHuGanQi:
+            case JzspConstants.Device_Category_DianYaHuGanQi:
+            case JzspConstants.Device_Category_ZuHeHuGanQi:
                 ivType.setImageResource(R.drawable.huganqif);
                 break;
             default:
                 ivType.setImageResource(R.drawable.diannengf);
                 break;
+        }
+
+        ivReturnType.setSelected(t.getQty() == t.getRealCount());
+        if (t.getReturnType() != null) {
+            switch (t.getReturnType()) {
+                case JzspConstants.Return_Type_ZhouZhuanXiang:
+                    //空周转箱
+                    ivReturnType.setBackgroundResource(R.drawable.select_return_type_zhouzhuanxiang);
+                    break;
+                case JzspConstants.Return_Type_FenJianBiao:
+                    //分拣表
+                    ivReturnType.setBackgroundResource(R.drawable.select_return_type_fenjian);
+                    break;
+                case JzspConstants.Return_Type_ChaoQiBiao:
+                    //超期表
+                    ivReturnType.setBackgroundResource(R.drawable.select_return_type_chaoqi);
+                    break;
+                case JzspConstants.Return_Type_Other:
+                    //其他
+                    ivReturnType.setBackgroundResource(R.drawable.select_return_type_other);
+                    break;
+            }
         }
         ivSaoma.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,8 +90,6 @@ public class returnItemAdapter<T extends ReturnItem> extends BaseViewHolderManag
                     onChildClickCallBack.onItemClick(baseViewHolder);
             }
         });
-        final T d=t;
-
     }
 
     @Override
@@ -75,11 +98,11 @@ public class returnItemAdapter<T extends ReturnItem> extends BaseViewHolderManag
     }
 
 
-    public returnItemAdapter.onChildClickCallBack getOnChildClickCallBack() {
+    public ReturnItemAdapter.onChildClickCallBack getOnChildClickCallBack() {
         return onChildClickCallBack;
     }
 
-    public void setOnChildClickCallBack(returnItemAdapter.onChildClickCallBack onChildClickCallBack) {
+    public void setOnChildClickCallBack(ReturnItemAdapter.onChildClickCallBack onChildClickCallBack) {
         this.onChildClickCallBack = onChildClickCallBack;
     }
 

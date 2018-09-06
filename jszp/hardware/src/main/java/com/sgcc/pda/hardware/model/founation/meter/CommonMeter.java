@@ -182,6 +182,37 @@ public class CommonMeter implements IMeter {
     }
 
     /**
+     * 向电表写入第一类数据
+     *
+     * @param meterAddress 电表通讯地址
+     * @param dataSign     数据标识
+     * @param password     密码
+     * @param operator     操作员编号
+     * @param data         待写入数据
+     * @param mac          安全单元计算的MAC
+     * @param retControl    返回-写入数据后电表的响应数据的控制码
+     * @param retData      返回-写入数据后电表的响应数据
+     * @return 0-成功
+     * CommonParamError-输入参数错误
+     * CommonBufferError-返回值缓冲区为空
+     * CommonWriteError-数据写入错误
+     * CommonReadError-数据读取错误
+     * InfraError-红外设备操作失败
+     * P645FrameError-P645帧格式错误
+     * P645FrameMatchError-上下行帧不匹配
+     * P645ReceivedExceptionValue-P645接收了一个包含异常信息的返回帧
+     * P645DataLengthError-数据长度不符合规约要求
+     */
+    public int writeClass1Data(String meterAddress, String dataSign, String password, String operator,
+                               String data, String mac,StringBuffer retControl,StringBuffer retData) {
+        // 处理传入数据
+        dataSign = DataConvert.getFixedStringWithChar(dataSign, 8, false, '0');
+
+        // 调用数据写入命令
+        return method.writeData(meterAddress, dataSign, "99", password, operator, data, mac, retControl,retData);
+    }
+
+    /**
      * 向电表写入第二类数据
      *
      * @param meterAddress 电表通讯地址
@@ -213,6 +244,39 @@ public class CommonMeter implements IMeter {
     }
 
     /**
+     * 向电表写入第二类数据
+     *
+     * @param meterAddress 电表通讯地址
+     * @param dataSign     数据标识
+     * @param password     密码
+     * @param operator     操作员编号
+     * @param data         待写入数据
+     * @param mac          安全单元计算的MAC
+     * @param retControl    返回-写入数据后电表的响应数据的控制码
+     * @param retData      返回-写入数据后电表的响应数据
+     * @return 0-成功
+     * CommonParamError-输入参数错误
+     * CommonBufferError-返回值缓冲区为空
+     * CommonWriteError-数据写入错误
+     * CommonReadError-数据读取错误
+     * InfraError-红外设备操作失败
+     * P645FrameError-P645帧格式错误
+     * P645FrameMatchError-上下行帧不匹配
+     * P645ReceivedExceptionValue-P645接收了一个包含异常信息的返回帧
+     * P645DataLengthError-数据长度不符合规约要求
+     * P645ReceivedDataError-P645接收到的数据错误
+     */
+    public int writeClass2Data(String meterAddress, String dataSign, String password, String operator,
+                               String data, String mac,StringBuffer retControl,StringBuffer retData) {
+
+        // 处理传入数据
+        dataSign = DataConvert.getFixedStringWithChar(dataSign, 8, false, '0');
+
+        // 调用数据写入命令q
+        return method.writeData(meterAddress, dataSign, "98", password, operator, data, mac, retControl,retData);
+    }
+
+    /**
      * 向电表写入第三类数据
      *
      * @param meterAddress 电表通讯地址
@@ -240,6 +304,37 @@ public class CommonMeter implements IMeter {
 
         // 调用数据写入命令
         return method.writeData(meterAddress, dataSign, "02", password, operator, data, null, sb);
+    }
+
+    /**
+     * 向电表写入第三类数据
+     *
+     * @param meterAddress 电表通讯地址
+     * @param dataSign     数据标识
+     * @param password     密码
+     * @param operator     操作员编号
+     * @param data         待写入数据
+     * @param retControl    返回-写入数据后电表的响应数据的控制码
+     * @param retData      返回-写入数据后电表的响应数据
+     * @return 0-成功
+     * CommonParamError-输入参数错误
+     * CommonBufferError-返回值缓冲区为空
+     * CommonWriteError-数据写入错误
+     * CommonReadError-数据读取错误
+     * InfraError-红外设备操作失败
+     * P645FrameError-P645帧格式错误
+     * P645FrameMatchError-上下行帧不匹配
+     * P645ReceivedExceptionValue-P645接收了一个包含异常信息的返回帧
+     * P645DataLengthError-数据长度不符合规约要求
+     * P645ReceivedDataError-P645接收到的数据错误
+     */
+    public int writeClass3Data(String meterAddress, String dataSign, String password, String operator,
+                               String data,StringBuffer retControl,StringBuffer retData) {
+        // 处理传入数据
+        dataSign = DataConvert.getFixedStringWithChar(dataSign, 8, false, '0');
+
+        // 调用数据写入命令
+        return method.writeData(meterAddress, dataSign, "02", password, operator, data, null, retControl,retData);
     }
 
     /**
@@ -439,7 +534,7 @@ public class CommonMeter implements IMeter {
     /**
      * 读取电表档案信息
      */
-    public int Connect(String meterAddress, StringBuffer stringBuffer,String comm_code) {
+    public int Connect(String meterAddress, StringBuffer stringBuffer, String comm_code) {
         if (stringBuffer == null) {
             return ErrorManager.ErrorType.CommonBufferError.getValue();
         }
@@ -456,8 +551,6 @@ public class CommonMeter implements IMeter {
         return ret;
 
     }
-
-
 
 
     /**
@@ -508,9 +601,10 @@ public class CommonMeter implements IMeter {
 
     /**
      * 读取电表时段数
-     * @param meterAddress  通信地址
-     * @param datasign   数据标识
-     * @param amount    返回 - 电表时段数
+     *
+     * @param meterAddress 通信地址
+     * @param datasign     数据标识
+     * @param amount       返回 - 电表时段数
      * @return
      */
     public int readMeterPriodAmount(String meterAddress, String datasign, StringBuffer amount) {
@@ -530,7 +624,6 @@ public class CommonMeter implements IMeter {
         }
         return ret;
     }
-
 
 
     /**
@@ -959,7 +1052,7 @@ public class CommonMeter implements IMeter {
      * @param datasign     密钥类型
      * @param mac          安全单元计算MAC
      * @param info         密钥信息
-     * @param cipher   密钥密文数据
+     * @param cipher       密钥密文数据
      * @param operator     操作员编号
      * @return 0-成功
      * CommonParamError-输入参数错误
@@ -985,15 +1078,36 @@ public class CommonMeter implements IMeter {
 //        return method.safetyCertification(meterAddress, datasign, operator, cipher + info + mac, sb);
     }
 
-    public int keyUpdate(String meterAddress, String datasign, String msg, String cipher,
-                         String operator) {
+    public int keyUpdate(String meterAddress, String datasign, String operator, String msg, String cipher
+    ) {
         if (datasign.length() != 8 || msg.length() != 16 || cipher.length() != 64) {
             return ErrorManager.ErrorType.CommonParamError.getValue();
+
         }
 
         StringBuffer sb = new StringBuffer();
-//        return method.safetyCertification(meterAddress, datasign, operator, msg + cipher, sb);
-        return method.safetyCertification(meterAddress, datasign, operator, cipher + msg, sb);
+       return method.safetyCertification(meterAddress, datasign, operator, msg + cipher, sb); //原程序
+//        return method.safetyCertification(meterAddress, datasign, operator, cipher + msg, sb); //新修改
+    }
+
+    /**
+     * 13表密钥更新
+     *
+     * @param meterAddress
+     * @param dataSign
+     * @param operator
+     * @param cipher
+     * @return
+     */
+    @Override
+    public int keyUpdate13(String meterAddress, String dataSign, String operator, String cipher, String mac) {
+        if (dataSign.length() != 8 || cipher.length() < 0 || mac.length() < 8) {
+            return ErrorManager.ErrorType.CommonParamError.getValue();
+
+        }
+
+        StringBuffer sb = new StringBuffer();
+        return method.safetyCertification(meterAddress, dataSign, operator, cipher+mac, sb);
     }
 
     /**
@@ -1026,7 +1140,7 @@ public class CommonMeter implements IMeter {
 
         int iTime;
         try {
-            iTime = Integer.parseInt(time,16);
+            iTime = Integer.parseInt(time, 16);
         } catch (Exception ex) {
             return ErrorManager.ErrorType.CommonParamError.getValue();
         }
@@ -1041,14 +1155,14 @@ public class CommonMeter implements IMeter {
         StringBuffer sb = new StringBuffer();
         String taskData = iTime == 1 ? "070101FF" : "070102FF";
 
-        return method.safetyCertification(meterAddress, DataConvert.strReverse(taskData, 0, taskData.length()), DataConvert.strReverse(operator,0,operator.length()),
+        return method.safetyCertification(meterAddress, DataConvert.strReverse(taskData, 0, taskData.length()), DataConvert.strReverse(operator, 0, operator.length()),
                 money + time + mac1 + consNo + mac2, sb);
 //        return method.safetyCertification(meterAddress, DataConvert.strReverse(taskData, 0, taskData.length()), operator,
 //                money + time + mac1 + consNo + mac2, sb);
     }
 
     public int recharge(String meterAddress, String operator, String chargeData) {
-        if (operator.length() != 8 || chargeData.length() != 44 ) {
+        if (operator.length() != 8 || chargeData.length() != 44) {
             return ErrorManager.ErrorType.CommonParamError.getValue();
         }
 
@@ -1072,7 +1186,7 @@ public class CommonMeter implements IMeter {
 
 //        return method.safetyCertification(meterAddress, DataConvert.strReverse(taskData, 0, taskData.length()), DataConvert.strReverse(operator,0,operator.length()),
 //                DataConvert.strReverse(chargeData,0,chargeData.length()), sb);
-        return method.safetyCertification(meterAddress, DataConvert.strReverse(taskData, 0, taskData.length()), DataConvert.strReverse(operator,0,operator.length()),
+        return method.safetyCertification(meterAddress, DataConvert.strReverse(taskData, 0, taskData.length()), DataConvert.strReverse(operator, 0, operator.length()),
                 chargeData, sb);
     }
 
@@ -1356,7 +1470,7 @@ public class CommonMeter implements IMeter {
         }
         // 根据规约规定，将返回值中的数据按照数据含义进行反序
         String surplusMoeny = DataConvert.strReverse(retData.substring(8, 16), 0, 8);
-        int rechargeTime = Integer.parseInt(DataConvert.strReverse(retData.substring(24, 32), 0, 8),16);
+        int rechargeTime = Integer.parseInt(DataConvert.strReverse(retData.substring(24, 32), 0, 8), 16);
         String customCod = DataConvert.strReverse(retData.substring(40, 52), 0, 12);
         double oldMoney = Integer.parseInt(surplusMoeny, 16) / 100.0;
         surplusAmount.delete(0, surplusAmount.length()).append(new DecimalFormat("#.00").format(oldMoney));
@@ -1462,6 +1576,95 @@ public class CommonMeter implements IMeter {
         return method.readData(meterAddress, dataSign, retData);
     }
 
+    /**
+     * 根据数据标识读取电表数据
+     *
+     * @param meterAddress 电表通讯地址
+     * @param dataSign     数据标识
+     * @param retControl   电表返回的控制码
+     * @param retData      返回-读取到的返回值
+     * @return 0-成功
+     * CommonParamError-输入参数错误
+     * CommonBufferError-返回值缓冲区为空
+     * CommonWriteError-数据写入错误
+     * CommonReadError-数据读取错误
+     * InfraError-红外设备操作失败
+     * P645FrameError-P645帧格式错误
+     * P645FrameMatchError-上下行帧不匹配
+     * P645ReceivedExceptionValue-P645接收了一个包含异常信息的返回帧
+     * P645DataLengthError-数据长度不符合规约要求
+     * P645ReceivedDataError-P645接收到的数据错误
+     */
+    public int commonReadContinue(String meterAddress, String dataSign, StringBuffer retControl, StringBuffer retData) {
+        if (retData == null||retControl==null) {
+            return ErrorManager.ErrorType.CommonBufferError.getValue();
+        }
+        if (dataSign.length() != 8 ) {
+            return ErrorManager.ErrorType.CommonParamError.getValue();
+        }
+        return method.readDataContinue(meterAddress, dataSign,  retControl,retData);
+    }
+
+    /**
+     * 根据数据标识读取电表数据
+     *
+     * @param meterAddress 电表通讯地址
+     * @param dataSign     数据标识
+     * @param retControl     电表返回的控制码
+     * @param retData      返回-读取到的返回值
+     * @return 0-成功
+     * CommonParamError-输入参数错误
+     * CommonBufferError-返回值缓冲区为空
+     * CommonWriteError-数据写入错误
+     * CommonReadError-数据读取错误
+     * InfraError-红外设备操作失败
+     * P645FrameError-P645帧格式错误
+     * P645FrameMatchError-上下行帧不匹配
+     * P645ReceivedExceptionValue-P645接收了一个包含异常信息的返回帧
+     * P645DataLengthError-数据长度不符合规约要求
+     * P645ReceivedDataError-P645接收到的数据错误
+     */
+    public int commonRead(String meterAddress, String dataSign, StringBuffer retControl, StringBuffer retData) {
+        if (retData == null||retControl==null) {
+            return ErrorManager.ErrorType.CommonBufferError.getValue();
+        }
+        if (dataSign.length() != 8) {
+            return ErrorManager.ErrorType.CommonParamError.getValue();
+        }
+        return method.readData(meterAddress, dataSign, retControl,retData);
+    }
+
+    /**
+     * 根据数据标识读取电表数据
+     *
+     * @param meterAddress 电表通讯地址
+     * @param dataSign     数据标识
+     * @param dataNum      负荷记录块数
+     * @param dateTime     时间 mmhhDDMMYY
+     * @param retControl     电表返回的控制码
+     * @param retData      返回-读取到的返回值
+     * @return 0-成功
+     * CommonParamError-输入参数错误
+     * CommonBufferError-返回值缓冲区为空
+     * CommonWriteError-数据写入错误
+     * CommonReadError-数据读取错误
+     * InfraError-红外设备操作失败
+     * P645FrameError-P645帧格式错误
+     * P645FrameMatchError-上下行帧不匹配
+     * P645ReceivedExceptionValue-P645接收了一个包含异常信息的返回帧
+     * P645DataLengthError-数据长度不符合规约要求
+     * P645ReceivedDataError-P645接收到的数据错误
+     */
+    public int commonRead(String meterAddress, String dataSign, String dataNum, String dateTime, StringBuffer retControl, StringBuffer retData) {
+        if (retData == null||retControl==null) {
+            return ErrorManager.ErrorType.CommonBufferError.getValue();
+        }
+        if (dataSign.length() != 8 || dataNum.length() != 2 || dateTime.length() != 10) {
+            return ErrorManager.ErrorType.CommonParamError.getValue();
+        }
+        return method.readData(meterAddress, dataSign, dataNum, dateTime, retControl,retData);
+    }
+
     @Override
     public int commonRead(String meterAddress, String dataSign, StringBuffer retData, boolean isMeter97) {
         if (retData == null) {
@@ -1478,5 +1681,32 @@ public class CommonMeter implements IMeter {
         }
 
         return method.readData(meterAddress, dataSign, retData, true);
+    }
+
+
+    /**
+     *  获取电表当前运行的时区
+     * @param meterAddress 通信地址
+     * @param timeZone  当前运行时区套(0 第一套  1 第二套)
+     * @return  0-成功 其它-错误码
+     */
+    public int readMeterTimezone(String meterAddress, StringBuffer timeZone) {
+        if (timeZone == null||meterAddress.length()!=12) {
+            return ErrorManager.ErrorType.CommonBufferError.getValue();
+        }
+        timeZone.delete(0, timeZone.length());
+
+        StringBuffer sb = new StringBuffer();
+        int ret = method.readData(meterAddress, "04000503", sb);
+        if (ret == 0) {
+            String statue3=  sb.substring(8,sb.length());
+            //  statue3=  DataConvert.strReverse(statue3,0,statue3.length());
+            LogUtil.e("TL","电表当前运行状态字--------"+statue3);
+            statue3=   DataConvert.hexString2binaryString(statue3);
+            timeZone.append(statue3.substring(2,3));
+
+            LogUtil.e("TL","电表当前运行状态字--------二进制"+statue3);
+        }
+        return ret;
     }
 }

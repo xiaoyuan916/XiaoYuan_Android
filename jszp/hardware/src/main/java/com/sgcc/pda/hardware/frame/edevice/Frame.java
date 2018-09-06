@@ -216,8 +216,18 @@ public class Frame {
     public static final int FN_CGP_CXJDCS = 0x2006;
     // 超高频--设置基带参数
     public static final int FN_CGP_SZJDCS = 0x2007;
+    // 超高频--盘存
+    public static final int FN_CGP_EPC_PC = 0x2005;
+    // 超高频--盘存
+    public static final int FN_CGP_GB_PC = 0x200C;
+    // 超高频--选择数据
+    public static final int FN_CGP_EPC_CHOICE = 0x2006;
+    // 超高频--选择数据
+    public static final int FN_CGP_GB_CHOICE = 0x200D;
     // 超高频--读标签数据
     public static final int FN_CGP_EPC_DATA = 0x2008;
+    // 超高频--读标签数据
+    public static final int FN_CGP_GB_DATA = 0x200F;
     // 超高频--存盘
     public static final int FN_CGP_CP = 0x2009;
     // 超高频--停止存盘
@@ -231,7 +241,7 @@ public class Frame {
     // 超高频--写标签数据
     public static final int FN_CGP_XBQSJ = 0x200E;
     // 超高频--锁标签
-    public static final int FN_CGP_GB_DATA = 0x200F;
+    public static final int FN_CGP_SBQ = 0x200F;
     // 超高频--灭活标签
     public static final int FN_CGP_MHBQ = 0x2010;
 

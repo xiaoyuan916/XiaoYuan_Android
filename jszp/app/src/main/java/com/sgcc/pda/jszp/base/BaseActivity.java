@@ -4,12 +4,13 @@ import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.sgcc.pda.jszp.http.JSZPOkgoHttpUtils;
+import com.sgcc.pda.jszp.util.AppManager;
 import com.sgcc.pda.sdk.utils.HttpClientUtil;
-import com.sgcc.pda.sdk.utils.LogUtil;
 import com.sgcc.pda.sdk.utils.SharepreferenceUtil;
 
 import butterknife.ButterKnife;
@@ -18,7 +19,7 @@ import butterknife.ButterKnife;
  * Created by zwj on 2017/10/26.
  */
 
-public abstract class BaseActivity extends FragmentActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
     protected Context mContext;
     public BaseApplication application;
@@ -27,7 +28,10 @@ public abstract class BaseActivity extends FragmentActivity {
     protected void onDestroy() {
         super.onDestroy();
         HttpClientUtil.cancle(this);
+        //界面消失取消掉网络请求
+        JSZPOkgoHttpUtils.cancelHttp(this);
         application.removeActivity(this);
+        AppManager.getAppManager().finishActivity(this);
     }
 
     public void returnback(View v){
@@ -35,7 +39,6 @@ public abstract class BaseActivity extends FragmentActivity {
         finish();
     }
     public void onRightClick(View v){
-
     }
     public void onIvRightClick(View v){
 
@@ -55,6 +58,7 @@ public abstract class BaseActivity extends FragmentActivity {
 
         setContentView(getLayoutResId());
         application.addActivity(this);
+        AppManager.getAppManager().addActivity(this);
         ButterKnife.bind(this);
 
         initView();
@@ -69,9 +73,9 @@ public abstract class BaseActivity extends FragmentActivity {
         if (null != wm) {
             int width = wm.getDefaultDisplay().getWidth();
             int height = wm.getDefaultDisplay().getHeight();
-            LogUtil.d("tag3", " big width = " + width + " height = " + height);
-            LogUtil.d("TAG", "屏幕宽度为：" + width);
-            LogUtil.d("TAG", "屏幕高度为：" + height);
+//            LogUtil.d("tag3", " big width = " + width + " height = " + height);
+//            LogUtil.d("TAG", "屏幕宽度为：" + width);
+//            LogUtil.d("TAG", "屏幕高度为：" + height);
             return width;
         }
 

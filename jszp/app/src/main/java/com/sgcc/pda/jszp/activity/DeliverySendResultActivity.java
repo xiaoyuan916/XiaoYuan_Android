@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.sgcc.pda.jszp.R;
 import com.sgcc.pda.jszp.base.BaseActivity;
+import com.sgcc.pda.jszp.util.ActivityUtils;
 
 import butterknife.BindView;
 
@@ -27,8 +28,10 @@ public class DeliverySendResultActivity extends BaseActivity {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             time--;
-            if (time == 0) finish();
-            else {
+            if (time == 0) {
+                finish();
+                ActivityUtils.getInstance().delActivity("DeliveryConfirmActivity");
+            } else {
                 tvDealyreturn.setText(time + "s后返回首页");
                 handler.sendEmptyMessageDelayed(1, 1000);
             }
@@ -64,5 +67,6 @@ public class DeliverySendResultActivity extends BaseActivity {
     public void onRightClick(View v) {
         super.onRightClick(v);
         finish();
+        ActivityUtils.getInstance().delActivity("DeliveryConfirmActivity");
     }
 }

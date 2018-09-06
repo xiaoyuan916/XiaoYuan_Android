@@ -1,6 +1,7 @@
 package com.sgcc.pda.jszp.activity;
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import com.sgcc.pda.jszp.R;
 import com.sgcc.pda.jszp.base.BaseActivity;
 import com.sgcc.pda.jszp.base.MyComment;
+import com.sgcc.pda.sdk.utils.ToastUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -20,7 +22,7 @@ public class ManualActivity extends BaseActivity {
     TextView tvTitle;
     @BindView(R.id.tv_head)
     TextView tvHead;
-    @BindView(R.id.et_ordernum)
+    @BindView(R.id.et_tiaoxingma)
     EditText etOrdernum;
     @BindView(R.id.bt_sure)
     Button btSure;
@@ -120,6 +122,10 @@ public class ManualActivity extends BaseActivity {
     @OnClick(R.id.bt_sure)
     public void onViewClicked() {
         Intent intent = new Intent();
+        if (TextUtils.isEmpty(etOrdernum.getText().toString())){
+            ToastUtils.showToast(ManualActivity.this,"请输入单据的编号");
+            return;
+        }
         intent.putExtra("number", etOrdernum.getText().toString());
         switch (type) {
             case MyComment.SCAN_DELIVERY:
@@ -130,14 +136,11 @@ public class ManualActivity extends BaseActivity {
             case MyComment.SCAN_DEVICE_PICK:
             case MyComment.SCAN_DEVICE_IN:
             case MyComment.QUERY_DEVICE:
+            case MyComment.SCAN_IN_DEVICE:
                 setResult(RESULT_OK, intent);
                 break;
             case MyComment.SIGN_FOR: {
-                if (sub_type == 0) {
                     setResult(RESULT_OK, intent);
-                } else {
-                    setResult(RESULT_CANCELED, intent);
-                }
             }
             break;
             case MyComment.SCAN_DEVICE_OUT:

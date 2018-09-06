@@ -3,7 +3,6 @@ package com.sgcc.pda.hardware.resam.resamMethod;
 import android.util.Log;
 
 import com.cepri.dev.RESAM;
-import com.sgcc.pda.hardware.SOConfig;
 import com.sgcc.pda.hardware.resam.makeFrame.XorUtil;
 import com.sgcc.pda.hardware.resam.parser.TCHNParser;
 import com.sgcc.pda.hardware.shell.Shell;

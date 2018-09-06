@@ -63,6 +63,22 @@ public interface IMeter {
                         String data, String mac);
 
     /**
+     * 向电表写入第一类数据
+     *
+     * @param meterAddress 电表通讯地址
+     * @param dataSign     数据标识
+     * @param password     密码
+     * @param operator     操作员编号
+     * @param data         待写入数据
+     * @param mac          安全单元计算的MAC
+     * @param retControl   返回-写入数据后电表的响应数据的控制码
+     * @param retData      返回-写入数据后电表的响应数据
+     * @return 0-成功 其它-错误码
+     */
+    int writeClass1Data(String meterAddress, String dataSign, String password, String operator,
+                        String data, String mac, StringBuffer retControl, StringBuffer retData);
+
+    /**
      * 向电表写入第二类数据
      *
      * @param meterAddress 电表通讯地址
@@ -77,6 +93,22 @@ public interface IMeter {
                         String data, String mac);
 
     /**
+     * 向电表写入第二类数据
+     *
+     * @param meterAddress 电表通讯地址
+     * @param dataSign     数据标识
+     * @param password     密码
+     * @param operator     操作员编号
+     * @param data         待写入数据
+     * @param mac          安全单元计算的MAC
+     * @param retControl   返回-写入数据后电表的响应数据的控制码
+     * @param retData      返回-写入数据后电表的响应数据
+     * @return 0-成功 其它-错误码
+     */
+    int writeClass2Data(String meterAddress, String dataSign, String password, String operator,
+                        String data, String mac, StringBuffer retControl, StringBuffer retData);
+
+    /**
      * 向电表写入第三类数据
      *
      * @param meterAddress 电表通讯地址
@@ -88,6 +120,21 @@ public interface IMeter {
      */
     int writeClass3Data(String meterAddress, String dataSign, String password, String operator,
                         String data);
+
+    /**
+     * 向电表写入第三类数据
+     *
+     * @param meterAddress 电表通讯地址
+     * @param dataSign     数据标识
+     * @param password     密码
+     * @param operator     操作员编号
+     * @param data         待写入数据
+     * @param retControl   返回-写入数据后电表的响应数据的控制码
+     * @param retData      返回-写入数据后电表的响应数据
+     * @return 0-成功 其它-错误码
+     */
+    int writeClass3Data(String meterAddress, String dataSign, String password, String operator,
+                        String data, StringBuffer retControl, StringBuffer retData);
 
     /**
      * 广播校时
@@ -160,9 +207,10 @@ public interface IMeter {
 
     /**
      * 获取电表时段数
-     * @param meterAddress  通信地址
+     *
+     * @param meterAddress 通信地址
      * @param datasign     数据标识
-     * @param amount   返回 - 电表时段数
+     * @param amount       返回 - 电表时段数
      * @return
      */
     int readMeterPriodAmount(String meterAddress, String datasign, StringBuffer amount);
@@ -287,8 +335,22 @@ public interface IMeter {
     int keyUpdate(String meterAddress, String dataSign, String mac, String info, String cipherText,
                   String operator);
 
-    int keyUpdate(String meterAddress, String dataSign, String msg, String cipherText,
-                  String operator);
+    int keyUpdate(String meterAddress, String dataSign, String operator, String msg, String cipherText
+    );
+
+    /**
+     * 13表密钥更新
+     *
+     * @param meterAddress 通信地址
+     * @param dataSign     数据标识
+     * @param operator     操作者代码
+     * @param cipher       密钥数据
+     * @param mac          mac
+     * @return 0-成功 其它-错误码
+     */
+    int keyUpdate13(String meterAddress, String dataSign, String operator, String cipher, String mac
+    );
+
 
     /**
      * 远程充值并开户
@@ -419,9 +481,54 @@ public interface IMeter {
      *
      * @param meterAddress 电表通讯地址
      * @param dataSign     数据标识
+     * @param retControl   电表返回的控制码
+     * @param retData      返回-读取到的返回值
+     * @return 0-成功 其它-错误码
+     */
+    int commonRead(String meterAddress, String dataSign, StringBuffer retControl, StringBuffer retData);
+
+    /**
+     * 根据数据标识读取电表数据
+     *
+     * @param meterAddress 电表通讯地址
+     * @param dataSign     数据标识
+     * @param dataNum      负荷记录块数
+     * @param dateTime     时间
+     * @param retControl   电表返回的控制码
+     * @param retData      返回-读取到的返回值
+     * @return 0-成功 其它-错误码
+     */
+    int commonRead(String meterAddress, String dataSign, String dataNum, String dateTime, StringBuffer retControl, StringBuffer retData);
+
+    /**
+     * 根据数据标识读取电表后续数据
+     *
+     * @param meterAddress 电表通讯地址
+     * @param dataSign     数据标识
+     * @param retControl   电表返回的控制码
+     * @param retData      返回-读取到的返回值（这个值不包含数据标识）
+     * @return 0-成功 其它-错误码
+     */
+    int commonReadContinue(String meterAddress, String dataSign, StringBuffer retControl, StringBuffer retData);
+
+    /**
+     * 根据数据标识读取电表数据
+     *
+     * @param meterAddress 电表通讯地址
+     * @param dataSign     数据标识
      * @param retData      返回-读取到的返回值
      * @param isMeter97    是否为97表
      * @return 0-成功 其它-错误码
      */
     int commonRead(String meterAddress, String dataSign, StringBuffer retData, boolean isMeter97);
+
+
+    /**
+     * 获取电表当前运行的时区
+     *
+     * @param meterAddress 通信地址
+     * @param timeZone     当前运行时区套(0 第一套  1 第二套)
+     * @return 0-成功 其它-错误码
+     */
+    int readMeterTimezone(String meterAddress, StringBuffer timeZone);
 }

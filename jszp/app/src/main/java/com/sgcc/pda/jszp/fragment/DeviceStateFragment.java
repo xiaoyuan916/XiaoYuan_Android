@@ -12,9 +12,11 @@ import android.view.ViewGroup;
 
 import com.freelib.multiitem.adapter.BaseItemAdapter;
 import com.sgcc.pda.jszp.R;
+import com.sgcc.pda.jszp.adapter.DeliveryConfirmDetailItemAdapter;
 import com.sgcc.pda.jszp.adapter.DeviceStateAdapter;
-import com.sgcc.pda.jszp.adapter.orderItemAdapter;
 import com.sgcc.pda.jszp.bean.DeviceItem;
+import com.sgcc.pda.jszp.bean.DeviceQueryResultEntity;
+import com.sgcc.pda.jszp.bean.DeviceQueryTracks;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class DeviceStateFragment extends Fragment implements orderItemAdapter.CountNotifiCallBack{
+public class DeviceStateFragment extends Fragment implements DeliveryConfirmDetailItemAdapter.CountNotifiCallBack{
     Unbinder unbinder;
     @BindView(R.id.rv_orders)
     RecyclerView rvOrders;
@@ -66,11 +68,7 @@ public class DeviceStateFragment extends Fragment implements orderItemAdapter.Co
         rvOrders.setLayoutManager(new LinearLayoutManager(getContext()));
         stateAdapter=new BaseItemAdapter();
         data=new ArrayList<>();
-        data.add(new DeviceItem("1241125"));
-        data.add(new DeviceItem("1241125"));
-        data.add(new DeviceItem("1241125"));
-        data.add(new DeviceItem("1241125"));
-        data.add(new DeviceItem("1241125"));
+
 
         stateAdapter.register(DeviceItem.class,new DeviceStateAdapter<DeviceItem>(this));
         rvOrders.setAdapter(stateAdapter);
@@ -89,5 +87,17 @@ public class DeviceStateFragment extends Fragment implements orderItemAdapter.Co
     @Override
     public int getcount() {
         return data.size();
+    }
+
+    /**
+     * 更新UI
+     * @param obj
+     */
+    public void upDataUI(DeviceQueryResultEntity obj) {
+        for (DeviceQueryTracks
+                jszpDeviceQueryAssertEntity :obj.getAsset().getTracks()){
+            data.add(new DeviceItem(jszpDeviceQueryAssertEntity.getBusi_id()));
+        }
+        stateAdapter.notifyDataSetChanged();
     }
 }

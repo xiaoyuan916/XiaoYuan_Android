@@ -10,19 +10,18 @@ public class JSZPProgressDialogUtils {
     //类初始化时，不初始化这个对象(延时加载，真正用的时候再创建)
     private static JSZPProgressDialogUtils instance;
 
-    //构造器私有化
-    private JSZPProgressDialogUtils(Activity activity){
-        initDialog(activity);
-    }
 
     //方法同步
-    public static synchronized JSZPProgressDialogUtils getInstance(Activity activity){
+    public static synchronized JSZPProgressDialogUtils getInstance(){
         if(instance==null){
-            instance=new JSZPProgressDialogUtils(activity);
+            instance=new JSZPProgressDialogUtils();
         }
         return instance;
     }
-    private void initDialog(Activity activity) {
+    public void initDialog(Activity activity) {
+        if (dialog != null && dialog.isShowing()) {
+            return;
+        }
         dialog = new ProgressDialog(activity);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCanceledOnTouchOutside(false);

@@ -2,12 +2,12 @@
 <LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
-	android:layout_height="98dp"
+	android:layout_height="71dp"
 	android:orientation="vertical">
 
 	<LinearLayout
 		android:layout_width="match_parent"
-		android:layout_height="91dp"
+		android:layout_height="71dp"
 		android:gravity="center"
 		android:orientation="vertical"
 		android:paddingLeft="16dp"
@@ -30,7 +30,7 @@
 				android:id="@+id/tv_order_num"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="201805221234567890"
+				android:text=""
 				android:textColor="@color/darkgray"
 				android:textSize="13sp"/>
 
@@ -53,7 +53,7 @@
 				android:id="@+id/tv_company"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="无锡分中心"
+				android:text=""
 				android:textColor="@color/darkgray"
 				android:textSize="13sp"/>
 

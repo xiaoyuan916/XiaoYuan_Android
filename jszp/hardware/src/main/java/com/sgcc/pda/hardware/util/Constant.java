@@ -6,22 +6,21 @@ import android.text.TextUtils;
 import java.io.File;
 
 /**
- * @author:GuangJie-Wang
+ * @author:HZWQ
  * @Date: 2016/3/30
  * @Time: 16:32
  */
 public class Constant {
 
-    //工单类型编码
-    public static final String ASSETS_URL ="data/data/com.sgcc.pda/lib/libcepri_";
 
+    //工单类型编码
     public static final String APP_TYPE_01 = "01";//采集异常
     public static final String APP_TYPE_04 = "04";//现场补抄
     public static final String APP_TYPE_05 = "05";//费控异常
     public static final String APP_TYPE_07 = "07";//现场巡视
     public static final String APP_TYPE_08 = "08";//计量异常
-    public static final String APP_TYPE_15 = "15";//现场停复电
-    public static final String APP_TYPE_16 = "16";//现场电费下发
+    public static final String APP_TYPE_15 = "15";//远程控制
+    public static final String APP_TYPE_16 = "16";//现场充值
     public static final String APP_TYPE_17 = "17";//现场校时
     public static final String APP_TYPE_18 = "18";//电能表密钥下装
     public static final String APP_TYPE_19 = "19";//现场电价调整
@@ -61,6 +60,20 @@ public class Constant {
     public static final String METER_TIME_SET = "10018";//电能表时钟设置
     public static final String TMNL_PARAM_COMPARED = "10004";//终端通讯参数比对
     public static final String TMNL_PARAM_SET = "10006";//终端通讯参数设置
+
+
+
+    /************************************
+     * 掌机密钥版本
+     **********************************/
+    public static final String CESAM_VERSION = "00000000000000000000000000000000";//CESAM_VERSION公钥
+    public static final String YESAM_VERSION = "00000000000000000000000000000000";//YESAM_VERSION公钥
+    public static final String YESAM_VERSION1 = "00000000200000000000000000000000";//YESAM_VERSION公钥
+    public static final String GY_TYPE = "00";//公钥
+  public static final String SY_TYPE = "01";//私钥
+//public static final String SY_TYPE = "00";//测试 屏蔽检验密码使用
+
+
 
     /************************************
      * 外设排查编码
@@ -114,7 +127,44 @@ public class Constant {
     public static final String RATE2 = "07";//第2套费率
     public static final String CONTROL = "02";//控制
     public static final String CHARGE = "04";//充值
-
+    /************************************
+     * 698执行结果标志位
+     **********************************/
+    public static final String ERROR698_0 = "00"; //成功
+    public static final String ERROR698_1 = "硬件失效";
+    public static final String ERROR698_2 = "暂时失效";
+    public static final String ERROR698_3 = "拒绝读写";
+    public static final String ERROR698_4 = "对象未定义";
+    public static final String ERROR698_5 = "对象接口类不符合";
+    public static final String ERROR698_6 = "对象不存在";
+    public static final String ERROR698_7 = "类型不匹配";
+    public static final String ERROR698_8 = "越界";
+    public static final String ERROR698_9 = "数据块不可用";
+    public static final String ERROR698_10 = "分帧传输已取消";
+    public static final String ERROR698_11 = "不处于分帧传输状态";
+    public static final String ERROR698_12 = "块写取消";
+    public static final String ERROR698_13 = "不存在块写状态";
+    public static final String ERROR698_14 = "数据块序号无效";
+    public static final String ERROR698_15 = "密码错/未授权";
+    public static final String ERROR698_16 = "通信速率不能更改";
+    public static final String ERROR698_17 = "年时区数超";
+    public static final String ERROR698_18 = "日时段数超";
+    public static final String ERROR698_19 = "费率数超";
+    public static final String ERROR698_20 = "安全认证不匹配";
+    public static final String ERROR698_21 = "重复充值";
+    public static final String ERROR698_22 = "ESAM验证失败";
+    public static final String ERROR698_23 = "安全认证失败";
+    public static final String ERROR698_24 = "客户编号不匹配";
+    public static final String ERROR698_25 = "充值次数错误";
+    public static final String ERROR698_26 = "购电超囤积";
+    public static final String ERROR698_27 = "地址异常";
+    public static final String ERROR698_28 = "对称解密错误";
+    public static final String ERROR698_29 = "非对称解密错误";
+    public static final String ERROR698_30 = "签名错误";
+    public static final String ERROR698_31 = "电能表挂起";
+    public static final String ERROR698_32 = "时间标签无效";
+    public static final String ERROR698_33 = "请求超时";
+    public static final String ERROR698_255 = "其它";
 
     /************************************
      * 文件路径
@@ -160,7 +210,7 @@ public class Constant {
                 appType = "计量异常";
                 break;
             case APP_TYPE_15:
-                appType = "现场停复电";
+                appType = "远程控制";
         }
         return appType;
     }
@@ -302,4 +352,122 @@ public class Constant {
 
     public static final String USER_NAME_01 = "HM";//户名/台区名称
 
+    /**
+     * 解析698电表成功标志位
+     *
+     * @param dar
+     * @return
+     */
+    public static String paser698Dar(String dar) {
+        String result = "";
+        dar = Integer.parseInt(dar, 10) + ""; //16进制 转10进制
+        switch (dar) {
+            case "00":
+                result = Constant.ERROR698_0;
+                break;
+            case "01":
+                result = Constant.ERROR698_1;
+                break;
+            case "02":
+                result = Constant.ERROR698_2;
+                break;
+            case "03":
+                result = Constant.ERROR698_3;
+                break;
+            case "04":
+                result = Constant.ERROR698_4;
+                break;
+            case "05":
+                result = Constant.ERROR698_5;
+                break;
+            case "06":
+                result = Constant.ERROR698_6;
+                break;
+            case "07":
+                result = Constant.ERROR698_7;
+                break;
+            case "08":
+                result = Constant.ERROR698_8;
+                break;
+            case "09":
+                result = Constant.ERROR698_9;
+                break;
+            case "10":
+                result = Constant.ERROR698_10;
+                break;
+            case "11":
+                result = Constant.ERROR698_11;
+                break;
+            case "12":
+                result = Constant.ERROR698_12;
+                break;
+            case "13":
+                result = Constant.ERROR698_13;
+                break;
+            case "14":
+                result = Constant.ERROR698_14;
+                break;
+            case "15":
+                result = Constant.ERROR698_15;
+                break;
+            case "16":
+                result = Constant.ERROR698_16;
+                break;
+            case "17":
+                result = Constant.ERROR698_17;
+                break;
+            case "18":
+                result = Constant.ERROR698_18;
+                break;
+            case "19":
+                result = Constant.ERROR698_19;
+                break;
+            case "20":
+                result = Constant.ERROR698_20;
+                break;
+            case "21":
+                result = Constant.ERROR698_21;
+                break;
+            case "22":
+                result = Constant.ERROR698_22;
+                break;
+            case "23":
+                result = Constant.ERROR698_23;
+                break;
+            case "24":
+                result = Constant.ERROR698_24;
+                break;
+            case "25":
+                result = Constant.ERROR698_25;
+                break;
+            case "26":
+                result = Constant.ERROR698_26;
+                break;
+            case "27":
+                result = Constant.ERROR698_27;
+                break;
+            case "28":
+                result = Constant.ERROR698_28;
+                break;
+            case "29":
+                result = Constant.ERROR698_29;
+                break;
+            case "30":
+                result = Constant.ERROR698_30;
+                break;
+            case "31":
+                result = Constant.ERROR698_31;
+                break;
+            case "32":
+                result = Constant.ERROR698_32;
+                break;
+            case "33":
+                result = Constant.ERROR698_33;
+                break;
+            case "255":
+                result = Constant.ERROR698_255;
+                break;
+        }
+        return result;
+    }
 }

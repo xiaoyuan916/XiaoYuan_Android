@@ -1,9 +1,9 @@
 package com.sgcc.pda.jszp.base;
 
 import android.app.Activity;
+import android.app.Application;
 import android.os.Build;
 
-import com.lidroid.xutils.DbUtils;
 import com.sgcc.pda.cepriaidl.AIDLUtils;
 import com.sgcc.pda.hardware.hardware.A1BSafetyUnitModule;
 import com.sgcc.pda.hardware.hardware.ICommunicate;
@@ -15,11 +15,14 @@ import com.sgcc.pda.hardware.protocol.safetyunit.ISafetyUnitEssentialMethod;
 import com.sgcc.pda.hardware.protocol.safetyunit.SafetyUnitFrame;
 import com.sgcc.pda.hardware.protocol.safetyunit.SafetyUnitProtocol;
 import com.sgcc.pda.hardware.util.Constant;
+import com.sgcc.pda.hardware.util.NewProtocol;
 import com.sgcc.pda.jszp.BuildConfig;
-import com.sgcc.pda.jszp.dao.DBCommit;
 import com.sgcc.pda.jszp.http.JSZPInitOkgo;
+import com.sgcc.pda.jszp.util.ExceptionHandler;
+import com.sgcc.pda.jszp.util.LogUtils;
 import com.sgcc.pda.sdk.app.SDKApplication;
 import com.sgcc.pda.sdk.utils.LogUtil;
+import com.sgcc.pda.sdk.utils.exception.ExceptionHandle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,13 +31,13 @@ import java.util.List;
  * Created by zwj on 2017/10/26.
  */
 
-public class BaseApplication extends SDKApplication {
+public class BaseApplication extends Application {
 
     private static BaseApplication application;
     public String uid = "";
     private ISafetyUnit safetyUnit = null;
-    public DBCommit dbCommit;
-    private DbUtils dbUtils;
+//    public DBCommit dbCommit;
+//    private DbUtils dbUtils;
 
     @Override
     public void onCreate() {
@@ -45,33 +48,31 @@ public class BaseApplication extends SDKApplication {
         Build bd = new Build();
         String model = bd.MODEL;
         LogUtil.d("TAG", "设备号：" + model);
-
-        //初始化数据库工具类
-        dbUtils = DbUtils.create(this, Constant.DB_NAME, Constant.DB_VERSION, new DbUtils.DbUpgradeListener() {
-            @Override
-            public void onUpgrade(DbUtils dbUtils, int oldVersion, int newVersion) {
-            }
-
-        });
-        dbCommit = new DBCommit(dbUtils);
-
         //安全单元初始化
-        safetyUnit();
-
+//        safetyUnit();
+//        NewProtocol.getInstance().init();
         //绑定AIDL服务
-        AIDLUtils.bind(this);
-
+//        AIDLUtils.bind(this);
+        //自定义异常捕获处理
+        ExceptionHandler.getInstance().init(getApplicationContext());
         //初始化网络请求框架
         initOkhttp();
+        //初始化日志打印
+        initLog();
     }
+
+    /**
+     * 初始化日志使用
+     */
+    private void initLog() {
+        LogUtils.init();
+    }
+
     /**
      * 初始化okhttp
      */
     private void initOkhttp() {
         new JSZPInitOkgo().initOkGo(this);
-    }
-    public DBCommit getDbCommit() {
-        return dbCommit;
     }
 
     /**

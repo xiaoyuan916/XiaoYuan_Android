@@ -2,89 +2,144 @@ package com.sgcc.pda.jszp.bean;
 
 import java.io.Serializable;
 
+/**
+ * 平库出库列表中的子列表  三級
+ * 配送任务 --》接收单位-->出库任务
+ */
 public class DeviceOutSubTaskItem implements Serializable {
-    private String num;
-    private String company;
-    private int taskcount;
-    private int outcount;
-    private String describe;
-    //0是电表，1是采集器，2是集中器，3是通讯模块，4是互感器
-    private int devicetype;
-    private int state;//0是新建，1是出库中，2是已下发，3是已完成
-    private  boolean ishead=true;
+    private String planDetNo;//出库计划明细编号;
+    private String planNo;//出库计划编号
+    private String splitTaskNo;//拆分任务编号
+    private String mdsTaskNo;//mds出入库任务编号
+    private String  nvType;//出库方式
+     private String equipCode;//设备码
+    private String  equipDesc;//设备码描述
+    private int qty;//设备数量
+    private int finishQty;//最终设备数量
+    private int finishBoxQty;//最终箱子数量
+    private String status;//00代签收  01新建  02已下发  03已完成
+    private String statusLabel;
+    private String equipCateg;//设备类别  参考3.2.6
+    private String equipCateLabel;
+    private String taskId;
 
-    public DeviceOutSubTaskItem(String num, String company, int taskcount, int outcount, String describe, int devicetype, int state, boolean ishead) {
-        this.num = num;
-        this.company = company;
-        this.taskcount = taskcount;
-        this.outcount = outcount;
-        this.describe = describe;
-        this.devicetype = devicetype;
-        this.state = state;
-        this.ishead = ishead;
+    public String getPlanDetNo() {
+        return planDetNo;
     }
 
-    public String getNum() {
-        return num;
+    public void setPlanDetNo(String planDetNo) {
+        this.planDetNo = planDetNo;
     }
 
-    public void setNum(String num) {
-        this.num = num;
+    public String getPlanNo() {
+        return planNo;
     }
 
-    public String getCompany() {
-        return company;
+    public void setPlanNo(String planNo) {
+        this.planNo = planNo;
     }
 
-    public void setCompany(String company) {
-        this.company = company;
+    public String getSplitTaskNo() {
+        return splitTaskNo;
     }
 
-    public int getTaskcount() {
-        return taskcount;
+    public void setSplitTaskNo(String splitTaskNo) {
+        this.splitTaskNo = splitTaskNo;
     }
 
-    public void setTaskcount(int taskcount) {
-        this.taskcount = taskcount;
+    public String getMdsTaskNo() {
+        return mdsTaskNo;
     }
 
-    public int getOutcount() {
-        return outcount;
+    public void setMdsTaskNo(String mdsTaskNo) {
+        this.mdsTaskNo = mdsTaskNo;
     }
 
-    public void setOutcount(int outcount) {
-        this.outcount = outcount;
+    public String getNvType() {
+        return nvType;
     }
 
-    public String getDescribe() {
-        return describe;
+    public void setNvType(String nvType) {
+        this.nvType = nvType;
     }
 
-    public void setDescribe(String describe) {
-        this.describe = describe;
+    public String getEquipCode() {
+        return equipCode;
     }
 
-    public int getDevicetype() {
-        return devicetype;
+    public void setEquipCode(String equipCode) {
+        this.equipCode = equipCode;
     }
 
-    public void setDevicetype(int devicetype) {
-        this.devicetype = devicetype;
+    public String getEquipDesc() {
+        return equipDesc;
     }
 
-    public int getState() {
-        return state;
+    public void setEquipDesc(String equipDesc) {
+        this.equipDesc = equipDesc;
     }
 
-    public void setState(int state) {
-        this.state = state;
+    public int getQty() {
+        return qty;
     }
 
-    public boolean isIshead() {
-        return ishead;
+    public void setQty(int qty) {
+        this.qty = qty;
     }
 
-    public void setIshead(boolean ishead) {
-        this.ishead = ishead;
+    public int getFinishQty() {
+        return finishQty;
+    }
+
+    public void setFinishQty(int finishQty) {
+        this.finishQty = finishQty;
+    }
+
+    public int getFinishBoxQty() {
+        return finishBoxQty;
+    }
+
+    public void setFinishBoxQty(int finishBoxQty) {
+        this.finishBoxQty = finishBoxQty;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getStatusLabel() {
+        return statusLabel;
+    }
+
+    public void setStatusLabel(String statusLabel) {
+        this.statusLabel = statusLabel;
+    }
+
+    public String getEquipCateg() {
+        return equipCateg;
+    }
+
+    public void setEquipCateg(String equipCateg) {
+        this.equipCateg = equipCateg;
+    }
+
+    public String getEquipCateLabel() {
+        return equipCateLabel;
+    }
+
+    public void setEquipCateLabel(String equipCateLabel) {
+        this.equipCateLabel = equipCateLabel;
+    }
+
+    public String getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(String taskId) {
+        this.taskId = taskId;
     }
 }

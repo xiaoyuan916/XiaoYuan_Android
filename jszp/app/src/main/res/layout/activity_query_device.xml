@@ -1,138 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:orientation="vertical"
-	tools:context=".activity.QueryDeviceActivity">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.QueryDeviceActivity">
 
-	<include layout="@layout/layout_title"/>
+    <include layout="@layout/layout_title" />
 
-	<android.support.v4.widget.NestedScrollView
-		android:layout_width="match_parent"
-		android:layout_height="match_parent">
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-		<LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:orientation="vertical"
-			>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-			<LinearLayout
-				android:layout_width="match_parent"
-				android:layout_height="102dp"
-				android:background="@color/title_green">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="102dp"
+                android:background="@color/title_green">
 
-				<ImageView
-					android:id="@+id/iv_device"
-					android:layout_width="67dp"
-					android:layout_height="67dp"
-					android:layout_marginLeft="16dp"
-					android:layout_marginRight="16dp"
-					android:layout_marginTop="8dp"
-					android:background="@color/white"
-					android:padding="13dp"
-					android:src="@drawable/dianneng"
-					/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/white"
+                    android:padding="13dp">
 
-				<LinearLayout
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"
-					android:orientation="vertical">
+                    <ImageView
+                        android:id="@+id/iv_device"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
 
-					<TextView
-						android:id="@+id/tv_device_name"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:text="电能表"
-						android:textColor="@color/white"
-						android:textSize="16sp"
-						/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-					<TextView
-						android:id="@+id/tv_device_num"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:layout_marginTop="5dp"
-						android:text="资产编号:124125456"
-						android:textColor="@color/white"
-						android:textSize="14sp"/>
+                    <TextView
+                        android:id="@+id/tv_device_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="电能表"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
 
-					<TextView
-						android:id="@+id/tv_device_describle"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:layout_marginTop="5dp"
-						android:text="0.2S二级单相智能电能表220V,6(10)A"
-						android:textColor="@color/white"
-						android:textSize="14sp"/>
-				</LinearLayout>
-			</LinearLayout>
+                    <TextView
+                        android:id="@+id/tv_device_num"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="资产编号:124125456"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
 
-			<LinearLayout
-				android:layout_width="match_parent"
-				android:layout_height="45dp">
+                    <TextView
+                        android:id="@+id/tv_device_describle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="0.2S二级单相智能电能表220V,6(10)A"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </LinearLayout>
 
-				<RelativeLayout
-					android:id="@+id/rl_info"
-					android:layout_width="0dp"
-					android:layout_height="match_parent"
-					android:layout_weight="1"
-					android:background="@drawable/select_white_bt">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp">
 
-					<TextView
-						android:id="@+id/tv_info"
-						android:layout_width="match_parent"
-						android:layout_height="match_parent"
-						android:gravity="center"
-						android:text="设备信息"
-						android:textColor="@color/title_green"
-						android:textSize="16sp"/>
+                <RelativeLayout
+                    android:id="@+id/rl_info"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/select_white_bt">
 
-					<View
-						android:id="@+id/v_indicator0"
-						android:layout_width="match_parent"
-						android:layout_height="1dp"
-						android:layout_alignParentBottom="true"
-						android:background="@color/title_green"/>
-				</RelativeLayout>
+                    <TextView
+                        android:id="@+id/tv_info"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="设备信息"
+                        android:textColor="@color/title_green"
+                        android:textSize="16sp" />
 
-				<RelativeLayout
-					android:id="@+id/rl_state"
-					android:layout_width="0dp"
-					android:layout_height="match_parent"
-					android:layout_weight="1"
-					android:background="@drawable/select_white_bt">
-					<TextView
-						android:id="@+id/tv_state"
-						android:layout_width="match_parent"
-						android:layout_height="match_parent"
-						android:gravity="center"
-						android:text="设备状态"
-						android:textColor="@color/tv_black"
-						android:textSize="16sp"/>
-					<View
-						android:id="@+id/v_indicator1"
-						android:layout_width="match_parent"
-						android:layout_height="1dp"
-						android:layout_alignParentBottom="true"
-						android:background="@color/title_green"
-						android:visibility="gone"/>
-				</RelativeLayout>
-			</LinearLayout>
+                    <View
+                        android:id="@+id/v_indicator0"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/title_green" />
+                </RelativeLayout>
 
-			<View
-				android:layout_width="match_parent"
-				android:layout_height="1dp"
-				android:background="@color/fenge"/>
+                <RelativeLayout
+                    android:id="@+id/rl_state"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/select_white_bt">
 
-			<FrameLayout
-				android:id="@+id/fl_content"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"/>
-		</LinearLayout>
-	</android.support.v4.widget.NestedScrollView>
+                    <TextView
+                        android:id="@+id/tv_state"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="设备状态"
+                        android:textColor="@color/tv_black"
+                        android:textSize="16sp" />
+
+                    <View
+                        android:id="@+id/v_indicator1"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/title_green"
+                        android:visibility="gone" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/fenge" />
+
+            <FrameLayout
+                android:id="@+id/fl_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 
 
 </LinearLayout>

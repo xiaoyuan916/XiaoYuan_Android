@@ -1,18 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:background="@color/fenge"
-	android:orientation="vertical"
 	tools:context=".activity.SendCheckActivity">
-
+<LinearLayout
+	android:layout_width="match_parent"
+	android:orientation="vertical"
+	android:layout_above="@+id/tv_sure"
+	android:layout_height="match_parent">
 	<include layout="@layout/layout_title"/>
-
-	<android.support.v7.widget.RecyclerView
-		android:id="@+id/rv_sendtasks"
+	<android.support.design.widget.TabLayout
+		android:id="@+id/tl_send"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"/>
+		android:layout_height="49dp"
+		android:layout_gravity="bottom"
+		android:background="#ffffff"
+		android:fillViewport="false"
+		app:tabMode="fixed"
+		app:layout_scrollFlags="scroll"
+		app:tabIndicatorColor="@color/title_green"
+		app:tabIndicatorHeight="2.0dp"
+		app:tabSelectedTextColor="@color/title_green"
+		app:tabTextColor="@color/tv_black"
+
+		>
+		<android.support.design.widget.TabItem
+			android:id="@+id/tbi_wuliu"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:text="物流出发" />
+		<android.support.design.widget.TabItem
+			android:id="@+id/tbi_kuaidi"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:text="快递出发" />
+		<android.support.design.widget.TabItem
+			android:id="@+id/tbi_ziti"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:text="自提出发" />
+
+	</android.support.design.widget.TabLayout>
+
+
+	<com.scwang.smartrefresh.layout.SmartRefreshLayout
+		android:id="@+id/refreshLayout"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		app:srlAccentColor="#00000000"
+		app:srlEnablePreviewInEditMode="true"
+		app:srlPrimaryColor="#00000000">
+
+		<com.scwang.smartrefresh.layout.header.ClassicsHeader
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content" />
+
+
+		<android.support.v7.widget.RecyclerView
+			android:id="@+id/rv_send_tasks"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"/>
+
+
+		<com.scwang.smartrefresh.layout.footer.ClassicsFooter
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content" />
+	</com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+
+<com.scwang.smartrefresh.layout.SmartRefreshLayout
+		android:id="@+id/express_refreshLayout"
+		android:visibility="gone"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		app:srlAccentColor="#00000000"
+		app:srlEnablePreviewInEditMode="true"
+		app:srlPrimaryColor="#00000000">
+
+		<com.scwang.smartrefresh.layout.header.ClassicsHeader
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content" />
+
+
+
+		<android.support.v7.widget.RecyclerView
+			android:id="@+id/rv_express_tasks"
+			android:layout_width="match_parent"
+			android:visibility="gone"
+			android:layout_height="match_parent"/>
+
+
+		<com.scwang.smartrefresh.layout.footer.ClassicsFooter
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content" />
+	</com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+<com.scwang.smartrefresh.layout.SmartRefreshLayout
+		android:id="@+id/self_refreshLayout"
+		android:visibility="gone"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		app:srlAccentColor="#00000000"
+		app:srlEnablePreviewInEditMode="true"
+		app:srlPrimaryColor="#00000000">
+
+		<com.scwang.smartrefresh.layout.header.ClassicsHeader
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content" />
+
+
+
+		<android.support.v7.widget.RecyclerView
+			android:id="@+id/rv_self_tasks"
+			android:layout_width="match_parent"
+
+			android:layout_height="match_parent"/>
+
+		<com.scwang.smartrefresh.layout.footer.ClassicsFooter
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content" />
+	</com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </LinearLayout>
+
+	<TextView
+		android:id="@+id/tv_sure"
+		android:layout_width="match_parent"
+		android:layout_height="54dp"
+		android:layout_alignParentBottom="true"
+		android:layout_alignParentStart="true"
+		android:gravity="center"
+		android:background="@color/white"
+		android:text="确认出发"
+		android:visibility="gone"
+		android:textColor="@color/title_green"
+		android:textSize="13sp" />
+
+</RelativeLayout>

@@ -1,21 +1,67 @@
 apply plugin: 'com.android.application'
+/**
+ * 数据库greendao的配置
+ */
+//apply plugin: 'org.greenrobot.greendao'
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 27
     defaultConfig {
         applicationId "com.sgcc.pda.jszp"
         minSdkVersion 19
-        targetSdkVersion 25
+        targetSdkVersion 27
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-    buildTypes {
+
+
+    signingConfigs {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            storeFile file("D:\\jszp.jks");
+            keyAlias "jszp"
+            keyPassword "jszp2018"
+            storePassword "jszp2018"
+        }
+        debug {
+//            storeFile file("D:\\jszp.jks");
+//            keyAlias "jszp"
+//            keyPassword "jszp2018"
+//            storePassword "jszp2018"
         }
     }
+//打包输出apk的名字
+    android.applicationVariants.all {
+        variant ->
+            variant.outputs.all {
+                //这里修改apk文件名
+                outputFileName = "JSZP-${releaseTime()}-${variant.name}-v${variant.versionName}.apk"
+            }
+    }
+
+    buildTypes {
+        debug {
+            //混淆
+            minifyEnabled false
+            //签名
+            signingConfig signingConfigs.debug
+            buildConfigField "boolean", "ISDEBUG", "true"
+        }
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            //打包时改为false
+//            debuggable true
+        }
+    }
+}
+/**
+ * 时间返回
+ * @return 时间
+ */
+def releaseTime() {
+    return new Date().format("yyyyMMdd", TimeZone.getTimeZone("UTC"))
 }
 
 dependencies {
@@ -23,28 +69,48 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     implementation 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
-    implementation 'com.android.support:support-v4:25.3.1'
-    implementation 'com.android.support:appcompat-v7:25.3.1'
-    implementation 'com.android.support:design:25.3.1'
+    implementation 'com.android.support:support-v4:27.1.1'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:design:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    implementation 'com.android.support:recyclerview-v7:25.3.1'
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
     implementation 'com.google.code.gson:gson:2.6.2'
     implementation 'com.github.bumptech.glide:glide:3.7.0'
     implementation 'com.google.zxing:core:3.3.0'
     implementation 'com.github.free46000:MultiItem:0.9.7'
     implementation project(path: ':sdk')
     implementation project(path: ':hardware')
-    implementation project(path: ':xutils')
+    //    implementation project(path: ':xutils')
     implementation project(path: ':cepriaidl')
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
     //获取网络数据okgo框架
     implementation 'com.lzy.net:okgo:3.0.4'
-//    implementation 'com.squareup.okhttp3:okhttp:3.8.1'
+    //    implementation 'com.squareup.okhttp3:okhttp:3.8.1'
+    //获取log日志架构
+    implementation 'com.orhanobut:logger:2.2.0'
+    //数据库架构
+//    implementation 'org.greenrobot:greendao:3.2.2'
+    //引入扫描model
+    implementation project(path: ':scan2')
+
+    //MagicIndicator指示器  https://github.com/hackware1993/MagicIndicator
+    implementation 'com.github.hackware1993:MagicIndicator:1.5.0'
+    //地区三级联动选择控件
+    implementation 'com.contrarywind:Android-PickerView:4.1.6'
 }
+
 project.tasks.whenTaskAdded {
     if (it.name.contains("Test") || it.name.contains("lint")) {
         it.enabled false
     }
 }
+/**
+ * 数据库greendao的配置
+ */
+//greendao {
+//    schemaVersion 1//数据库版本号
+//    daoPackage 'com.sgcc.pda.jszp.greendao'//设置DaoMaster、DaoSession、Dao包名
+//    targetGenDir 'src/main/java'//设置DaoMaster、DaoSession、Dao目录
+//    //targetGenDirTest：设置生成单元测试目录
+//    //generateTests：设置自动生成单元测试用例
+//}
+

@@ -10,7 +10,7 @@ import com.sgcc.pda.jszp.bean.OrderItem;
 
 public class LogisticOrderAdapter<T extends OrderItem> extends BaseViewHolderManager<T> {
 
-    private orderItemAdapter.CountNotifiCallBack countNotifiCallBack;
+    private DeliveryConfirmDetailItemAdapter.CountNotifiCallBack countNotifiCallBack;
     @Override
     public void onBindViewHolder(BaseViewHolder baseViewHolder, T t) {
         View dottedLine=getView(baseViewHolder,R.id.dotted_line);
@@ -39,11 +39,11 @@ public class LogisticOrderAdapter<T extends OrderItem> extends BaseViewHolderMan
         return R.layout.item_logistic_order;
     }
 
-    public orderItemAdapter.CountNotifiCallBack getCountNotifiCallBack() {
+    public DeliveryConfirmDetailItemAdapter.CountNotifiCallBack getCountNotifiCallBack() {
         return countNotifiCallBack;
     }
 
-    public void setCountNotifiCallBack(orderItemAdapter.CountNotifiCallBack countNotifiCallBack) {
+    public void setCountNotifiCallBack(DeliveryConfirmDetailItemAdapter.CountNotifiCallBack countNotifiCallBack) {
         this.countNotifiCallBack = countNotifiCallBack;
     }
 }

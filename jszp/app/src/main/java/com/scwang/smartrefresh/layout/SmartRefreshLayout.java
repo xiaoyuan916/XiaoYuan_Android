@@ -350,7 +350,6 @@ public class SmartRefreshLayout extends ViewGroup implements RefreshLayout, Nest
         if (count > 3) {
             throw new RuntimeException("最多只支持3个子View，Most only support three sub view");
         }
-
         //定义为确认的子View索引
         boolean[] uncertains = new boolean[count];
         //第一次查找确认的 子View

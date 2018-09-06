@@ -5,24 +5,42 @@ import java.util.List;
 
 public class ExpressBindItem {
 
-    private String expressNo;//包号
-//    private int num;//设备数
-    private List<ExpressDeviceItem> deviceList;//设备列表
+    private String pkgNo;//包号
+//    private String billNo;//快递单据号
+    private String taskNo;//配送任务编号
+    private List<ExpressDeviceItem> expressDevs;//设备列表
+
+    public ExpressBindItem(String pkgNo,String taskNo){
+        this.pkgNo = pkgNo;
+        this.taskNo = taskNo;
+    }
 
     public class ExpressDeviceItem{
-        private String deviceNo;//设备号
+        private String barCode;//设备条码
         private String deviceName;//设备名称
+//        private String pkgNo;//包裹号
+        private String taskNo;//配送任务编号
+        private String equipCateg;//设备类别
+        private String equipCode;//设备码
+
+     public ExpressDeviceItem(String barCode,String deviceName,String taskNo,String equipCateg,String equipCode){
+            this.barCode = barCode;
+            this.deviceName = deviceName;
+            this.taskNo = taskNo;
+            this.equipCateg = equipCateg;
+            this.equipCode = equipCode;
+        }
 
         ExpressDeviceItem(){
 
         }
 
-        public String getDeviceNo() {
-            return deviceNo;
+        public String getBarCode() {
+            return barCode;
         }
 
-        public void setDeviceNo(String deviceNo) {
-            this.deviceNo = deviceNo;
+        public void setBarCode(String barCode) {
+            this.barCode = barCode;
         }
 
         public String getDeviceName() {
@@ -32,49 +50,62 @@ public class ExpressBindItem {
         public void setDeviceName(String deviceName) {
             this.deviceName = deviceName;
         }
-    }
 
-    public String getExpressNo() {
-        return expressNo;
-    }
-
-    public void setExpressNo(String expressNo) {
-        this.expressNo = expressNo;
-    }
-//
-//    public int getNum() {
-//        return num;
-//    }
-//
-//    public void setNum(int num) {
-//        this.num = num;
-//    }
-
-    public List<ExpressDeviceItem> getDeviceList() {
-        return deviceList;
-    }
-
-    public void setDeviceList(List<ExpressDeviceItem> deviceList) {
-        this.deviceList = deviceList;
-    }
-
-
-    public ExpressDeviceItem addExpressDeviceItem(){
-        ExpressDeviceItem expressDeviceItem = new ExpressDeviceItem();
-        if(deviceList==null){
-            deviceList = new ArrayList<>();
+        public String getTaskNo() {
+            return taskNo;
         }
-        deviceList.add(expressDeviceItem);
-        return  expressDeviceItem;
-    }
-    public ExpressDeviceItem addExpressDeviceItem(String no,String name){
-        ExpressDeviceItem expressDeviceItem = new ExpressDeviceItem();
-        expressDeviceItem.setDeviceName(name);
-        expressDeviceItem.setDeviceNo(no);
-        if(deviceList==null){
-            deviceList = new ArrayList<>();
+
+        public void setTaskNo(String taskNo) {
+            this.taskNo = taskNo;
         }
-        deviceList.add(expressDeviceItem);
+
+        public String getEquipCateg() {
+            return equipCateg;
+        }
+
+        public void setEquipCateg(String equipCateg) {
+            this.equipCateg = equipCateg;
+        }
+
+        public String getEquipCode() {
+            return equipCode;
+        }
+
+        public void setEquipCode(String equipCode) {
+            this.equipCode = equipCode;
+        }
+    }
+
+    public String getPkgNo() {
+        return pkgNo;
+    }
+
+    public void setPkgNo(String pkgNo) {
+        this.pkgNo = pkgNo;
+    }
+
+    public String getTaskNo() {
+        return taskNo;
+    }
+
+    public void setTaskNo(String taskNo) {
+        this.taskNo = taskNo;
+    }
+
+    public List<ExpressDeviceItem> getExpressDevs() {
+        return expressDevs;
+    }
+
+    public void setExpressDevs(List<ExpressDeviceItem> expressDevs) {
+        this.expressDevs = expressDevs;
+    }
+
+    public ExpressDeviceItem addExpressDeviceItem(String barCode,String deviceName,String taskNo,String equipCateg,String equipCode){
+        ExpressDeviceItem expressDeviceItem = new ExpressDeviceItem(barCode,deviceName,taskNo,equipCateg,equipCode);
+        if(expressDevs==null){
+            expressDevs = new ArrayList<>();
+        }
+        expressDevs.add(expressDeviceItem);
         return  expressDeviceItem;
     }
 }

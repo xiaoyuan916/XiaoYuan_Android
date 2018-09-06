@@ -1,62 +1,80 @@
 package com.sgcc.pda.jszp.activity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
+import android.content.pm.ActivityInfo;
+import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.zxing.Result;
-import com.google.zxing.client.result.ParsedResult;
 import com.sgcc.pda.jszp.R;
-import com.sgcc.pda.jszp.base.BaseActivity;
 import com.sgcc.pda.jszp.base.MyComment;
-import com.sgcc.pda.jszp.zxing.myscanner.OnScannerCompletionListener;
-import com.sgcc.pda.jszp.zxing.myscanner.ScannerView;
+import com.sgcc.pda.jszp.http.JSZPOkgoHttpUtils;
+import com.sgcc.pda.jszp.util.AppManager;
+import com.sgcc.pda.jszp.util.LogUtils;
 
-import butterknife.BindView;
-import butterknife.OnClick;
+import wangfei.scan2.Scan2Activity;
+import wangfei.scan2.client.android.AutoScannerView;
 
-public class ScanActivity extends BaseActivity implements OnScannerCompletionListener {
+public class ScanActivity extends Scan2Activity implements View.OnClickListener {
 
-
-    @BindView(R.id.scanner_view)
-    ScannerView scannerView;
-    @BindView(R.id.iv_return)
+//    @BindView(R.id.scanner_view)
+//    ScannerView scannerView;
+//    @BindView(R.id.iv_return)
     ImageView ivReturn;
-    @BindView(R.id.bt_manual)
+    //    @BindView(R.id.bt_manual)
     TextView btmanual;
-    @BindView(R.id.tv_content)
+    //    @BindView(R.id.tv_content)
     TextView tvcontent;
-    @BindView(R.id.tv_title)
+    //    @BindView(R.id.tv_title)
     TextView tvtitle;
-    @BindView(R.id.tv_task_num)
+    //    @BindView(R.id.tv_task_num)
     TextView tvTaskNum;
-    @BindView(R.id.tv_count)
+    //    @BindView(R.id.tv_count)
     TextView tvCount;
-    @BindView(R.id.tv_sure)
+    //    @BindView(R.id.tv_sure)
     TextView tvSure;
-    @BindView(R.id.tv_checked_count)
+    //    @BindView(R.id.tv_checked_count)
     TextView tvCheckedCount;
-    @BindView(R.id.ll_check_count)
+    //    @BindView(R.id.ll_check_count)
     LinearLayout llCheckCount;
     private int type;
-    private int sub_type=0;//子分类
+    private int sub_type = 0;//子分类
     private int position;//列表位置
+    private int flag =0;
 
 
+    //    @Override
+//    public int getLayoutResId() {
+//        return R.layout.activity_scan;
+//    }
     @Override
-    public int getLayoutResId() {
-        return R.layout.activity_scan;
+    protected void initView() {
+        //设置屏幕方向为竖屏
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//        ButterKnife.bind(this);
+        AppManager.getAppManager().addActivity(this);
+        setContentView(R.layout.activity_scan);
+
+        ivReturn = (ImageView) findViewById(R.id.iv_return);
+        btmanual = (TextView) findViewById(R.id.bt_manual);
+        tvcontent = (TextView) findViewById(R.id.tv_content);
+        tvtitle = (TextView) findViewById(R.id.tv_title);
+        tvTaskNum = (TextView) findViewById(R.id.tv_task_num);
+        tvCount = (TextView) findViewById(R.id.tv_count);
+        tvSure = (TextView) findViewById(R.id.tv_sure);
+        tvCheckedCount = (TextView) findViewById(R.id.tv_checked_count);
+        llCheckCount = (LinearLayout) findViewById(R.id.ll_check_count);
+
+        initData();
+        initListener();
     }
 
-    @Override
-    public void initView() {
+    public void initData() {
         type = getIntent().getIntExtra("type", 0);
         sub_type = getIntent().getIntExtra("sub_type", 0);
-        position =  getIntent().getIntExtra("position", 0);
-
+        position = getIntent().getIntExtra("position", 0);
         switch (type) {
             case MyComment.SCAN_DELIVERY:
                 tvtitle.setText("配送装车");
@@ -77,7 +95,6 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
             case MyComment.SCAN_SIGN_FOR:
                 tvtitle.setText("配送签收");
                 tvcontent.setText("请扫描配送任务二维或手动输入配送任务编号");
-
                 break;
             case MyComment.SIGN_FOR:
                 tvtitle.setText("配送签收");
@@ -131,33 +148,32 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
                 if (sub_type == 0) {
                     tvtitle.setText("设备扫描");
                     tvcontent.setText("请扫描或者手动输入设备条码");
-                }else if (sub_type == 1) {
+                } else if (sub_type == 1) {
                     tvtitle.setText("快递单号扫描");
                     tvcontent.setText("请扫描或者手动输入快递单号");
                 }
                 break;
+            case MyComment.SCAN_RETURN_WAREHOUSE:
+                tvtitle.setText("返程入库");
+                tvcontent.setText("请扫描配送单二维或手动输入配送任务编号完成签收");
+                break;
 
         }
-        scannerView.setOnScannerCompletionListener(this);
-
-        scannerView.setLaserLineResId(R.drawable.ic_saomxian);//线图
-
-        scannerView.setMediaResId(R.raw.beep);//设置扫描成功的声音
-        scannerView.setDrawText("请对准条形码完成扫描", true);
-        scannerView.setDrawTextColor(getResources().getColor(R.color.white));
-        scannerView.setLaserFrameBoundColor(getResources().getColor(R.color.title_green));
+//        scannerView.setOnScannerCompletionListener(this);
+//
+//        scannerView.setLaserLineResId(R.drawable.ic_saomxian);//线图
+//
+//        scannerView.setMediaResId(R.raw.beep);//设置扫描成功的声音
+//        scannerView.setDrawText("请对准条形码完成扫描", true);
+//        scannerView.setDrawTextColor(getResources().getColor(R.color.white));
+//        scannerView.setLaserFrameBoundColor(getResources().getColor(R.color.title_green));
         //扫描框大小
 //        scannerView.setLaserFrameSize(); //dp
         //四个角度颜色
 //        scannerView.setLaserFrameBoundColor(Color.RED);
     }
 
-    @Override
-    public void initData() {
 
-    }
-
-    @Override
     public void initListener() {
         ivReturn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,84 +194,101 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
                 }
             }
         });
+        btmanual.setOnClickListener(this);
 
     }
 
     @Override
     protected void onResume() {
-        scannerView.onResume();
+//        scannerView.onResume();
         super.onResume();
     }
 
     @Override
+    protected AutoScannerView getAutoScannerView() {
+        return (AutoScannerView) findViewById(R.id.autoScanner);
+    }
+
+    @Override
     protected void onPause() {
-        scannerView.onPause();
+//        scannerView.onPause();
         super.onPause();
     }
 
     @Override
-    public void onScannerCompletion(Result rawResult, ParsedResult parsedResult, Bitmap barcode) {
-
+    public SurfaceView getSurfaceView() {
+        return (SurfaceView) findViewById(R.id.surfaceView);
     }
 
-    @OnClick(R.id.bt_manual)
-    public void onViewClicked() {
-        Intent intent = new Intent(this, ManualActivity.class);
-        intent.putExtra("type", type);
-        intent.putExtra("sub_type", sub_type);
-        int requestCode = 100 + type;
-        switch (type) {
-            case MyComment.SCAN_DELIVERY:
-                startActivityForResult(intent, requestCode);
-                break;
-            case MyComment.SCAN_RETURN:
-                startActivityForResult(intent, requestCode);
-                break;
-            case MyComment.RETURN_CHECK:
-                startActivityForResult(intent, requestCode);
-                break;
-            case MyComment.SCAN_SIGN_FOR:
-                startActivityForResult(intent, requestCode);
-                break;
-            case MyComment.SIGN_FOR:
-                intent.putExtra("sub_type", 1);
-                startActivityForResult(intent, requestCode);
-                break;
-            case MyComment.SCAN_RETURN_SIGN:
-                startActivityForResult(intent, requestCode);
-                break;
-            case MyComment.SCAN_DEVICE_OUT:
-                if (sub_type == 0) {
-                    finish();
-                } else {
-                    startActivityForResult(intent, requestCode);
-                }
-                break;
-            case MyComment.SCAN_DEVICE_IN:
-                if (sub_type == 0) {
-                    startActivityForResult(intent, requestCode);
-                } else {
-                    startActivityForResult(intent, requestCode);
-                }
-                break;
+    @Override
+    public void handleResult(String text) {
+        onGetNumberCallBack(text);
+//        reScan();
+    }
 
-            case MyComment.SCAN_DEVICE_PICK:
-                startActivityForResult(intent, requestCode);
-                break;
-            case MyComment.QUERY_DEVICE:
-                startActivityForResult(intent, requestCode);
-                break;
-            case MyComment.SCAN_EXPRESS_DEVICE:
-                intent.putExtra("position",position);
-                startActivityForResult(intent, requestCode);
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            //输出跳转点击
+            case R.id.bt_manual:
+                Intent intent = new Intent(this, ManualActivity.class);
+                intent.putExtra("type", type);
+                intent.putExtra("sub_type", sub_type);
+                int requestCode = 100 + type;
+                switch (type) {
+                    case MyComment.SCAN_DELIVERY:
+                        startActivityForResult(intent, requestCode);
+                        break;
+                    case MyComment.SCAN_RETURN:
+                        startActivityForResult(intent, requestCode);
+                        break;
+                    case MyComment.RETURN_CHECK:
+                        startActivityForResult(intent, requestCode);
+                        break;
+                    case MyComment.SCAN_SIGN_FOR:
+                        startActivityForResult(intent, requestCode);
+                        break;
+                    case MyComment.SIGN_FOR:
+                        intent.putExtra("sub_type", 0);
+                        startActivityForResult(intent, requestCode);
+                        break;
+                    case MyComment.SCAN_RETURN_SIGN:
+                        startActivityForResult(intent, requestCode);
+                        break;
+                    case MyComment.SCAN_DEVICE_OUT:
+                        if (sub_type == 0) {
+                            finish();
+                        } else {
+                            startActivityForResult(intent, requestCode);
+                        }
+                        break;
+                    case MyComment.SCAN_DEVICE_IN:
+                        if (sub_type == 0) {
+                            startActivityForResult(intent, requestCode);
+                        } else {
+                            startActivityForResult(intent, requestCode);
+                        }
+                        break;
+
+                    case MyComment.SCAN_DEVICE_PICK:
+                        startActivityForResult(intent, requestCode);
+                        break;
+                    case MyComment.QUERY_DEVICE:
+                        startActivityForResult(intent, requestCode);
+                        break;
+                    case MyComment.SCAN_EXPRESS_DEVICE:
+                        intent.putExtra("position", position);
+                        startActivityForResult(intent, requestCode);
+                        break;
+                }
                 break;
         }
-
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        LogUtils.d("扫描结果"+data);
         if (resultCode == RESULT_OK) {
             String number = data.getStringExtra("number");
             onGetNumberCallBack(number);
@@ -272,7 +305,7 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
                     break;
                 case 100 + MyComment.SCAN_SIGN_FOR:
                     break;
-                case 100 + MyComment.SIGN_FOR:
+                case 100 + MyComment.SIGN_FOR://配送签收
                     setResult(RESULT_CANCELED);
                     finish();
                     break;
@@ -359,12 +392,20 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
                 setResult(RESULT_OK, data);
                 finish();
                 break;
-                case MyComment.SCAN_EXPRESS_DEVICE:
-                    //快递绑定扫描
-                    data.putExtra("position",position);
-                    setResult(RESULT_OK, data);
-                    finish();
-                   break;
+            case MyComment.SCAN_EXPRESS_DEVICE:
+                //快递绑定扫描
+                data.putExtra("position", position);
+                setResult(RESULT_OK, data);
+                finish();
+                break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //界面消失取消掉网络请求
+        JSZPOkgoHttpUtils.cancelHttp(this);
+        AppManager.getAppManager().finishActivity(this);
     }
 }

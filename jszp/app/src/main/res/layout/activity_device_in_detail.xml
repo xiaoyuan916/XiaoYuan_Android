@@ -1,199 +1,175 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:orientation="vertical"
-	tools:context=".activity.DeviceOutDetailActivity">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.DeviceOutDetailActivity2">
 
-	<include layout="@layout/layout_title"/>
-
-	<Button
-		android:id="@+id/bt_sure"
-		android:layout_width="match_parent"
-		android:layout_height="48dp"
-		android:layout_alignParentBottom="true"
-		android:background="@drawable/select_white_bt"
-		android:gravity="center"
-		android:text="确定入库"
-		android:textColor="@color/title_green"
-		android:textSize="16sp"
-		android:visibility="visible"
-		/>
-
-	<android.support.v4.widget.NestedScrollView
-		android:id="@+id/container"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:layout_above="@id/bt_sure"
-		android:layout_below="@id/rl_title"
-		android:layout_gravity="fill_vertical"
-		android:fillViewport="true"
-		app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    <include layout="@layout/layout_title" />
 
 
-		<LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="91dp"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="入库任务："
+                    android:textColor="@color/tv_black"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_in_task_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="201805221234567890"
+                    android:textColor="@color/darkgray"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="设备码描述："
+                    android:textColor="@color/darkgray"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_device_describle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="单相电子式电能表(带通信接口)"
+                    android:textColor="@color/darkgray"
+                    android:textSize="14sp" />
+            </LinearLayout>
 
 
-			<LinearLayout
-				android:layout_width="match_parent"
-				android:layout_height="91dp"
-				android:gravity="center_vertical"
-				android:orientation="vertical"
-				android:paddingLeft="16dp"
-				android:paddingRight="16dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp">
 
-				<LinearLayout
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="任务数量："
+                    android:textColor="@color/darkgray"
+                    android:textSize="14sp" />
 
-					<TextView
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:text="入库任务："
-						android:textColor="@color/tv_black"
-						android:textSize="14sp"
-						/>
-
-					<TextView
-						android:id="@+id/tv_in_task_num"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:text="201805221234567890"
-						android:textColor="@color/darkgray"
-						android:textSize="14sp"
-						/>
-				</LinearLayout>
-
-				<LinearLayout
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginTop="4dp">
-
-					<TextView
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:text="设备码描述："
-						android:textColor="@color/darkgray"
-						android:textSize="14sp"
-						/>
-
-					<TextView
-						android:id="@+id/tv_device_describle"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:ellipsize="end"
-						android:singleLine="true"
-						android:text="单相电子式电能表(带通信接口)"
-						android:textColor="@color/darkgray"
-						android:textSize="14sp"
-						/>
-				</LinearLayout>
+                <TextView
+                    android:id="@+id/tv_task_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="300"
+                    android:textColor="@color/darkgray"
+                    android:textSize="14sp" />
+            </LinearLayout>
 
 
-				<LinearLayout
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_marginTop="4dp">
+        </LinearLayout>
 
-					<TextView
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:text="任务数量："
-						android:textColor="@color/darkgray"
-						android:textSize="14sp"
-						/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/fenge" />
 
-					<TextView
-						android:id="@+id/tv_task_count"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:text="300"
-						android:textColor="@color/darkgray"
-						android:textSize="14sp"
-						/>
-				</LinearLayout>
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginLeft="16dp"
+        android:gravity="center_vertical"
+        android:layout_height="45dp">
+        <TextView
+            android:text="资产条形码"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="设备状态"
+            android:layout_marginLeft="140dp"
+            android:layout_height="wrap_content" />
+        <CheckBox
+            android:layout_marginLeft="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
-			</LinearLayout>
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:srlAccentColor="#00000000"
+        app:srlEnablePreviewInEditMode="true"
+        app:srlPrimaryColor="#00000000">
 
-			<View
-				android:layout_width="match_parent"
-				android:layout_height="1dp"
-				android:background="@color/fenge"/>
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-			<LinearLayout
-				android:layout_width="match_parent"
-				android:layout_height="45dp">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_outbound_device"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-				<RelativeLayout
-					android:id="@+id/rl_saoma"
-					android:layout_width="0dp"
-					android:layout_height="match_parent"
-					android:layout_weight="1"
-					android:background="@drawable/select_white_bt">
+        <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
-					<TextView
-						android:id="@+id/tv_saoma"
-						android:layout_width="match_parent"
-						android:layout_height="match_parent"
-						android:gravity="center"
-						android:text="扫码入库"
-						android:textColor="@color/title_green"
-						android:textSize="16sp"/>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_height="wrap_content">
+    <Button
+        android:id="@+id/bt_scan_it"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="48dp"
+        android:background="@drawable/select_white_bt"
+        android:gravity="center"
+        android:text="扫一扫"
+        android:textColor="@color/title_green"
+        android:textSize="16sp"
+        android:visibility="visible" />
+    <Button
+        android:id="@+id/bt_sure"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/select_white_bt"
+        android:gravity="center"
+        android:text="确定入库(10)"
+        android:textColor="@color/title_green"
+        android:textSize="16sp"
+        android:visibility="visible" />
+</LinearLayout>
 
-					<View
-						android:id="@+id/v_indicator0"
-						android:layout_width="match_parent"
-						android:layout_height="1dp"
-						android:layout_alignParentBottom="true"
-						android:background="@color/title_green"/>
-				</RelativeLayout>
-
-				<RelativeLayout
-					android:id="@+id/rl_xiangzi"
-					android:layout_width="0dp"
-					android:layout_height="match_parent"
-					android:layout_weight="1"
-					android:background="@drawable/select_white_bt">
-
-					<TextView
-						android:id="@+id/tv_xiangzi"
-						android:layout_width="match_parent"
-						android:layout_height="match_parent"
-						android:gravity="center"
-						android:text="周转箱入库"
-						android:textColor="@color/tv_black"
-						android:textSize="16sp"/>
-
-					<View
-						android:id="@+id/v_indicator1"
-						android:layout_width="match_parent"
-						android:layout_height="1dp"
-						android:layout_alignParentBottom="true"
-						android:background="@color/title_green"
-						android:visibility="gone"/>
-				</RelativeLayout>
-
-				
-			</LinearLayout>
-
-			<View
-				android:layout_width="match_parent"
-				android:layout_height="1dp"
-				android:background="@color/fenge"/>
-
-			<FrameLayout
-				android:id="@+id/fl_content"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"/>
-		</LinearLayout>
-	</android.support.v4.widget.NestedScrollView>
-
-</RelativeLayout>
+</LinearLayout>

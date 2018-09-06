@@ -1,126 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:orientation="vertical"
-	tools:context=".activity.LogisticsSendActivity">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color1"
+    android:orientation="vertical"
+    tools:context=".activity.LogisticsSendActivity">
 
-	<include layout="@layout/layout_title"/>
+    <include layout="@layout/layout_title" />
 
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="39dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="39dp"
+        android:background="@color/white">
 
-		<ImageView
-			android:layout_width="0dp"
-			android:layout_height="match_parent"
-			android:layout_weight="2"/>
+        <TextView
+            android:id="@+id/tv_previous"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"
+            android:layout_weight="3"
+            android:drawableLeft="@mipmap/ic_shangyiye"
+            android:gravity="center"
+            android:text="前一天"
+            android:textColor="@color/darkgray"
+            android:textSize="16sp" />
 
-		<TextView
-			android:id="@+id/tv_previous"
-			android:layout_width="0dp"
-			android:layout_height="match_parent"
-			android:layout_weight="3"
-			android:gravity="center"
-			android:text="前一天"
-			android:textColor="@color/darkgray"
-			android:textSize="16sp"
-			/>
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="2018年5月6日"
+            android:textColor="@color/title_green"
+            android:textSize="16sp" />
 
-		<TextView
-			android:id="@+id/tv_date"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_gravity="center"
-			android:text="2018年5月6日"
-			android:textColor="@color/title_green"
-			android:textSize="16sp"
-			/>
+        <TextView
+            android:id="@+id/tv_next"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="16dp"
+            android:layout_weight="3"
+            android:drawableRight="@mipmap/ic_xiayiye"
+            android:gravity="center"
+            android:text="后一天"
+            android:textColor="@color/darkgray"
+            android:textSize="16sp" />
 
-		<TextView
-			android:id="@+id/tv_next"
-			android:layout_width="0dp"
-			android:layout_height="match_parent"
-			android:layout_weight="3"
-			android:gravity="center"
-			android:text="后一天"
-			android:textColor="@color/darkgray"
-			android:textSize="16sp"
-			/>
-
-		<ImageView
-			android:layout_width="0dp"
-			android:layout_height="match_parent"
-			android:layout_weight="2"/>
-	</LinearLayout>
-
-	<View
-		android:layout_width="match_parent"
-		android:layout_height="1dp"
-		android:background="@color/fenge"
-		/>
-
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="45dp">
-
-		<LinearLayout
-			android:layout_width="0dp"
-			android:layout_height="match_parent"
-			android:layout_weight="1"
-			android:gravity="center">
-
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="未派车:"
-				android:textColor="@color/darkgray"
-				android:textSize="16sp"
-				/>
-
-			<TextView
-				android:id="@+id/tv_not_send_count"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="1辆"
-				android:textColor="@color/tv_black"
-				android:textSize="16sp"/>
-		</LinearLayout>
-
-		<LinearLayout
-			android:layout_width="0dp"
-			android:layout_height="match_parent"
-			android:layout_weight="1"
-			android:gravity="center">
-
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="已派车:"
-				android:textColor="@color/darkgray"
-				android:textSize="16sp"
-				/>
-
-			<TextView
-				android:id="@+id/tv_sended_count"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="1辆"
-				android:textColor="@color/tv_black"
-				android:textSize="16sp"/>
-		</LinearLayout>
+    </LinearLayout>
 
 
-	</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="1dp"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="未派车:"
+                android:textColor="@color/darkgray"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_not_send_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0辆"
+                android:textColor="@color/tv_black"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="已派车:"
+                android:textColor="@color/darkgray"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_sended_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0辆"
+                android:textColor="@color/title_green"
+                android:textSize="16sp" />
+        </LinearLayout>
 
 
+    </LinearLayout>
 
-	<android.support.v7.widget.RecyclerView
-		android:id="@+id/rv_cars"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:background="@color/fenge"/>
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srlAccentColor="#00000000"
+        app:srlEnablePreviewInEditMode="true"
+        app:srlPrimaryColor="#00000000">
+
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_cars"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </LinearLayout>

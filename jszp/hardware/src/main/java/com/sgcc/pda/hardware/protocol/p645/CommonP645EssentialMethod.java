@@ -6,6 +6,7 @@ import com.sgcc.pda.hardware.protocol.IBaseProtocol;
 import com.sgcc.pda.hardware.util.DataConvert;
 import com.sgcc.pda.hardware.util.ErrorManager;
 import com.sgcc.pda.sdk.utils.LogUtil;
+import com.sgcc.pda.sdk.utils.StringUtil;
 
 /**
  * 创建者 田汉鑫
@@ -219,6 +220,133 @@ public class CommonP645EssentialMethod extends IP645EssentialMethod<P645Frame> {
         return ret;
     }
 
+    /**
+     * 根据自定义数据标识读取数据
+     *
+     * @param meterAddress 电表通讯地址
+     * @param dataSign     数据标识
+     * @param retControl   电表返回的控制码
+     * @param retData      读取到的数据
+     * @return 0-成功
+     * CommonParamError-输入参数错误
+     * CommonBufferError-返回值缓冲区为空
+     * CommonWriteError-数据写入错误
+     * CommonReadError-数据读取错误
+     * InfraError-红外设备操作失败
+     * P645FrameError-P645帧格式错误
+     * P645FrameMatchError-上下行帧不匹配
+     * P645ReceivedErrorValue-P645接收了一个包含异常信息的返回帧
+     * P645DataLengthError-数据长度不符合规约要求
+     */
+    public int readData(String meterAddress, String dataSign, StringBuffer retControl, StringBuffer retData) {
+        if (retData == null || retControl == null) {
+            return ErrorManager.ErrorType.CommonBufferError.getValue();
+        }
+        // 进行输入参数的合法性判断
+        if (dataSign == null || dataSign.length() != 8) {
+            return ErrorManager.ErrorType.CommonParamError.getValue();
+        }
+
+        // 将数据标识进行反向
+        dataSign = DataConvert.strReverse(dataSign, 0, dataSign.length());
+
+        // 消除外来数据的影响
+        retData.delete(0, retData.length());
+        retControl.delete(0, retControl.length());
+
+        P645Frame upFrame = new P645Frame(protocol);
+        upFrame.setMeterAddress(meterAddress);
+        upFrame.setControl("11"); // 读取电表命令标识为11
+        upFrame.setData(dataSign);
+
+        String upFrameString = upFrame.getString();
+        if (upFrameString == null) { // 如果帧返回发送数据，说明帧数据有问题，直接读取帧本身异常返回
+            return upFrame.getException();
+        }
+
+        StringBuffer sb = new StringBuffer();
+        int ret = commitDown(upFrameString, sb);
+        if (ret != 0) {
+            LogUtil.d("XianChangBuChaoASyncTask", "commitDown ret = " + ret);
+            return ret;
+        }
+        P645Frame downFrame = protocol.parseDown(sb.toString());
+        // 返回下行帧异常信息，并返回通讯数据域
+        ret = checkDownFrameException(upFrame, downFrame);
+        if (ret != 0) {
+            LogUtil.d("XianChangBuChaoASyncTask", "checkDownFrameException ret = " + ret);
+        }
+        retData.append(downFrame.getData());
+        retControl.append(downFrame.getControl());
+        return ret;
+    }
+
+    /**
+     * 根据自定义数据标识读取数据
+     *
+     * @param meterAddress 电表通讯地址
+     * @param dataSign     数据标识
+     * @param dataSign     负荷记录块数
+     * @param dataSign     时间 mmhhDDMMYY
+     * @param retControl   电表返回的控制码
+     * @param retData      读取到的数据
+     * @return 0-成功
+     * CommonParamError-输入参数错误
+     * CommonBufferError-返回值缓冲区为空
+     * CommonWriteError-数据写入错误
+     * CommonReadError-数据读取错误
+     * InfraError-红外设备操作失败
+     * P645FrameError-P645帧格式错误
+     * P645FrameMatchError-上下行帧不匹配
+     * P645ReceivedErrorValue-P645接收了一个包含异常信息的返回帧
+     * P645DataLengthError-数据长度不符合规约要求
+     */
+    public int readData(String meterAddress, String dataSign, String dataNum, String dateTime, StringBuffer retControl, StringBuffer retData) {
+        if (retData == null || retControl == null) {
+            return ErrorManager.ErrorType.CommonBufferError.getValue();
+        }
+        // 进行输入参数的合法性判断
+        if (dataSign == null || dataSign.length() != 8 || dataNum == null || dataNum.length() != 2 || dateTime == null || dateTime.length() != 10) {
+            return ErrorManager.ErrorType.CommonParamError.getValue();
+        }
+
+        // 将数据标识进行反向
+        dataSign = DataConvert.strReverse(dataSign, 0, dataSign.length());
+        //将负荷记录快数反向
+        dataNum = DataConvert.strReverse(dataNum, 0, dataNum.length());
+
+
+        // 消除外来数据的影响
+        retData.delete(0, retData.length());
+        retControl.delete(0, retControl.length());
+
+        P645Frame upFrame = new P645Frame(protocol);
+        upFrame.setMeterAddress(meterAddress);
+        upFrame.setControl("11"); // 读取电表命令标识为11
+        upFrame.setData(dataSign + dataNum + dateTime);
+
+        String upFrameString = upFrame.getString();
+        if (upFrameString == null) { // 如果帧返回发送数据，说明帧数据有问题，直接读取帧本身异常返回
+            return upFrame.getException();
+        }
+
+        StringBuffer sb = new StringBuffer();
+        int ret = commitDown(upFrameString, sb);
+        if (ret != 0) {
+            LogUtil.d("XianChangBuChaoASyncTask", "commitDown ret = " + ret);
+            return ret;
+        }
+        P645Frame downFrame = protocol.parseDown(sb.toString());
+        // 返回下行帧异常信息，并返回通讯数据域
+        ret = checkDownFrameException(upFrame, downFrame);
+        if (ret != 0) {
+            LogUtil.d("XianChangBuChaoASyncTask", "checkDownFrameException ret = " + ret);
+        }
+        retData.append(downFrame.getData());
+        retControl.append(downFrame.getControl());
+        return ret;
+    }
+
     @Override
     public int readData(String meterAddress, String dataSign, StringBuffer retData, boolean isMeter97) {
         if (retData == null) {
@@ -265,6 +393,72 @@ public class CommonP645EssentialMethod extends IP645EssentialMethod<P645Frame> {
         // 返回下行帧异常信息，并返回通讯数据域
         ret = checkDownFrameException(upFrame, downFrame);
         retData.append(downFrame.getData());
+        return ret;
+    }
+
+    /**
+     * 根据自定义数据标识读取数据
+     *
+     * @param meterAddress 电表通讯地址
+     * @param dataSign     数据标识
+     * @param retData      读取到的数据
+     * @return 0-成功
+     * CommonParamError-输入参数错误
+     * CommonBufferError-返回值缓冲区为空
+     * CommonWriteError-数据写入错误
+     * CommonReadError-数据读取错误
+     * InfraError-红外设备操作失败
+     * P645FrameError-P645帧格式错误
+     * P645FrameMatchError-上下行帧不匹配
+     * P645ReceivedErrorValue-P645接收了一个包含异常信息的返回帧
+     * P645DataLengthError-数据长度不符合规约要求
+     */
+    public int readDataContinue(String meterAddress, String dataSign, StringBuffer retControl, StringBuffer retData) {
+        if (retData == null || retControl == null) {
+            return ErrorManager.ErrorType.CommonBufferError.getValue();
+        }
+        // 进行输入参数的合法性判断
+        if (dataSign == null || dataSign.length() != 8) {
+            return ErrorManager.ErrorType.CommonParamError.getValue();
+        }
+        // 将数据标识进行反向
+        dataSign = DataConvert.strReverse(dataSign, 0, dataSign.length());
+        int seq = 1;
+        int ret = -1;
+        while (!StringUtil.isBlank(retControl.toString()) && (retControl.toString().equals("B1") || retControl.toString().equals("B2"))) {
+            String seqStr = DataConvert.toHexString(seq, 1);
+            seqStr = DataConvert.strReverse(seqStr, 0, seqStr.length());
+            // 消除外来数据的影响
+            retData.delete(0, retData.length());
+            retControl.delete(0, retControl.length());
+
+            P645Frame upFrame = new P645Frame(protocol);
+            upFrame.setMeterAddress(meterAddress);
+            upFrame.setControl("12"); // 读取电表后续数据 控制码12H
+            upFrame.setData(dataSign + seqStr);
+
+            String upFrameString = upFrame.getString();
+            if (upFrameString == null) { // 如果帧返回发送数据，说明帧数据有问题，直接读取帧本身异常返回
+                return upFrame.getException();
+            }
+
+            StringBuffer sb = new StringBuffer();
+            ret = commitDown(upFrameString, sb);
+            if (ret != 0) {
+                LogUtil.d("XianChangBuChaoASyncTask", "commitDown ret = " + ret + "帧序号 = " + seq);
+                return ret;
+            }
+            P645Frame downFrame = protocol.parseDown(sb.toString());
+            // 返回下行帧异常信息，并返回通讯数据域
+            ret = checkDownFrameException(upFrame, downFrame);
+            if (ret != 0) {
+                LogUtil.d("XianChangBuChaoASyncTask", "checkDownFrameException ret = " + ret + "帧序号 = " + seq);
+                break;
+            }
+            retData.append(downFrame.getData().substring(8, downFrame.getData().length()));
+            retControl.append(downFrame.getControl());
+            seq += 1;
+        }
         return ret;
     }
 
@@ -406,6 +600,150 @@ public class CommonP645EssentialMethod extends IP645EssentialMethod<P645Frame> {
         // 返回下行帧异常信息，并返回通讯数据域
         ret = checkDownFrameException(upFrame, downFrame);
         retData.append(downFrame.getData());
+        return ret;
+    }
+
+    /**
+     * 向电表写入数据
+     *
+     * @param meterAddress 电表通讯地址
+     * @param dataSign     数据标识
+     * @param keyLevel     密级
+     * @param password     密码
+     * @param operator     操作员编号
+     * @param data         写入数据内容
+     * @param mac          安全单元计算MAC
+     * @param retControl   写入数据后电表的响应的控制码
+     * @param retData      写入数据后电表的响应
+     * @return 0-成功
+     * CommonParamError-输入参数错误
+     * CommonBufferError-返回值缓冲区为空
+     * CommonWriteError-数据写入错误
+     * CommonReadError-数据读取错误
+     * InfraError-红外设备操作失败
+     * P645FrameError-P645帧格式错误
+     * P645FrameMatchError-上下行帧不匹配
+     * P645ReceivedErrorValue-P645接收了一个包含异常信息的返回帧
+     * P645DataLengthError-数据长度不符合规约要求
+     */
+    public int writeData(String meterAddress, String dataSign, String keyLevel,
+                         String password, String operator, String data, String mac, StringBuffer retControl, StringBuffer retData) {
+        if (retData == null) {
+            return ErrorManager.ErrorType.CommonBufferError.getValue();
+        }
+
+        // 进行输入参数的合法性判断
+        if (dataSign == null || dataSign.length() != 8 ||
+                keyLevel == null || keyLevel.length() != 2) {
+            return ErrorManager.ErrorType.CommonParamError.getValue();
+        }
+
+        // 处理其它字段长度
+        password = DataConvert.getFixedStringWithChar(password, 6, false, '0');
+        operator = DataConvert.getFixedStringWithChar(operator, 8, false, '0');
+
+        // 消除外来数据对数据接收的影响
+        retData.delete(0, retData.length());
+        retControl.delete(0, retData.length());
+
+        P645Frame upFrame = new P645Frame(protocol);
+        upFrame.setMeterAddress(meterAddress);
+        upFrame.setControl("14");
+        // 根据645协议规定，密级为98密文+MAC，需要将数据分别倒序并增加33H发送
+        // 密级为99明文+MAC，将数据分别倒序并增加33H发送
+        if ("99".equals(keyLevel) || "98".equals(keyLevel)) {
+            if (data != null) {
+                //处理电价调整 数据块分别倒序
+                if (data.endsWith("-")) {
+                    data = data.substring(0, data.length() - 1);
+                    if (data.length() == 32) { //4套费率
+                        String data1 = data.substring(0, 8);
+                        String data2 = data.substring(8, 16);
+                        String data3 = data.substring(16, 24);
+                        String data4 = data.substring(24, 32);
+                        data = DataConvert.strReverse(data1, 0, data1.length()) +
+                                DataConvert.strReverse(data2, 0, data2.length()) +
+                                DataConvert.strReverse(data3, 0, data3.length()) +
+                                DataConvert.strReverse(data4, 0, data4.length());
+                    } else if (data.length() == 64) { //8套费率
+                        String data1 = data.substring(0, 8);
+                        String data2 = data.substring(8, 16);
+                        String data3 = data.substring(16, 24);
+                        String data4 = data.substring(24, 32);
+                        String data5 = data.substring(32, 40);
+                        String data6 = data.substring(40, 48);
+                        String data7 = data.substring(48, 56);
+                        String data8 = data.substring(56, 64);
+                        data = DataConvert.strReverse(data1, 0, data1.length()) +
+                                DataConvert.strReverse(data2, 0, data2.length()) +
+                                DataConvert.strReverse(data3, 0, data3.length()) +
+                                DataConvert.strReverse(data4, 0, data4.length()) +
+                                DataConvert.strReverse(data5, 0, data4.length()) +
+                                DataConvert.strReverse(data6, 0, data4.length()) +
+                                DataConvert.strReverse(data7, 0, data4.length()) +
+                                DataConvert.strReverse(data8, 0, data4.length());
+                    } else if (data.length() == 96) { //12套费率
+                        String data1 = data.substring(0, 8);
+                        String data2 = data.substring(8, 16);
+                        String data3 = data.substring(16, 24);
+                        String data4 = data.substring(24, 32);
+                        String data5 = data.substring(32, 40);
+                        String data6 = data.substring(40, 48);
+                        String data7 = data.substring(48, 56);
+                        String data8 = data.substring(56, 64);
+                        String data9 = data.substring(64, 72);
+                        String data10 = data.substring(72, 80);
+                        String data11 = data.substring(80, 88);
+                        String data12 = data.substring(88, 96);
+                        data = DataConvert.strReverse(data1, 0, data1.length()) +
+                                DataConvert.strReverse(data2, 0, data2.length()) +
+                                DataConvert.strReverse(data3, 0, data3.length()) +
+                                DataConvert.strReverse(data4, 0, data4.length()) +
+                                DataConvert.strReverse(data5, 0, data5.length()) +
+                                DataConvert.strReverse(data6, 0, data6.length()) +
+                                DataConvert.strReverse(data7, 0, data7.length()) +
+                                DataConvert.strReverse(data8, 0, data8.length()) +
+                                DataConvert.strReverse(data9, 0, data9.length()) +
+                                DataConvert.strReverse(data10, 0, data10.length()) +
+                                DataConvert.strReverse(data11, 0, data11.length()) +
+                                DataConvert.strReverse(data12, 0, data12.length());
+                    } else {
+                        data = DataConvert.strReverse(data, 0, data.length());
+                    }
+                } else {
+                    data = DataConvert.strReverse(data, 0, data.length());
+                }
+            }
+            if (mac != null) {
+                mac = DataConvert.strReverse(mac, 0, mac.length());
+            }
+        }
+
+        dataSign = DataConvert.strReverse(dataSign, 0, dataSign.length());
+
+        password = DataConvert.strReverse(password, 0, password.length());
+
+        operator = DataConvert.strReverse(operator, 0, operator.length());
+
+        upFrame.setData(dataSign + keyLevel + password + operator +
+                (data == null ? "" : data.trim()) +
+                (mac == null ? "" : mac.trim()));
+
+        String upFrameString = upFrame.getString();
+        if (upFrameString == null) { // 如果帧返回发送数据，说明帧数据有问题，直接读取帧本身异常返回
+            return upFrame.getException();
+        }
+
+        StringBuffer sb = new StringBuffer();
+        int ret = commitDown(upFrameString, sb);
+        if (ret != 0) {
+            return ret;
+        }
+        P645Frame downFrame = protocol.parseDown(sb.toString());
+        // 返回下行帧异常信息，并返回通讯数据域
+        ret = checkDownFrameException(upFrame, downFrame);
+        retData.append(downFrame.getData());
+        retControl.append(downFrame.getControl());
         return ret;
     }
 

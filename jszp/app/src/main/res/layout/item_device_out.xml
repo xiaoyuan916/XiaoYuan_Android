@@ -8,6 +8,7 @@
 	>
 
 	<LinearLayout
+		android:id="@+id/ll_task"
 		android:layout_width="match_parent"
 		android:layout_height="45dp"
 		android:gravity="center_vertical">
@@ -30,29 +31,27 @@
 
 		<TextView
 			android:id="@+id/tv_task_num"
-			android:layout_width="wrap_content"
+			android:layout_width="0dp"
+			android:layout_weight="1"
 			android:layout_height="wrap_content"
 			android:text="201805221234567890"
 			android:textColor="@color/tv_black"
 			android:textSize="16sp"
 			/>
-
-		<RelativeLayout
-			android:layout_width="match_parent"
-			android:layout_height="match_parent">
-
-			<ImageView
-				android:layout_width="wrap_content"
-				android:layout_height="15dp"
-				android:layout_alignParentRight="true"
-				android:layout_centerVertical="true"
-				android:layout_marginRight="18dp"
-				android:src="@drawable/down"
-				/>
-		</RelativeLayout>
+		<ImageView
+			android:id="@+id/iv_arrow"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentRight="true"
+			android:layout_centerVertical="true"
+			/>
 
 	</LinearLayout>
 
+	<View
+		android:layout_width="match_parent"
+		android:layout_height="1dp"
+		android:background="@color/fenge"/>
 	<android.support.v7.widget.RecyclerView
 		android:id="@+id/rv_sub_out_tasks"
 		android:layout_width="match_parent"

@@ -27,7 +27,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="12312313123"
                     android:textColor="@color/darkgray"
                     android:textSize="16sp" />
             </RelativeLayout>
@@ -47,11 +46,10 @@
                     android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/tv_receive_storage"
+                    android:id="@+id/tv_kf_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="六合供电单位"
                     android:textColor="@color/darkgray"
                     android:textSize="16sp" />
             </RelativeLayout>
@@ -75,7 +73,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="张三"
                     android:textColor="@color/darkgray"
                     android:textSize="16sp" />
             </RelativeLayout>
@@ -99,7 +96,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="133434343"
                     android:textColor="@color/darkgray"
                     android:textSize="16sp" />
             </RelativeLayout>
@@ -127,7 +123,6 @@
                     android:layout_marginLeft="8dp"
                     android:layout_toRightOf="@id/tv5"
                     android:gravity="right"
-                    android:text="河南省郑州市金水区的"
                     android:textColor="@color/darkgray"
                     android:textSize="16sp" />
             </RelativeLayout>
@@ -155,6 +150,7 @@
                     android:inputType="number"
                     android:hint="请输入设备数量"
                     android:textColor="@color/darkgray"
+                    android:gravity="right"
                     android:textSize="16sp" />
             </RelativeLayout>
 

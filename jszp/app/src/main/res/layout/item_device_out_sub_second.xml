@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:orientation="vertical"
+	android:paddingLeft="16dp"
+	android:paddingRight="16dp"
+	>
+
+	<View
+		android:id="@+id/v_span"
+		android:layout_width="match_parent"
+		android:layout_height="10dp"/>
+
+	<LinearLayout
+		android:id="@+id/ll_out_sub_head"
+		android:layout_width="match_parent"
+		android:layout_height="39dp"
+		android:background="@drawable/bg_out_head"
+		android:gravity="center_vertical"
+		android:paddingLeft="16dp">
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="接收单位："
+			android:textColor="@color/darkgray"
+			android:textSize="16sp"
+			/>
+
+		<TextView
+			android:id="@+id/tv_company"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="徐州供电公司"
+			android:textColor="@color/title_green"
+			android:textSize="16sp"
+			/>
+	</LinearLayout>
+	<android.support.v7.widget.RecyclerView
+		android:id="@+id/rv_second"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+
+</LinearLayout>

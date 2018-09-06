@@ -5,11 +5,15 @@ buildscript {
     repositories {
         google()
         jcenter(){ url 'http://jcenter.bintray.com/'}
+        maven { url 'https://jitpack.io' }
 
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.1.4'
-        
+        /**
+         * 数据库greendao的配置
+         */
+//        classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

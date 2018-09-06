@@ -2,22 +2,32 @@ package com.sgcc.pda.jszp.activity;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.DatePicker;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.freelib.multiitem.adapter.BaseItemAdapter;
 import com.freelib.multiitem.adapter.holder.BaseViewHolder;
 import com.freelib.multiitem.listener.OnItemClickListener;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.sgcc.pda.jszp.R;
 import com.sgcc.pda.jszp.adapter.SpaceItemDecoration;
 import com.sgcc.pda.jszp.adapter.logisticsSendAdapter;
 import com.sgcc.pda.jszp.base.BaseActivity;
-import com.sgcc.pda.jszp.bean.DriverItem;
-import com.sgcc.pda.jszp.bean.TaskItem;
+import com.sgcc.pda.jszp.bean.LogisticsDistAutoesItem;
+import com.sgcc.pda.jszp.bean.LogisticsSendRequestEntity;
+import com.sgcc.pda.jszp.bean.LogisticsSendResultEntity;
+import com.sgcc.pda.jszp.http.JSZPOkgoHttpUtils;
+import com.sgcc.pda.jszp.http.JSZPUrls;
+import com.sgcc.pda.jszp.util.JzspConstants;
+import com.sgcc.pda.sdk.utils.DateUtil;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,12 +39,19 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+/**
+ * 物流派车
+ */
 public class LogisticsSendActivity extends BaseActivity {
+    /**
+     * 请求码
+     */
+    public static final int GET_LIST_WHAT=1001;
 
     @BindView(R.id.tv_title)
     TextView tvTitle;
-    @BindView(R.id.iv_right)
-    ImageView ivRight;
+    @BindView(R.id.tv_right)
+    TextView tv_right;
     @BindView(R.id.tv_date)
     TextView tvDate;
     @BindView(R.id.tv_not_send_count)
@@ -43,15 +60,46 @@ public class LogisticsSendActivity extends BaseActivity {
     TextView tvSendedCount;
     @BindView(R.id.rv_cars)
     RecyclerView rvCars;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
 
     BaseItemAdapter taskAdapter;
-    List<TaskItem> data;
+    List<LogisticsDistAutoesItem> mList;
+    private boolean isFirst = true;
 
     Calendar ca = Calendar.getInstance();
     int mYear = ca.get(Calendar.YEAR);
     int mMonth = ca.get(Calendar.MONTH);
     int mDay = ca.get(Calendar.DAY_OF_MONTH);
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
+
+    LogisticsSendRequestEntity logisticsSendRequestEntity;//请求实体
+    LogisticsSendResultEntity logisticsSendResultEntity;//查询结果集
+
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case GET_LIST_WHAT:
+                    //列表数据
+                    logisticsSendResultEntity = (LogisticsSendResultEntity) msg.obj;
+                    if(logisticsSendRequestEntity.getPageNo() == JzspConstants.PageStart){
+                        //刷新
+                        mList.clear();
+                        initUiData();
+                    }
+                    List<LogisticsDistAutoesItem> items = ((LogisticsSendResultEntity) msg.obj).getResult().getLogisticsDistAutoes();
+                    mList.addAll(items);
+                    taskAdapter.notifyDataSetChanged();
+                    if(items.size()<JzspConstants.PageSize){
+                        refreshLayout.setEnableLoadmore(false);
+                    }
+                    break;
+            }
+        }
+    };
 
 
     @Override
@@ -62,44 +110,108 @@ public class LogisticsSendActivity extends BaseActivity {
     @Override
     public void initView() {
         tvTitle.setText("物流派车");
-        ivRight.setVisibility(View.VISIBLE);
-        ivRight.setImageResource(R.drawable.search_hui_small);
+        tv_right.setVisibility(View.VISIBLE);
+        tv_right.setText("筛选");
 
-        rvCars.setLayoutManager(new LinearLayoutManager(this));
-        taskAdapter = new BaseItemAdapter();
-        data = new ArrayList<>();
-        data.add(new TaskItem("", "南京", 0, new DriverItem("张三", "", "", "2018-08-03")));
-        data.add(new TaskItem("", "南京", 1, new DriverItem("张三", "", "", "2018-08-03")));
-        data.add(new TaskItem("", "南京", 1, new DriverItem("张三", "", "", "2018-08-03")));
-        taskAdapter.register(TaskItem.class, new logisticsSendAdapter<TaskItem>());
-        rvCars.addItemDecoration(new SpaceItemDecoration(7));
 
-        rvCars.setAdapter(taskAdapter);
-        taskAdapter.setDataItems(data);
-        taskAdapter.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseViewHolder baseViewHolder) {
-                Intent intent = new Intent(LogisticsSendActivity.this, LogisticDetailActivity.class);
-                startActivityForResult(intent,101);
-            }
-        });
+        logisticsSendRequestEntity = new LogisticsSendRequestEntity();
 
     }
 
     @Override
     public void initData() {
+        mList = new ArrayList<>();
+        tvDate.setText(DateUtil.toDateString(new Date(), sdf));
+        logisticsSendRequestEntity.setEffectDate(tvDate.getText().toString());
+        initListUiData();
+
+        refreshListData();
     }
 
     @Override
     public void initListener() {
-
+        refreshLayout.setEnableRefresh(true);
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                refreshListData();
+                refreshlayout.finishRefresh();
+            }
+        });
+        refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                logisticsSendRequestEntity.setPageNo(logisticsSendRequestEntity.getPageNo()+1);
+                getListData();
+                refreshlayout.finishLoadmore();
+            }
+        });
     }
 
+    //初始化界面数据
+    private void initUiData(){
+        tvNotSendCount.setText(logisticsSendResultEntity.getResult().getNotSendNum()+"辆");
+        tvSendedCount.setText(logisticsSendResultEntity.getResult().getSendNum()+"辆");
+    }
+    //初始化列表数据
+    private void initListUiData(){
+        rvCars.setLayoutManager(new LinearLayoutManager(this));
+        taskAdapter = new BaseItemAdapter();
+        taskAdapter.register(LogisticsDistAutoesItem.class, new logisticsSendAdapter<LogisticsDistAutoesItem>(this));
+        rvCars.addItemDecoration(new SpaceItemDecoration(7));
+
+        rvCars.setAdapter(taskAdapter);
+        taskAdapter.setDataItems(mList);
+        taskAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseViewHolder baseViewHolder) {
+                LogisticsDistAutoesItem logisticsDistAutoesItem = mList.get(baseViewHolder.getItemPosition());
+                Intent intent = new Intent(LogisticsSendActivity.this, LogisticDetailActivity.class);
+                intent.putExtra("distAutoId",logisticsDistAutoesItem.getDistAutoId());
+                intent.putExtra("taskNo",logisticsDistAutoesItem.getTaskNo());
+                startActivityForResult(intent, 101);
+            }
+        });
+
+    }
+    private void refreshListData(){
+        logisticsSendRequestEntity.setPageNo(JzspConstants.PageStart);
+        logisticsSendRequestEntity.setPageSize(JzspConstants.PageSize);
+        refreshLayout.setEnableLoadmore(true);
+        getListData();
+    }
+    /**
+     * 获取物流派车列表数据
+     */
+    private void getListData() {
+//        logisticsSendRequestEntity.setEffectDate("20180820");
+//        logisticsSendRequestEntity.setPageNo(2);
+//        logisticsSendRequestEntity.setPageSize(2);
+//        Map<String,String> map = new HashMap<>();
+//        map.put("effectDate",logisticsSendRequestEntity.getEffectDate());
+//        map.put("autoType",logisticsSendRequestEntity.getAutoType());
+//        map.put("status",logisticsSendRequestEntity.getStatus());
+//        map.put("pageNo",logisticsSendRequestEntity.getPageNo()+"");
+//        map.put("pageSize",logisticsSendRequestEntity.getPageSize()+"");
+        JSZPOkgoHttpUtils.postString(JSZPUrls.URL_GET_LOGISTIC_SEND_LIST,
+                this,logisticsSendRequestEntity,
+                mHandler,GET_LIST_WHAT,LogisticsSendResultEntity.class);
+    }
 
     @Override
-    public void onIvRightClick(View v) {
-        super.onIvRightClick(v);
-        startActivityForResult(new Intent(this, LogisticScanActivity.class), 100);
+    protected void onDestroy() {
+        super.onDestroy();
+        //界面消失取消掉网络请求
+        JSZPOkgoHttpUtils.cancelHttp(this);
+    }
+
+    @Override
+    public void onRightClick(View v) {
+        super.onRightClick(v);
+        Intent intent = new Intent(this, LogisticScanActivity.class);
+        intent.putExtra("autoType",logisticsSendRequestEntity.getAutoType());
+        intent.putExtra("status",logisticsSendRequestEntity.getStatus());
+        startActivityForResult(intent, 100);
     }
 
 
@@ -109,10 +221,14 @@ public class LogisticsSendActivity extends BaseActivity {
         if (resultCode == RESULT_CANCELED) return;
         switch (requestCode) {
             case 100:
+                //查询条件
+                logisticsSendRequestEntity.setAutoType(data.getStringExtra("cart_type"));
+                logisticsSendRequestEntity.setStatus(data.getStringExtra("cart_status"));
+                refreshListData();
                 break;
             case 101:
-                break;
-            case 102:
+                //列表
+                refreshListData();
                 break;
         }
     }
@@ -125,7 +241,6 @@ public class LogisticsSendActivity extends BaseActivity {
                 new DatePickerDialog(this, onDateSetListener, mYear, mMonth, mDay).show();
                 break;
             case R.id.tv_previous:
-
                 try {
                     Date date = sdf.parse(tvDate.getText().toString());
                     ca.setTime(date);
@@ -136,8 +251,9 @@ public class LogisticsSendActivity extends BaseActivity {
                     mDay = ca.get(Calendar.DAY_OF_MONTH);
                     String dayAfter = sdf.format(ca.getTime());
                     tvDate.setText(dayAfter);
-
-
+                    //刷新数据
+                    logisticsSendRequestEntity.setEffectDate(dayAfter);
+                    refreshListData();
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -154,6 +270,9 @@ public class LogisticsSendActivity extends BaseActivity {
                     String dayAfter = sdf.format(ca.getTime());
                     tvDate.setText(dayAfter);
 
+                    //刷新数据
+                    logisticsSendRequestEntity.setEffectDate(dayAfter);
+                    refreshListData();
 
                 } catch (ParseException e) {
                     e.printStackTrace();
@@ -194,7 +313,9 @@ public class LogisticsSendActivity extends BaseActivity {
             }
             tvDate.setText(days);
 
-
+            //刷新数据
+            logisticsSendRequestEntity.setEffectDate(days);
+            refreshListData();
         }
     };
 }

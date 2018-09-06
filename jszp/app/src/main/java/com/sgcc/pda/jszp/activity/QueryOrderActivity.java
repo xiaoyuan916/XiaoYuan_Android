@@ -1,7 +1,9 @@
 package com.sgcc.pda.jszp.activity;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -29,7 +31,12 @@ public class QueryOrderActivity extends BaseActivity {
     TextView tvStartTime;
     @BindView(R.id.tv_end_time)
     TextView tvEndTime;
-
+    /**
+     * 日期选择
+     */
+    private int mYear;
+    private int mMonth;
+    private int mDay;
 
 
     @Override
@@ -61,7 +68,8 @@ public class QueryOrderActivity extends BaseActivity {
                 startActivityForResult(intent, 100);
                 break;
             case R.id.rl_company:
-                startActivityForResult(intent, 101);
+//                startActivityForResult(intent, 101);
+
                 break;
             case R.id.rl_supply:
                 startActivityForResult(intent, 102);
@@ -70,10 +78,10 @@ public class QueryOrderActivity extends BaseActivity {
                 startActivityForResult(intent, 103);
                 break;
             case R.id.rl_start_time:
-                startActivityForResult(intent, 104);
+                new DatePickerDialog(this, onDateSetListener, mYear, mMonth, mDay).show();
                 break;
             case R.id.rl_end_time:
-                startActivityForResult(intent, 105);
+                new DatePickerDialog(this, onDateSetListener, mYear, mMonth, mDay).show();
                 break;
             case R.id.bt_query:
                 Intent intent1=new Intent(this,QueryOrderListActivity.class);
@@ -89,4 +97,14 @@ public class QueryOrderActivity extends BaseActivity {
         if (resultCode != RESULT_OK) return;
 
     }
+
+    /**
+     * 日期选择器对话框监听
+     */
+    private DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
+
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+        }
+    };
 }

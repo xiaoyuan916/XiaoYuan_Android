@@ -39,8 +39,9 @@ public class A1BInfra implements ICommunicate {
             }
         } else {
             if (0 == Shell.IRDA_init()) {
-                Shell.IRDA_setTimeOut(0, 8000);
-                Shell.IRDA_setTimeOut(1, 8000);
+                Shell.IRDA_setTimeOut(0, 5000);
+                int i = Shell.IRDA_setTimeOut(1, 8000);
+                LogUtil.e("TL","设置超时时间结果----"+i);
                 if (NewProtocol.isNewProtocol()){
                     Shell.IRDA_config(1200,8,2,1,0);
                 }else {
@@ -59,13 +60,14 @@ public class A1BInfra implements ICommunicate {
      * @return 0-成功 InfraError-红外设备操作失败
      */
     synchronized public int close() {
-        isOpen = false;
         if (SOConfig.useOldSO) {
             if (infraMeter.close()) {
+                isOpen = false;
                 return 0;
             }
         } else {
             if (0 == Shell.IRDA_deInit()) {
+                isOpen = false;
                 return 0;
             }
         }
@@ -130,7 +132,7 @@ public class A1BInfra implements ICommunicate {
                 }else{
                     len = Shell.IRDA_recvData(buffer, offset);
                 }
-                if (len > 0) {
+                if (len > 0&&len<=BUFFER_LENGTH) {
                     buf = new byte[len];
                     System.arraycopy(buffer, 0, buf, 0, len);
                     offset += len;

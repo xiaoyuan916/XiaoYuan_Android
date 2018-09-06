@@ -8,10 +8,19 @@
 	android:background="@color/alphablack1"
 	tools:context=".activity.ScanActivity">
 
-	<com.sgcc.pda.jszp.zxing.myscanner.ScannerView
-		android:id="@+id/scanner_view"
+	<!--<com.sgcc.pda.jszp.zxing.myscanner.ScannerView-->
+		<!--android:id="@+id/scanner_view"-->
+		<!--android:layout_width="match_parent"-->
+		<!--android:layout_height="match_parent"/>-->
+	<SurfaceView
+		android:id="@+id/surfaceView"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"/>
+		android:layout_height="match_parent" />
+	<wangfei.scan2.client.android.AutoScannerView
+		android:id="@+id/autoScanner"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent" />
+
 
 	<RelativeLayout
 		android:id="@+id/rl_title"

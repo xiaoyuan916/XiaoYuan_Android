@@ -60,7 +60,7 @@
 
 	<style name="style_tv_right">
 		<item name="android:layout_width">wrap_content</item>
-		<item name="android:text">请选择</item>
+		<item name="android:hint">请选择</item>
 		<item name="android:layout_height">wrap_content</item>
 		<item name="android:layout_centerVertical">true</item>
 		<item name="android:layout_alignParentRight">true</item>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="91dp"
+    android:id="@+id/ll_query_order"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/iv_query_order_state"
+        android:layout_width="43dp"
+        android:layout_height="43dp"
+        android:layout_marginLeft="16dp"
+        android:src="@mipmap/jszp_engineering" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="8dp"
+        android:paddingRight="16dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="1">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_query_order_number"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="订单编号：30014745335"
+                android:textColor="#ff292929"
+                android:textSize="16sp"/>
+            <TextView
+                android:id="@+id/tv_query_order_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2018.06.25"
+                android:textColor="#ff999999"
+                android:textSize="13sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_query_order_address"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="南京市供电公司"
+                android:textColor="#ff999999"
+                android:textSize="14sp"/>
+            <TextView
+                android:id="@+id/tv_query_order_qty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3000只"
+                android:textColor="#ff999999"
+                android:textSize="14sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_query_order_remaining_time"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="还剩5天6小时"
+                android:textColor="#ff009d85"
+                android:textSize="13sp"/>
+            <TextView
+                android:id="@+id/tv_query_order_check"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="已核验"
+                android:textColor="#ff009d85"
+                android:textSize="13sp"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

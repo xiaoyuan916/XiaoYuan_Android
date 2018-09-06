@@ -101,6 +101,40 @@ public abstract class IP645EssentialMethod<T extends P645Frame> {
     public abstract int readData(String meterAddress, String dataSign, StringBuffer retData, boolean isMeter97);
 
     /**
+     * 根据自定义数据标识读取数据
+     *
+     * @param meterAddress 电表通讯地址
+     * @param dataSign     数据标识
+     * @param retControl   电表返回的控制码
+     * @param retData      读取到的数据
+     * @return 0-成功 其它-错误码
+     */
+    public abstract int readData(String meterAddress, String dataSign, StringBuffer retControl, StringBuffer retData);
+
+    /**
+     * 根据自定义数据标识读取数据
+     *
+     * @param meterAddress 电表通讯地址
+     * @param dataSign     数据标识
+     * @param dataNum      负荷记录块数
+     * @param dateTime     时间 mmhhDDMMYY
+     * @param retControl   电表返回的控制码
+     * @param retData      读取到的数据
+     * @return 0-成功 其它-错误码
+     */
+    public abstract int readData(String meterAddress, String dataSign, String dataNum, String dateTime, StringBuffer retControl, StringBuffer retData);
+    /**
+     * 根据自定义数据标识读取数据
+     *
+     * @param meterAddress 电表通讯地址
+     * @param dataSign     数据标识
+     * @param retControl   电表返回的控制码
+     * @param retData      读取到的数据
+     * @return 0-成功 其它-错误码
+     */
+    public abstract int readDataContinue(String meterAddress, String dataSign, StringBuffer retControl, StringBuffer retData);
+
+    /**
      * 向电表写入数据
      *
      * @param meterAddress 电表通讯地址
@@ -115,6 +149,22 @@ public abstract class IP645EssentialMethod<T extends P645Frame> {
      */
     public abstract int writeData(String meterAddress, String dataSign, String keyLevel,
                                   String password, String operator, String data, String mac, StringBuffer retData);
+    /**
+     * 向电表写入数据
+     *
+     * @param meterAddress 电表通讯地址
+     * @param dataSign     数据标识
+     * @param keyLevel     密级
+     * @param password     密码
+     * @param operator     操作员编号
+     * @param data         写入数据内容
+     * @param mac          安全单元计算MAC
+     * @param retControl    返回-写入数据后电表的响应数据的控制码
+     * @param retData      返回-写入数据后电表的响应数据
+     * @return 0-成功 其它-错误码
+     */
+    public abstract int writeData(String meterAddress, String dataSign, String keyLevel,
+                                  String password, String operator, String data, String mac, StringBuffer retControl, StringBuffer retData);
 
     /**
      * 电表进行远程控制

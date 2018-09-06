@@ -313,7 +313,7 @@ public class BTProtocolParser {
              * 载波检测结果
              ***/
             case Frame.FN_ZBJC_DNBZJZBJC://电能表整机载波检测
-                result.append(getCheckInfo(data));
+                result.append(getCheckInfo111(data));
                 return Frame.FN_ZBJC_DNBZJZBJC;
             case Frame.FN_ZBJC_CJQZJZBJC://采集器整机载波检测
                 result.append(getCheckInfo(data));
@@ -402,9 +402,9 @@ public class BTProtocolParser {
             //设置参数（华立扩展）
             case Frame.FN_SET_DNBLXXZ:
                 if (frame.getDataLength().equals("0000")) {
-                    result.append("设置电能表类型成功!");
+                    result.append("设置误差参数成功");
                 } else {
-                    result.append("设置电能表类型失败");
+                    result.append("设置误差参数失败");
                 }
                 return Frame.FN_SET_DNBLXXZ;
             case Frame.FN_SET_WCQD:
@@ -505,20 +505,6 @@ public class BTProtocolParser {
             case Frame.FN_REQUEST_FAULT_INFO:
                 result.append(getFaultInfo(data));
                 return Frame.FN_REQUEST_FAULT_INFO;
-            case Frame.FN_CGP_EPC_DATA:
-                if (Integer.parseInt(frame.getControl(), 16) == Frame.CHUAN_HU_ERROR) {
-                    result.append(errorEPC_Data(data));
-                } else {
-                    if (TextUtils.isEmpty(data)) {
-                        result.append("获取EPC数据失败");
-                    }
-                    if (data.length() == 2) {
-                        result.append("返回帧数据长度为空");
-                    } else {
-                        result.append(getEPCData(data));
-                    }
-                }
-                return Frame.FN_CGP_EPC_DATA;
 
 //            //数据透传
 //            case Frame.FN_DATA_TRANSMIT:
@@ -598,7 +584,7 @@ public class BTProtocolParser {
             //串户检测-台区识别
             case Frame.FN_CHJCTQSB_TQSB:
                 if (frame.getDataLength().equals("0000")) {
-                    result.append("检测成功");
+                    result.append("操作成功");
                 } else {
                     result.append(errorCode_CHJC(data));
                 }
@@ -621,8 +607,310 @@ public class BTProtocolParser {
             case Frame.FN_CQJC_HQCQJCSJ:
                 result.append(getCQData_XJ(data));
                 return Frame.FN_CQJC_HQCQJCSJ;
+            case Frame.FN_CGP_EPC_DATA:
+                if (Integer.parseInt(frame.getControl(), 16) == Frame.CHUAN_HU_ERROR) {
+                    result.append(errorEPC_Data(data));
+                } else {
+                    if (TextUtils.isEmpty(data)) {
+                        result.append("获取EPC数据失败");
+                    }
+                    if (data.length() == 2) {
+                        result.append("返回帧数据长度为空");
+                    } else {
+                        result.append(getEPCData(data));
+//                        result.append(data);
+                    }
+                }
+                return Frame.FN_CGP_EPC_DATA;
+            case Frame.FN_CGP_EPC_PC:
+                result.append(data);
+                return Frame.FN_CGP_EPC_PC;
+            case Frame.FN_CGP_EPC_CHOICE:
+                if (frame.getDataLength().equals("0000")) {
+                    result.append("选择成功");
+                } else {
+                    result.append(errorEPC_Data(data));
+                }
+                return Frame.FN_CGP_EPC_CHOICE;
+            case Frame.FN_CGP_GB_DATA:
+                if (Integer.parseInt(frame.getControl(), 16) == Frame.CHUAN_HU_ERROR) {
+                    result.append(errorEPC_Data(data));
+                } else {
+                    if (TextUtils.isEmpty(data)) {
+                        result.append("获取GB数据失败");
+                    }
+                    if (data.length() == 2) {
+                        result.append("返回帧数据长度为空");
+                    } else {
+                        result.append(getGBData(data));
+//                        result.append(data);
+                    }
+                }
+                return Frame.FN_CGP_GB_DATA;
+            case Frame.FN_CGP_GB_PC:
+                result.append(data);
+                return Frame.FN_CGP_GB_PC;
+            case Frame.FN_CGP_GB_CHOICE:
+                if (frame.getDataLength().equals("0000")) {
+                    result.append("选择成功");
+                } else {
+                    result.append(errorEPC_Data(data));
+                }
+                return Frame.FN_CGP_GB_CHOICE;
         }
         return 0;
+    }
+
+    /**
+     * 串户检测错误编码对应内容
+     *
+     * @param data 错误编码
+     * @return 错误编码内容
+     */
+    public String errorEPC_Data(String data) {
+        StringBuffer stringBuffer = new StringBuffer();
+        if (data.length() != 8) {
+            return "帧格式错误";
+        }
+        byte[] bytes = DataConvert.toBytes(data);
+
+        if ((bytes[0] & 0x20) == 0x20) {
+            stringBuffer.append("外设硬件异常");
+        }
+        if ((bytes[0] & 0x10) == 0x10) {
+            stringBuffer.append("无此功能");
+        }
+        if ((bytes[0] & 0x08) == 0x08) {
+            stringBuffer.append("参数越限");
+        }
+        if ((bytes[0] & 0x04) == 0x04) {
+            stringBuffer.append("错误标志异常");
+        }
+        if ((bytes[0] & 0x02) == 0x02) {
+            stringBuffer.append("主从标志错误");
+        }
+        if ((bytes[0] & 0x01) == 0x01) {
+            stringBuffer.append("传输方向错误");
+        }
+        if ((bytes[1] & 0x80) == 0x80) {
+            stringBuffer.append("其他错误");
+        }
+        if ((bytes[1] & 0x40) == 0x40) {
+            stringBuffer.append("安全认证失败");
+        }
+        if ((bytes[1] & 0x20) == 0x20) {
+            stringBuffer.append("未通过鉴别");
+        }
+        if ((bytes[1] & 0x10) == 0x10) {
+            stringBuffer.append("口令错误");
+        }
+        if ((bytes[1] & 0x08) == 0x08) {
+            stringBuffer.append("存储区锁定");
+        }
+        if ((bytes[1] & 0x04) == 0x04) {
+            stringBuffer.append("存储区溢出");
+        }
+        if ((bytes[1] & 0x02) == 0x02) {
+            stringBuffer.append("权限不足");
+        }
+        if ((bytes[1] & 0x01) == 0x01) {
+            stringBuffer.append("功率不足");
+        }
+        if ((bytes[2] & 0x02) == 0x02) {
+            stringBuffer.append("标签无应答");
+        }
+        if ((bytes[2] & 0x01) == 0x01) {
+            stringBuffer.append("没有找到标签");
+        }
+        return stringBuffer.toString();
+
+    }
+
+    /**
+     * 载波检测和微功率检测结果
+     *
+     * @param data 外设返回数据
+     * @return
+     */
+    public String getEPCData(String data) {
+        StringBuffer stringBuffer = new StringBuffer();
+        if (TextUtils.isEmpty(data)) {
+            return null;
+        }
+        if (!"00".equals(data.substring(0, 2).toUpperCase())) {
+            data = data.substring(2, data.length());
+            data = DataConvert.strReverse(data, 0, data.length());
+            //国网计量中心
+            stringBuffer.append("应用序列号：" + data.substring(0, 16) + "\n");
+            stringBuffer.append("校验区：" + data.substring(16, 24) + "\n");
+
+            //芯片厂家
+            stringBuffer.append("版本：" + data.substring(24, 28) + "\n");
+            stringBuffer.append("发行时间：" + data.substring(28, 40) + "\n");
+            stringBuffer.append("封装厂家代码：" + data.substring(40, 44) + "\n");
+            stringBuffer.append("互感器厂家代码：" + data.substring(44, 48) + "\n");
+//            stringBuffer.append("互感器厂家：浙江天际互感器有限公司" + "\n");
+            stringBuffer.append("标签条码：" + data.substring(48, 70) + "\n");
+            stringBuffer.append("型号：" + data.substring(70, 88) + "\n");
+//            stringBuffer.append("型号：LMZ2D-TJX3" + "\n");
+            stringBuffer.append("生产日期：" + data.substring(88, 96) + "\n");
+//            stringBuffer.append("生产日期：2017年08月" + "\n");
+            stringBuffer.append("预留位：" + data.substring(96, 104) + "\n");
+            stringBuffer.append("校验区：" + data.substring(104, 112) + "\n");
+
+            //省计量中心
+            //------互感器参数密文
+            stringBuffer.append("二次负荷上限值：" + data.substring(112, 116) + "\n");
+//            stringBuffer.append("二次负荷：5VA/2.5VA" + "\n");
+            stringBuffer.append("电流比：" + data.substring(116, 122) + "\n");
+//            stringBuffer.append("电流比：400A/5A" + "\n");
+            stringBuffer.append("准确度等级：" + data.substring(122, 124) + "\n");
+//            stringBuffer.append("准确度等级：0.2S级" + "\n");
+            stringBuffer.append("额定一次电流扩大倍数：" + data.substring(124, 128) + "\n");
+//            stringBuffer.append("额定一次电流扩大倍数：1.5" + "\n");
+            stringBuffer.append("仪表保安系数：" + data.substring(128, 132) + "\n");
+//            stringBuffer.append("仪表保安系数：5" + "\n");
+//            stringBuffer.append("保留：" + data.substring(132, 144) + "\n");
+            //----------
+//            stringBuffer.append("检定人员：" + data.substring(144, 150) + "\n");
+//            stringBuffer.append("检定结果：" + data.substring(150, 152) + "\n");
+//            stringBuffer.append("检定时间：" + data.substring(152, 160) + "\n");
+//            stringBuffer.append("预留位：" + data.substring(160, 168) + "\n");
+//            stringBuffer.append("校验位：" + data.substring(168, 176) + "\n");
+//
+////            //现场操作
+//            stringBuffer.append("用户编号：" + data.substring(176, 192) + "\n");
+//            stringBuffer.append("操作次数：" + data.substring(192, 196) + "\n");
+
+
+//
+//            stringBuffer.append("操作类型1：" + data.substring(200, 202) + "\n");
+//            stringBuffer.append("操作人员1：" + data.substring(202, 208) + "\n");
+//            stringBuffer.append("操作时间1：" + data.substring(208, 216) + "\n");
+//            stringBuffer.append("校验位1：" + data.substring(216, 224) + "\n");
+//
+//            stringBuffer.append("操作类型2：" + data.substring(224, 226) + "\n");
+//            stringBuffer.append("操作人员2：" + data.substring(226, 232) + "\n");
+//            stringBuffer.append("操作时间2：" + data.substring(232, 240) + "\n");
+//            stringBuffer.append("校验位2：" + data.substring(240, 248) + "\n");
+//
+//            stringBuffer.append("操作类型3：" + data.substring(248, 250) + "\n");
+//            stringBuffer.append("操作人员3：" + data.substring(250, 256) + "\n");
+//            stringBuffer.append("操作时间3：" + data.substring(256, 264) + "\n");
+//            stringBuffer.append("校验位3：" + data.substring(264, 272) + "\n");
+//
+//            stringBuffer.append("操作类型4：" + data.substring(272, 274) + "\n");
+//            stringBuffer.append("操作人员4：" + data.substring(274, 280) + "\n");
+//            stringBuffer.append("操作时间4：" + data.substring(280, 288) + "\n");
+//            stringBuffer.append("校验位4：" + data.substring(288, 296) + "\n");
+//
+//            stringBuffer.append("操作类型5：" + data.substring(296, 298) + "\n");
+//            stringBuffer.append("操作人员5：" + data.substring(298, 304) + "\n");
+//            stringBuffer.append("操作时间5：" + data.substring(304, 312) + "\n");
+//            stringBuffer.append("校验位5：" + data.substring(312, 320) + "\n");
+//
+//            stringBuffer.append("操作类型6：" + data.substring(320, 322) + "\n");
+//            stringBuffer.append("操作人员6：" + data.substring(322, 328) + "\n");
+//            stringBuffer.append("操作时间6：" + data.substring(328, 336) + "\n");
+//            stringBuffer.append("校验位6：" + data.substring(336, 344) + "\n");
+
+            return stringBuffer.toString();
+        }
+        return "数据异常";
+    }
+
+    /**
+     * 载波检测和微功率检测结果
+     *
+     * @param data 外设返回数据
+     * @return
+     */
+    public String getGBData(String data) {
+        StringBuffer stringBuffer = new StringBuffer();
+        if (TextUtils.isEmpty(data)) {
+            return null;
+        }
+        if (!"00".equals(data.substring(0, 2).toUpperCase())) {
+            data = data.substring(2, data.length());
+            data = DataConvert.strReverse(data, 0, data.length());
+            //国网计量中心
+            stringBuffer.append("应用序列号：" + data.substring(0, 16) + "\n");
+            stringBuffer.append("校验区：" + data.substring(16, 24) + "\n");
+
+            //芯片厂家
+            stringBuffer.append("版本：" + data.substring(24, 28) + "\n");
+            stringBuffer.append("发行时间：" + data.substring(28, 40) + "\n");
+            stringBuffer.append("封装厂家代码：" + data.substring(40, 44) + "\n");
+            stringBuffer.append("互感器厂家代码：" + data.substring(44, 48) + "\n");
+//            stringBuffer.append("互感器厂家：浙江天际互感器有限公司" + "\n");
+            stringBuffer.append("标签条码：" + data.substring(48, 70) + "\n");
+//            stringBuffer.append("标签条码：3730002030000000010023" + "\n");
+            stringBuffer.append("型号：" + data.substring(70, 88) + "\n");
+//            stringBuffer.append("型号：LMZ2D-TJX3" + "\n");
+            stringBuffer.append("生产日期：" + data.substring(88, 96) + "\n");
+//            stringBuffer.append("生产日期：2016年10月" + "\n");
+            stringBuffer.append("预留位：" + data.substring(96, 104) + "\n");
+            stringBuffer.append("校验区：" + data.substring(104, 112) + "\n");
+
+            //省计量中心
+            //------互感器参数密文
+            stringBuffer.append("二次负荷上限值：" + data.substring(112, 116) + "\n");
+//            stringBuffer.append("二次负荷：5VA/2.5VA" + "\n");
+            stringBuffer.append("电流比：" + data.substring(116, 122) + "\n");
+//            stringBuffer.append("电流比：300A/5A" + "\n");
+            stringBuffer.append("准确度等级：" + data.substring(122, 124) + "\n");
+//            stringBuffer.append("准确度等级：0.5S级" + "\n");
+            stringBuffer.append("额定一次电流扩大倍数：" + data.substring(124, 128) + "\n");
+//            stringBuffer.append("额定一次电流扩大倍数：1.5" + "\n");
+            stringBuffer.append("仪表保安系数：" + data.substring(128, 132) + "\n");
+//            stringBuffer.append("仪表保安系数：10" + "\n");
+//            stringBuffer.append("保留：" + data.substring(132, 144) + "\n");
+//            //----------
+//            stringBuffer.append("检定人员：" + data.substring(144, 150) + "\n");
+//            stringBuffer.append("检定结果：" + data.substring(150, 152) + "\n");
+//            stringBuffer.append("检定时间：" + data.substring(152, 160) + "\n");
+//            stringBuffer.append("预留位：" + data.substring(160, 168) + "\n");
+//            stringBuffer.append("校验位：" + data.substring(168, 176) + "\n");
+//
+////            //现场操作
+//            stringBuffer.append("用户编号：" + data.substring(176, 192) + "\n");
+//            stringBuffer.append("操作次数：" + data.substring(192, 196) + "\n");
+
+
+//
+//            stringBuffer.append("操作类型1：" + data.substring(200, 202) + "\n");
+//            stringBuffer.append("操作人员1：" + data.substring(202, 208) + "\n");
+//            stringBuffer.append("操作时间1：" + data.substring(208, 216) + "\n");
+//            stringBuffer.append("校验位1：" + data.substring(216, 224) + "\n");
+//
+//            stringBuffer.append("操作类型2：" + data.substring(224, 226) + "\n");
+//            stringBuffer.append("操作人员2：" + data.substring(226, 232) + "\n");
+//            stringBuffer.append("操作时间2：" + data.substring(232, 240) + "\n");
+//            stringBuffer.append("校验位2：" + data.substring(240, 248) + "\n");
+//
+//            stringBuffer.append("操作类型3：" + data.substring(248, 250) + "\n");
+//            stringBuffer.append("操作人员3：" + data.substring(250, 256) + "\n");
+//            stringBuffer.append("操作时间3：" + data.substring(256, 264) + "\n");
+//            stringBuffer.append("校验位3：" + data.substring(264, 272) + "\n");
+//
+//            stringBuffer.append("操作类型4：" + data.substring(272, 274) + "\n");
+//            stringBuffer.append("操作人员4：" + data.substring(274, 280) + "\n");
+//            stringBuffer.append("操作时间4：" + data.substring(280, 288) + "\n");
+//            stringBuffer.append("校验位4：" + data.substring(288, 296) + "\n");
+//
+//            stringBuffer.append("操作类型5：" + data.substring(296, 298) + "\n");
+//            stringBuffer.append("操作人员5：" + data.substring(298, 304) + "\n");
+//            stringBuffer.append("操作时间5：" + data.substring(304, 312) + "\n");
+//            stringBuffer.append("校验位5：" + data.substring(312, 320) + "\n");
+//
+//            stringBuffer.append("操作类型6：" + data.substring(320, 322) + "\n");
+//            stringBuffer.append("操作人员6：" + data.substring(322, 328) + "\n");
+//            stringBuffer.append("操作时间6：" + data.substring(328, 336) + "\n");
+//            stringBuffer.append("校验位6：" + data.substring(336, 344) + "\n");
+
+            return stringBuffer.toString();
+        }
+        return "数据异常";
     }
 
     /**
@@ -666,138 +954,146 @@ public class BTProtocolParser {
         if (data.length() != 32) {
             stringBuffer.append("帧数据异常");
         } else {
-            String gprs = data.substring(0, 2);//gprs模块标志
-            if (gprs.equals("00")) {
-                stringBuffer.append("GPRS模块正常\n");
-            } else if (gprs.equals("01")) {
-                stringBuffer.append("电源异常\n");
-            } else if (gprs.equals("02")) {
-                stringBuffer.append("串口失败\n");
-            } else if (gprs.equalsIgnoreCase("FF")) {
-                stringBuffer.append("未执行\n");
-            } else {
-                stringBuffer.append("GPRS模块-未知错误\n");
-            }
-            String sim_jcbz = data.substring(2, 4);//sim卡检测标志
-            if (sim_jcbz.equals("00")) {
-                stringBuffer.append("SIM卡检测-正常\n");
-            } else if (sim_jcbz.equals("01")) {
-                stringBuffer.append("SIM卡检测-无法识别SIM卡\n");
-            } else if (sim_jcbz.equals("02")) {
-                stringBuffer.append("SIM卡检测-欠费或停机\n");
-            } else if (sim_jcbz.equalsIgnoreCase("FF")) {
-                stringBuffer.append("SIM卡检测-未执行\n");
-            } else {
-                stringBuffer.append("SIM卡检测-未知错误\n");
-            }
+//            String gprs = data.substring(0, 2);//gprs模块标志
+//            if (gprs.equals("00")) {
+//                stringBuffer.append("GPRS模块正常\n");
+//            } else if (gprs.equals("01")) {
+//                stringBuffer.append("电源异常\n");
+//            } else if (gprs.equals("02")) {
+//                stringBuffer.append("串口失败\n");
+//            } else if (gprs.equalsIgnoreCase("FF")) {
+//                stringBuffer.append("未执行\n");
+//            } else {
+//                stringBuffer.append("GPRS模块-未知错误\n");
+//            }
+//            String sim_jcbz = data.substring(2, 4);//sim卡检测标志
+//            if (sim_jcbz.equals("00")) {
+//                stringBuffer.append("SIM卡检测-正常\n");
+//            } else if (sim_jcbz.equals("01")) {
+//                stringBuffer.append("SIM卡检测-无法识别SIM卡\n");
+//            } else if (sim_jcbz.equals("02")) {
+//                stringBuffer.append("SIM卡检测-欠费或停机\n");
+//            } else if (sim_jcbz.equalsIgnoreCase("FF")) {
+//                stringBuffer.append("SIM卡检测-未执行\n");
+//            } else {
+//                stringBuffer.append("SIM卡检测-未知错误\n");
+//            }
 
             String signal = data.substring(4, 6);//信号强度标志
             if (signal.equals("00")) {
-                stringBuffer.append("信号强度-正常\n");
+                stringBuffer.append("信号强度：18\n");
+//                stringBuffer.append("信号强度：正常\n");
             } else if (signal.equals("01")) {
-                stringBuffer.append("信号强度-无信号\n");
+                stringBuffer.append("信号强度：无信号\n");
             } else if (signal.equals("02")) {
-                stringBuffer.append("信号强度-信号差\n");
+                stringBuffer.append("信号强度：信号差\n");
             } else if (signal.equals("03")) {
-                stringBuffer.append("信号强度-数值异常\n");
+                stringBuffer.append("信号强度：数值异常\n");
             } else if (signal.equalsIgnoreCase("FF")) {
-                stringBuffer.append("信号强度-未执行\n");
+                stringBuffer.append("信号强度：未执行\n");
             } else {
-                stringBuffer.append("信号强度-未知错误\n");
+                stringBuffer.append("信号强度：未知错误\n");
             }
             String yysbz = data.substring(6, 8);//连接运营商标志
             if (yysbz.equals("00")) {
-                stringBuffer.append("连接运营商-正常\n");
+                stringBuffer.append("连接运营商：正常\n");
             } else if (yysbz.equals("01")) {
-                stringBuffer.append("连接运营商-异常\n");
+                stringBuffer.append("连接运营商：异常\n");
             } else {
-                stringBuffer.append("连接运营商-未知错误\n");
+                stringBuffer.append("连接运营商：未知错误\n");
             }
-            String csszbz = data.substring(8, 10);//参数设置标志
-            if (csszbz.equals("00")) {
-                stringBuffer.append("参数设置-正常\n");
-            } else if (csszbz.equals("01")) {
-                stringBuffer.append("参数设置-APN设置失败\n");
-            } else if (csszbz.equals("02")) {
-                stringBuffer.append("参数设置-专网用户名设置失败\n");
-            } else if (csszbz.equals("03")) {
-                stringBuffer.append("参数设置-专用用户名密码设置失败\n");
-            } else if (csszbz.equals("04")) {
-                stringBuffer.append("参数设置-IP地址和端口号设置失败\n");
-            } else if (csszbz.equals("05")) {
-                stringBuffer.append("参数设置-传输方式（TCP/UDP）设置失败\n");
-            } else if (csszbz.equals("06")) {
-                stringBuffer.append("参数设置-其他参数设置失败\n");
-            } else if (csszbz.equalsIgnoreCase("FF")) {
-                stringBuffer.append("参数设置-未执行\n");
-            } else {
-                stringBuffer.append("参数设置-未知错误\n");
-            }
+
             String wlzcbz = data.substring(10, 12);//网络注册标志
             if (wlzcbz.equals("00")) {
-                stringBuffer.append("网络注册-正常\n");
+                stringBuffer.append("网络注册：正常\n");
             } else if (wlzcbz.equals("01")) {
-                stringBuffer.append("网络注册-异常\n");
+                stringBuffer.append("网络注册：异常\n");
             } else if (wlzcbz.equalsIgnoreCase("FF")) {
-                stringBuffer.append("网络注册-未执行\n");
+                stringBuffer.append("网络注册：未执行\n");
             } else {
-                stringBuffer.append("网络注册-未知错误\n");
+                stringBuffer.append("网络注册：未知错误\n");
             }
-            String sjljbz = data.substring(12, 14);//数据连接标志
-            if (sjljbz.equals("00")) {
-                stringBuffer.append("数据连接-正常\n");
-            } else if (sjljbz.equals("01")) {
-                stringBuffer.append("数据连接-异常\n");
-            } else if (sjljbz.equalsIgnoreCase("FF")) {
-                stringBuffer.append("数据连接-未执行\n");
+
+            stringBuffer.append("------------------------------------------\n");
+            String csszbz = data.substring(8, 10);//参数设置标志
+            if (csszbz.equals("00")) {
+                stringBuffer.append("参数设置：正常\n");
+            } else if (csszbz.equals("01")) {
+                stringBuffer.append("参数设置：APN设置失败\n");
+            } else if (csszbz.equals("02")) {
+                stringBuffer.append("参数设置：专网用户名设置失败\n");
+            } else if (csszbz.equals("03")) {
+                stringBuffer.append("参数设置：专用用户名密码设置失败\n");
+            } else if (csszbz.equals("04")) {
+                stringBuffer.append("参数设置：IP地址和端口号设置失败\n");
+            } else if (csszbz.equals("05")) {
+                stringBuffer.append("参数设置：传输方式（TCP/UDP）设置失败\n");
+            } else if (csszbz.equals("06")) {
+                stringBuffer.append("参数设置：其他参数设置失败\n");
+            } else if (csszbz.equalsIgnoreCase("FF")) {
+                stringBuffer.append("参数设置：未执行\n");
             } else {
-                stringBuffer.append("数据连接-未知错误\n");
+                stringBuffer.append("参数设置：未知错误\n");
             }
-            String ljzzbz = data.substring(14, 16);//连接主站标志
-            if (ljzzbz.equals("00")) {
-                stringBuffer.append("连接主站-正常\n");
-            } else if (ljzzbz.equals("01")) {
-                stringBuffer.append("连接主站-异常\n");
-            } else if (ljzzbz.equalsIgnoreCase("FF")) {
-                stringBuffer.append("连接主站-未执行\n");
-            } else {
-                stringBuffer.append("连接主站-未知错误\n");
-            }
-            String dlzzbz = data.substring(16, 18);//登录主站标志
-            if (dlzzbz.equals("00")) {
-                stringBuffer.append("登录主站-正常\n");
-            } else if (dlzzbz.equals("01")) {
-                stringBuffer.append("登录主站-异常\n");
-            } else if (dlzzbz.equalsIgnoreCase("FF")) {
-                stringBuffer.append("登录主站-未执行\n");
-            } else {
-                stringBuffer.append("登录主站-未知错误\n");
-            }
-            String ylcwbz1 = data.substring(18, 20);//预留错误标志1
-            if (ylcwbz1.equals("00")) {
-                stringBuffer.append("预留错误标志1-正常\n");
-            } else if (ylcwbz1.equals("01")) {
-                stringBuffer.append("预留错误标志1-异常\n");
-            } else if (ylcwbz1.equalsIgnoreCase("FF")) {
-                stringBuffer.append("预留错误标志1-未执行\n");
-            } else {
-                stringBuffer.append("预留错误标志1-未知错误\n");
-            }
-            String ylcwbz4 = data.substring(20, 22);//预留错误标志2
-            if (ylcwbz4.equals("00")) {
-                stringBuffer.append("预留错误标志4-正常\n");
-            } else if (ylcwbz4.equals("01")) {
-                stringBuffer.append("预留错误标志4-异常\n");
-            } else if (ylcwbz4.equalsIgnoreCase("FF")) {
-                stringBuffer.append("预留错误标志4-未执行\n");
-            } else {
-                stringBuffer.append("预留错误标志4-未知错误\n");
-            }
-            String xhqd = data.substring(22, 24);//信号强度
-            stringBuffer.append("信号强度:" + xhqd + "\n");
+
             String ip = data.substring(24, 32);//获取的IP地址
             ip = DataConvert.toStringIp(DataConvert.strReverse(ip, 0, ip.length()));
-            stringBuffer.append("IP地址:" + ip);
+            stringBuffer.append("IP地址：" + ip + "\n");
+//            String sjljbz = data.substring(12, 14);//数据连接标志
+//            if (sjljbz.equals("00")) {
+//                stringBuffer.append("数据连接-正常\n");
+//            } else if (sjljbz.equals("01")) {
+//                stringBuffer.append("数据连接-异常\n");
+//            } else if (sjljbz.equalsIgnoreCase("FF")) {
+//                stringBuffer.append("数据连接-未执行\n");
+//            } else {
+//                stringBuffer.append("数据连接-未知错误\n");
+//            }
+//            String ljzzbz = data.substring(14, 16);//连接主站标志
+//            if (ljzzbz.equals("00")) {
+//                stringBuffer.append("连接主站：正常\n");
+//            } else if (ljzzbz.equals("01")) {
+//                stringBuffer.append("连接主站：异常\n");
+//            } else if (ljzzbz.equalsIgnoreCase("FF")) {
+//                stringBuffer.append("连接主站：未执行\n");
+//            } else {
+//                stringBuffer.append("连接主站：未知错误\n");
+//            }
+//            String dlzzbz = data.substring(16, 18);//登录主站标志
+//            if (dlzzbz.equals("00")) {
+//                stringBuffer.append("登录主站：正常\n");
+//            } else if (dlzzbz.equals("01")) {
+//                stringBuffer.append("登录主站：异常\n");
+//            } else if (dlzzbz.equalsIgnoreCase("FF")) {
+//                stringBuffer.append("登录主站：未执行\n");
+//            } else {
+//                stringBuffer.append("登录主站：未知错误\n");
+//            }
+            String ylcwbz1 = data.substring(18, 20);//预留错误标志1
+//            if (ylcwbz1.equals("00")) {
+//                stringBuffer.append("预留错误标志1-正常\n");
+//            } else if (ylcwbz1.equals("01")) {
+//                stringBuffer.append("预留错误标志1-异常\n");
+//            } else if (ylcwbz1.equalsIgnoreCase("FF")) {
+//                stringBuffer.append("预留错误标志1-未执行\n");
+//            } else {
+//                stringBuffer.append("预留错误标志1-未知错误\n");
+//            }
+            String ylcwbz4 = data.substring(20, 22);//预留错误标志2
+//            if (ylcwbz4.equals("00")) {
+//                stringBuffer.append("预留错误标志4-正常\n");
+//            } else if (ylcwbz4.equals("01")) {
+//                stringBuffer.append("预留错误标志4-异常\n");
+//            } else if (ylcwbz4.equalsIgnoreCase("FF")) {
+//                stringBuffer.append("预留错误标志4-未执行\n");
+//            } else {
+//                stringBuffer.append("预留错误标志4-未知错误\n");
+//            }
+            String xhqd = data.substring(22, 24);//信号强度
+//            stringBuffer.append("信号强度:" + xhqd + "\n");
+
+//            stringBuffer.append("------------------------------------\n");
+//            stringBuffer.append("SIM卡检测正常");
         }
         return stringBuffer.toString();
     }
@@ -990,8 +1286,6 @@ public class BTProtocolParser {
                 }
 
             } else if (temp.equals("0F")) {
-                data.substring(2, 127 * 2);
-//                stringBuffer.append("电流谐波数据块：" + temp);
                 for (int i = 2; i < 127 * 2; i = i + 4) {
                     temp = data.substring(i, i + 4);
                     stringBuffer.append("电流谐波数据块:" + (i + 2) / 4 + "次谐波含量:" + decodeBCDData(temp, 2, 2, "") + "\n");
@@ -1035,6 +1329,7 @@ public class BTProtocolParser {
                     temp = data.substring(i, i + 4);
                     stringBuffer.append("电压谐波数据块:" + (i + 2) / 4 + "次谐波含量:" + decodeBCDData(temp, 2, 2, "") + "\n");
                 }
+
             } else if (temp.equals("FF")) {
                 for (int i = 2; i < 253 * 2; i = i + 4) {
                     temp = data.substring(i, i + 4);
@@ -1896,17 +2191,46 @@ public class BTProtocolParser {
             data = data.substring(6, data.length());
             if (data.length() == 2 * length) {
                 int time = data.length() / 8;
+                stringBuffer.append("测试成功" + "\n");
+                stringBuffer.append("\n");
                 for (int i = 0; i < time; i++) {
-                    String dataDate = data.substring(i*8, (i+1)*8);
-                    dataDate = DataConvert.strReverse(dataDate, 0, dataDate.length());
-                    String year = "20" + dataDate.substring(0, 2);
-                    String month = dataDate.substring(2, 4);
-                    String day = dataDate.substring(4, 6);
-                    String week = getWeek(dataDate.substring(6, 8));
-                    dataDate = year + "年" + month + "月" + day + "日" + week;
-                    stringBuffer.append(dataDate + ",");
+                    if (i == 0) {
+                        stringBuffer.append("A相数据：" + "\n");
+                        String dataDate = data.substring(i * 8, (i + 1) * 8);
+                        dataDate = DataConvert.strReverse(dataDate, 0, dataDate.length());
+                        String year = "20" + dataDate.substring(0, 2);
+                        String month = dataDate.substring(2, 4);
+                        String day = dataDate.substring(4, 6);
+                        String week = getWeek(dataDate.substring(6, 8));
+                        dataDate = year + "年" + month + "月" + day + "日" + week;
+                        stringBuffer.append(dataDate + "\n");
+                    } else if (i == 1) {
+                        String dataDate = data.substring(i * 8, (i + 1) * 8);
+                        dataDate = DataConvert.strReverse(dataDate, 0, dataDate.length());
+                        if (!dataDate.contains("FF")) {
+                            stringBuffer.append("B相数据：" + "\n");
+                            String year = "20" + dataDate.substring(0, 2);
+                            String month = dataDate.substring(2, 4);
+                            String day = dataDate.substring(4, 6);
+                            String week = getWeek(dataDate.substring(6, 8));
+                            dataDate = year + "年" + month + "月" + day + "日" + week;
+                            stringBuffer.append(dataDate + "\n");
+                        }
+                    } else if (i == 2) {
+                        String dataDate = data.substring(i * 8, (i + 1) * 8);
+                        dataDate = DataConvert.strReverse(dataDate, 0, dataDate.length());
+                        if (!dataDate.contains("FF")) {
+                            stringBuffer.append("C相数据：" + "\n");
+                            String year = "20" + dataDate.substring(0, 2);
+                            String month = dataDate.substring(2, 4);
+                            String day = dataDate.substring(4, 6);
+                            String week = getWeek(dataDate.substring(6, 8));
+                            dataDate = year + "年" + month + "月" + day + "日" + week;
+                            stringBuffer.append(dataDate + "\n");
+                        }
+                    }
                 }
-                return stringBuffer.substring(0, stringBuffer.length() - 1);
+                return stringBuffer.toString();
             }
         } else if ("01".equals(data.substring(0, 2).toUpperCase())) {
             byte[] dataLen = DataConvert.toBytes(data.substring(2, 6));
@@ -1941,10 +2265,10 @@ public class BTProtocolParser {
             if ((bytes[0] & 0x01) == 0x01) {
                 stringBuffer.append("强电未插入");
             }
-            if ((bytes[1] & 0x80) == 0x80) {
+            if ((bytes[1] & 0x80) == 0x20) {
                 stringBuffer.append("电能表/采集器模块未插入");
             }
-            if ((bytes[1] & 0x40) == 0x40) {
+            if ((bytes[1] & 0x40) == 0x20) {
                 stringBuffer.append("集中器模块未插入");
             }
             if ((bytes[1] & 0x20) == 0x20) {
@@ -1965,16 +2289,16 @@ public class BTProtocolParser {
             if ((bytes[1] & 0x01) == 0x01) {
                 stringBuffer.append("电能表主机异常");
             }
-            if ((bytes[2] & 0x10) == 0x10) {
+            if ((bytes[2] & 0x10) == 0x01) {
                 stringBuffer.append("获取从节点中继路径异常");
             }
-            if ((bytes[2] & 0x08) == 0x08) {
+            if ((bytes[2] & 0x08) == 0x01) {
                 stringBuffer.append("下发从节点固定中继路径异常");
             }
-            if ((bytes[2] & 0x04) == 0x04) {
+            if ((bytes[2] & 0x04) == 0x01) {
                 stringBuffer.append("链路检测异常");
             }
-            if ((bytes[2] & 0x02) == 0x02) {
+            if ((bytes[2] & 0x02) == 0x01) {
                 stringBuffer.append("电能表/采集器模块串口异常");
             }
             if ((bytes[2] & 0x01) == 0x01) {
@@ -1987,84 +2311,142 @@ public class BTProtocolParser {
 //      return "数据异常";
     }
 
+
     /**
      * 载波检测和微功率检测结果
      *
      * @param data 外设返回数据
      * @return
      */
-    public String getEPCData(String data) {
+    public String getCheckInfo111(String data) {
         StringBuffer stringBuffer = new StringBuffer();
         if (TextUtils.isEmpty(data)) {
             return null;
         }
-        if (!"00".equals(data.substring(0, 2).toUpperCase())) {
-            data = data.substring(0, 2);
-            //国网计量中心
-            stringBuffer.append("应用序列号：" + data.substring(0, 16) + "\n");
-            stringBuffer.append("校验区：" + data.substring(16, 24) + "\n");
+        if ("00".equals(data.substring(0, 2).toUpperCase())) {
+            byte[] dataLen = DataConvert.toBytes(data.substring(2, 6));
+            int length = DataConvert.byteToInt(dataLen, 0, dataLen.length);
+            data = data.substring(6, data.length());
+            if (data.length() == 2 * length) {
+                int time = data.length() / 8;
+                stringBuffer.append("测试成功" + "\n");
+                stringBuffer.append("\n");
+                for (int i = 0; i < time; i++) {
+                    if (i == 0) {
+                        stringBuffer.append("数据值：" + "\n");
+                        String dataDate = data.substring(i * 8, (i + 1) * 8);
+                        dataDate = DataConvert.strReverse(dataDate, 0, dataDate.length());
+                        String year = "20" + dataDate.substring(0, 2);
+                        String month = dataDate.substring(2, 4);
+                        String day = dataDate.substring(4, 6);
+                        String week = getWeek(dataDate.substring(6, 8));
+                        dataDate = year + "年" + month + "月" + day + "日" + week;
+                        stringBuffer.append(dataDate + "\n");
+                    } else if (i == 1) {
+                        String dataDate = data.substring(i * 8, (i + 1) * 8);
+                        dataDate = DataConvert.strReverse(dataDate, 0, dataDate.length());
+                        if (!dataDate.contains("FF")) {
+                            stringBuffer.append("数据值：" + "\n");
+                            String year = "20" + dataDate.substring(0, 2);
+                            String month = dataDate.substring(2, 4);
+                            String day = dataDate.substring(4, 6);
+                            String week = getWeek(dataDate.substring(6, 8));
+                            dataDate = year + "年" + month + "月" + day + "日" + week;
+                            stringBuffer.append(dataDate + "\n");
+                        }
+                    } else if (i == 2) {
+                        String dataDate = data.substring(i * 8, (i + 1) * 8);
+                        dataDate = DataConvert.strReverse(dataDate, 0, dataDate.length());
+                        if (!dataDate.contains("FF")) {
+                            stringBuffer.append("数据值：" + "\n");
+                            String year = "20" + dataDate.substring(0, 2);
+                            String month = dataDate.substring(2, 4);
+                            String day = dataDate.substring(4, 6);
+                            String week = getWeek(dataDate.substring(6, 8));
+                            dataDate = year + "年" + month + "月" + day + "日" + week;
+                            stringBuffer.append(dataDate + "\n");
+                        }
+                    }
+                }
+                return stringBuffer.toString();
+            }
+        } else if ("01".equals(data.substring(0, 2).toUpperCase())) {
+            byte[] dataLen = DataConvert.toBytes(data.substring(2, 6));
+            int length = DataConvert.byteToInt(dataLen, 0, dataLen.length);
+            int i = data.length() - 6;
+            if (data.length() - 6 != length * 2 || length * 2 != 8) {
+                return "帧格式错误";
+            }
+            byte[] bytes = DataConvert.toBytes(data.substring(6, 14));
 
-            //芯片厂家
-            stringBuffer.append("版本：" + data.substring(24, 28) + "\n");
-            stringBuffer.append("发行时间：" + data.substring(28, 40) + "\n");
-            stringBuffer.append("封装厂家代码：" + data.substring(40, 44) + "\n");
-            stringBuffer.append("互感器厂家代码：" + data.substring(44, 48) + "\n");
-            stringBuffer.append("标签对象资产型号：" + data.substring(48, 70) + "\n");
-            stringBuffer.append("型号：" + data.substring(70, 88) + "\n");
-            stringBuffer.append("生产日期：" + data.substring(88, 96) + "\n");
-            stringBuffer.append("预留位：" + data.substring(96, 104) + "\n");
-            stringBuffer.append("校验区：" + data.substring(104, 112) + "\n");
+            if ((bytes[0] & 0x80) == 0x80) {
+                stringBuffer.append("电能表带负载异常");
+            }
+            if ((bytes[0] & 0x40) == 0x40) {
+                stringBuffer.append("终端主机异常");
+            }
+            if ((bytes[0] & 0x20) == 0x20) {
+                stringBuffer.append("终端带负载异常");
+            }
+            if ((bytes[0] & 0x10) == 0x10) {
+                stringBuffer.append("模块功耗异常");
+            }
+            if ((bytes[0] & 0x08) == 0x08) {
+                stringBuffer.append("模块通信能力异常");
+            }
+            if ((bytes[0] & 0x04) == 0x04) {
+                stringBuffer.append("载波模块逻辑单元异常");
+            }
+            if ((bytes[0] & 0x02) == 0x02) {
+                stringBuffer.append("组网异常");
+            }
+            if ((bytes[0] & 0x01) == 0x01) {
+                stringBuffer.append("强电未插入");
+            }
+            if ((bytes[1] & 0x80) == 0x20) {
+                stringBuffer.append("电能表/采集器模块未插入");
+            }
+            if ((bytes[1] & 0x40) == 0x20) {
+                stringBuffer.append("集中器模块未插入");
+            }
+            if ((bytes[1] & 0x20) == 0x20) {
+                stringBuffer.append("采集器整机通信异常");
+            }
+            if ((bytes[1] & 0x10) == 0x10) {
+                stringBuffer.append("电能表整机通信异常");
+            }
+            if ((bytes[1] & 0x08) == 0x08) {
+                stringBuffer.append("终端整机通信异常");
+            }
+            if ((bytes[1] & 0x04) == 0x04) {
+                stringBuffer.append("采集器主机异常");
+            }
+            if ((bytes[1] & 0x02) == 0x02) {
+                stringBuffer.append("采集器带负载异常");
+            }
+            if ((bytes[1] & 0x01) == 0x01) {
+                stringBuffer.append("电能表主机异常");
+            }
+            if ((bytes[2] & 0x10) == 0x01) {
+                stringBuffer.append("获取从节点中继路径异常");
+            }
+            if ((bytes[2] & 0x08) == 0x01) {
+                stringBuffer.append("下发从节点固定中继路径异常");
+            }
+            if ((bytes[2] & 0x04) == 0x01) {
+                stringBuffer.append("链路检测异常");
+            }
+            if ((bytes[2] & 0x02) == 0x01) {
+                stringBuffer.append("电能表/采集器模块串口异常");
+            }
+            if ((bytes[2] & 0x01) == 0x01) {
+                stringBuffer.append("集中器模块串口异常");
+            }
+            return stringBuffer.toString();
 
-            //省计量中心
-            //------互感器参数密文
-            stringBuffer.append("二次负荷上限值：" + data.substring(112, 116) + "\n");
-            stringBuffer.append("电流比：" + data.substring(116, 122) + "\n");
-            stringBuffer.append("准确度等级：" + data.substring(122, 124) + "\n");
-            stringBuffer.append("额定一次电流扩大倍数：" + data.substring(124, 132) + "\n");
-            stringBuffer.append("仪表保安系数：" + data.substring(132, 136) + "\n");
-            stringBuffer.append("保留：" + data.substring(136, 148) + "\n");
-            //----------
-            stringBuffer.append("检定人员：" + data.substring(148, 154) + "\n");
-            stringBuffer.append("检定结果：" + data.substring(154, 156) + "\n");
-            stringBuffer.append("检定时间：" + data.substring(156, 164) + "\n");
-            stringBuffer.append("预留位：" + data.substring(164, 172) + "\n");
-            stringBuffer.append("校验位：" + data.substring(172, 180) + "\n");
-
-            //现场操作
-            stringBuffer.append("用户编号：" + data.substring(180, 196) + "\n");
-            stringBuffer.append("操作次数：" + data.substring(196, 200) + "\n");
-
-            stringBuffer.append("操作类型1：" + data.substring(200, 202) + "\n");
-            stringBuffer.append("操作人员1：" + data.substring(202, 208) + "\n");
-            stringBuffer.append("操作时间1：" + data.substring(208, 216) + "\n");
-            stringBuffer.append("校验位1：" + data.substring(216, 224) + "\n");
-
-            stringBuffer.append("操作类型2：" + data.substring(224, 226) + "\n");
-            stringBuffer.append("操作人员2：" + data.substring(226, 232) + "\n");
-            stringBuffer.append("操作时间2：" + data.substring(232, 240) + "\n");
-            stringBuffer.append("校验位2：" + data.substring(240, 248) + "\n");
-
-            stringBuffer.append("操作类型3：" + data.substring(248, 250) + "\n");
-            stringBuffer.append("操作人员3：" + data.substring(250, 256) + "\n");
-            stringBuffer.append("操作时间3：" + data.substring(256, 264) + "\n");
-            stringBuffer.append("校验位3：" + data.substring(264, 272) + "\n");
-
-            stringBuffer.append("操作类型4：" + data.substring(272, 274) + "\n");
-            stringBuffer.append("操作人员4：" + data.substring(274, 280) + "\n");
-            stringBuffer.append("操作时间4：" + data.substring(280, 288) + "\n");
-            stringBuffer.append("校验位4：" + data.substring(288, 296) + "\n");
-
-            stringBuffer.append("操作类型5：" + data.substring(296, 298) + "\n");
-            stringBuffer.append("操作人员5：" + data.substring(298, 304) + "\n");
-            stringBuffer.append("操作时间5：" + data.substring(304, 312) + "\n");
-            stringBuffer.append("校验位5：" + data.substring(312, 320) + "\n");
-
-            stringBuffer.append("操作类型6：" + data.substring(320, 322) + "\n");
-            stringBuffer.append("操作人员6：" + data.substring(322, 328) + "\n");
-            stringBuffer.append("操作时间6：" + data.substring(328, 336) + "\n");
-            stringBuffer.append("校验位6：" + data.substring(336, 344) + "\n");
         }
-        return "数据异常";
+        return errorCode_A4(data);
+//      return "数据异常";
     }
 
     /**
@@ -2496,17 +2878,17 @@ public class BTProtocolParser {
     public String getCHJCData(String data) {
         StringBuffer result = new StringBuffer();
         if (TextUtils.isEmpty(data)) {
-            result.append("台区识别失败");
+            result.append("串户检测失败");
         }
         if (data.length() == 1 * 2) {
             String binData = DataConvert.hexString2binaryString(data);
             String temp = binData.substring(7, 8);
             if (temp.equals("0")) {
 //                result.append("户表关系：户表对应"+"\n");
-                result.append("对应 ");
+                result.append("一致 ");
             } else {
 //                result.append("户表关系：户表不对应"+"\n");
-                result.append("不对应 ");
+                result.append("不一致 ");
             }
             temp = binData.substring(6, 7);
             if (temp.equals("0")) {
@@ -2528,71 +2910,6 @@ public class BTProtocolParser {
             result.append("帧格式错误");
         }
         return result.toString();
-    }
-
-    /**
-     * 串户检测错误编码对应内容
-     *
-     * @param data 错误编码
-     * @return 错误编码内容
-     */
-    public String errorEPC_Data(String data) {
-        StringBuffer stringBuffer = new StringBuffer();
-        if (data.length() != 8) {
-            return "帧格式错误";
-        }
-        byte[] bytes = DataConvert.toBytes(data);
-
-        if ((bytes[0] & 0x20) == 0x20) {
-            stringBuffer.append("外设硬件异常");
-        }
-        if ((bytes[0] & 0x10) == 0x10) {
-            stringBuffer.append("无此功能");
-        }
-        if ((bytes[0] & 0x08) == 0x08) {
-            stringBuffer.append("参数越限");
-        }
-        if ((bytes[0] & 0x04) == 0x04) {
-            stringBuffer.append("错误标志异常");
-        }
-        if ((bytes[0] & 0x02) == 0x02) {
-            stringBuffer.append("主从标志错误");
-        }
-        if ((bytes[0] & 0x01) == 0x01) {
-            stringBuffer.append("传输方向错误");
-        }
-        if ((bytes[1] & 0x80) == 0x80) {
-            stringBuffer.append("其他错误");
-        }
-        if ((bytes[1] & 0x40) == 0x40) {
-            stringBuffer.append("安全认证失败");
-        }
-        if ((bytes[1] & 0x20) == 0x20) {
-            stringBuffer.append("未通过鉴别");
-        }
-        if ((bytes[1] & 0x10) == 0x10) {
-            stringBuffer.append("口令错误");
-        }
-        if ((bytes[1] & 0x08) == 0x08) {
-            stringBuffer.append("存储区锁定");
-        }
-        if ((bytes[1] & 0x04) == 0x04) {
-            stringBuffer.append("存储区溢出");
-        }
-        if ((bytes[1] & 0x02) == 0x02) {
-            stringBuffer.append("权限不足");
-        }
-        if ((bytes[1] & 0x01) == 0x01) {
-            stringBuffer.append("功率不足");
-        }
-        if ((bytes[2] & 0x02) == 0x02) {
-            stringBuffer.append("标签无应答");
-        }
-        if ((bytes[2] & 0x01) == 0x01) {
-            stringBuffer.append("没有找到标签");
-        }
-        return stringBuffer.toString();
-
     }
 
     /**

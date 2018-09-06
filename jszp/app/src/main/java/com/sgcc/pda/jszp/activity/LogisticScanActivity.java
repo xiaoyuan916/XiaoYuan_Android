@@ -1,15 +1,20 @@
 package com.sgcc.pda.jszp.activity;
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
 import com.sgcc.pda.jszp.R;
 import com.sgcc.pda.jszp.base.BaseActivity;
+import com.sgcc.pda.jszp.util.JzspConstants;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
+/**
+ * 物流派车  条件筛选
+ */
 public class LogisticScanActivity extends BaseActivity {
 
     @BindView(R.id.tv_title)
@@ -35,6 +40,11 @@ public class LogisticScanActivity extends BaseActivity {
     private TextView selected_type;
     private TextView selected_status;
 
+    private String[] CarTypes = {"", JzspConstants.Car_Type_3T, JzspConstants.Car_Type_5T};
+    private String[] CarStutus = {"", JzspConstants.Car_Status_UnSend, JzspConstants.Car_Status_Sended};
+
+
+    private String autoType, status;
 
     @Override
     public int getLayoutResId() {
@@ -43,9 +53,34 @@ public class LogisticScanActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        autoType = getIntent().getStringExtra("autoType");
+        status = getIntent().getStringExtra("status");
         tvTitle.setText("查询");
+
         selected_type = tvAll;
+        if (!TextUtils.isEmpty(autoType)) {
+            switch (autoType) {
+                case JzspConstants.Car_Type_3T:
+                    switchtype(1);
+                    break;
+                case JzspConstants.Car_Type_5T:
+                    switchtype(2);
+                    break;
+            }
+        }
+
         selected_status = tvSendAll;
+        if (!TextUtils.isEmpty(status)) {
+            switch (status) {
+                case JzspConstants.Car_Status_UnSend:
+                    switchstatus(1);
+                    break;
+                case JzspConstants.Car_Status_Sended:
+                    switchstatus(2);
+                    break;
+            }
+        }
+
     }
 
     @Override
@@ -63,6 +98,7 @@ public class LogisticScanActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.tv_all:
                 switchtype(0);
+
                 break;
             case R.id.tv_3t:
                 switchtype(1);
@@ -84,6 +120,8 @@ public class LogisticScanActivity extends BaseActivity {
                 break;
             case R.id.bt_sure:
                 Intent data = new Intent();
+                data.putExtra("cart_type", CarTypes[car_type]);
+                data.putExtra("cart_status", CarStutus[car_status]);
                 setResult(RESULT_OK, data);
                 finish();
                 break;

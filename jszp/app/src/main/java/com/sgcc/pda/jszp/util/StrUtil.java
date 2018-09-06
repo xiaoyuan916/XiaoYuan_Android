@@ -1,5 +1,8 @@
 package com.sgcc.pda.jszp.util;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class StrUtil {
 
     public static String stripUnit(String src){
@@ -18,5 +21,19 @@ public class StrUtil {
         }
 
         return src;
+    }
+
+    /**
+     * long型转成yyyy-MM-dd
+     * @param time
+     * @return
+     */
+    public  static String longToString(long time){
+        Date date=new Date(time);
+
+        SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
+
+        return formatter.format(date);
+
     }
 }

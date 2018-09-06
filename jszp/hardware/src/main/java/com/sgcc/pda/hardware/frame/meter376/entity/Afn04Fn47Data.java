@@ -10,7 +10,7 @@ import com.sgcc.pda.sdk.utils.StringUtil;
  */
 
 public class Afn04Fn47Data {
-    private String orderNum;
+/*    private String orderNum;
     private boolean freshFlag;
     private String buyValue;
     private String warningValue;
@@ -105,5 +105,5 @@ public class Afn04Fn47Data {
             return "";
         }
         return result.toString();
-    }
+    }*/
 }

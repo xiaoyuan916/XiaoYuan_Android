@@ -9,10 +9,10 @@ import com.sgcc.pda.jszp.R;
 import com.sgcc.pda.jszp.bean.DeviceItem;
 
 public class DeviceStateAdapter<T extends DeviceItem> extends BaseViewHolderManager<T> {
-    private orderItemAdapter.CountNotifiCallBack countNotifiCallBack;
+    private DeliveryConfirmDetailItemAdapter.CountNotifiCallBack countNotifiCallBack;
 
 
-    public DeviceStateAdapter(orderItemAdapter.CountNotifiCallBack countNotifiCallBack) {
+    public DeviceStateAdapter(DeliveryConfirmDetailItemAdapter.CountNotifiCallBack countNotifiCallBack) {
         this.countNotifiCallBack = countNotifiCallBack;
     }
 
@@ -39,11 +39,11 @@ public class DeviceStateAdapter<T extends DeviceItem> extends BaseViewHolderMana
         return R.layout.item_device_state;
     }
 
-    public orderItemAdapter.CountNotifiCallBack getCountNotifiCallBack() {
+    public DeliveryConfirmDetailItemAdapter.CountNotifiCallBack getCountNotifiCallBack() {
         return countNotifiCallBack;
     }
 
-    public void setCountNotifiCallBack(orderItemAdapter.CountNotifiCallBack countNotifiCallBack) {
+    public void setCountNotifiCallBack(DeliveryConfirmDetailItemAdapter.CountNotifiCallBack countNotifiCallBack) {
         this.countNotifiCallBack = countNotifiCallBack;
     }
 }

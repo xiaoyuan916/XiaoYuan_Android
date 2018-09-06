@@ -3,7 +3,7 @@ package com.sgcc.pda.hardware.util;
 import android.text.TextUtils;
 
 /**
- * @author: hzwq
+ * @author: wgj
  * @date: 2017/2/15
  * @time: 15:01
  */
@@ -63,14 +63,11 @@ public class DataSignExchangeUtils {
     public static String getJzqDA_DT(String mpedIndex, String fn) {
         int mIndex = Integer.parseInt(mpedIndex);
         int afn = Integer.parseInt(fn);
-        int da01 = 0;
-        int da02 = 0;
-        if (mIndex != 0) {
-            int remainder = mIndex % 8;//测量点号模8取余
-            int result = mIndex / 8;//测量点除以8
-            da01 = remainder == 0 ? result : result + 1;
-            da02 = 0x01 << (remainder == 0 ? 7 : (remainder - 1));
-        }
+        int remainder = mIndex % 8;//测量点号模8取余
+        int result = mIndex / 8;//测量点除以8
+        int da01 = remainder == 0 ? result : result + 1;
+        int da02 = 0x01 << (remainder == 0 ? 7 : (remainder - 1));
+
         int afnRem = afn % 8;
         int afnRes = afn / 8;
 

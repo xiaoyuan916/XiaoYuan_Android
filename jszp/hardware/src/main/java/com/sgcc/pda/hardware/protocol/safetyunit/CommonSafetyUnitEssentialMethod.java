@@ -1,5 +1,7 @@
 package com.sgcc.pda.hardware.protocol.safetyunit;
 
+import android.util.Log;
+
 import com.sgcc.pda.hardware.event.HardwareErroeEvent;
 import com.sgcc.pda.hardware.hardware.ICommunicate;
 import com.sgcc.pda.hardware.protocol.IBaseProtocol;
@@ -18,11 +20,12 @@ public class CommonSafetyUnitEssentialMethod extends ISafetyUnitEssentialMethod<
     public CommonSafetyUnitEssentialMethod(IBaseProtocol<SafetyUnitFrame> protocol, ICommunicate communicate) {
         this.protocol = protocol;
         this.communicate = communicate;
-        this.readTimeout = 2000;
+        this.readTimeout = 15000;
     }
 
     /**
      * 获取与基础通讯匹配的协议帧新实例
+     *
      * @return 协议帧实例
      */
     @Override
@@ -32,35 +35,36 @@ public class CommonSafetyUnitEssentialMethod extends ISafetyUnitEssentialMethod<
 
     /**
      * 向安全单元发送命令并获取安全单元返回
+     *
      * @param mainSign 主功能标识
-     * @param control 命令码
-     * @param data 发送命令
-     * @param retData 读取到的数据
+     * @param control  命令码
+     * @param data     发送命令      发送的数据?
+     * @param retData  读取到的数据
      * @return 0-成功
-     *          CommonParamError-输入参数不合法
-     *          CommonBufferError-返回值缓冲区为空
-     *          CommonWriteError-数据写入错误
-     *          SafetyConfigError-协议和帧结构定义为空
-     *          SafetyUnitError-安全单元操作设备操作失败
-     *          SafetyFrameError-安全单元通讯帧格式错误
-     *          SafetyFrameMatchError-上下行帧不匹配
-     *          SafetyGetStatusError-安全单元下行帧返回了异常帧
+     * CommonParamError-输入参数不合法
+     * CommonBufferError-返回值缓冲区为空
+     * CommonWriteError-数据写入错误
+     * SafetyConfigError-协议和帧结构定义为空
+     * SafetyUnitError-安全单元操作设备操作失败
+     * SafetyFrameError-安全单元通讯帧格式错误
+     * SafetyFrameMatchError-上下行帧不匹配
+     * SafetyGetStatusError-安全单元下行帧返回了异常帧
      */
     @Override
     synchronized public int commitDown(String mainSign, String control, String data, StringBuffer retData) {
         if (mainSign.length() != 2 || control.length() != 2) {
             EventManager.getDefault().post(new HardwareErroeEvent("向安全单元发送命令并获取安全单元返回数据失败，出现在A1BSafetyUnitModule类 read()方法中",
-                    "data = "+data+" retData = "+retData+" mainSign = "+mainSign+" control = "+control));
+                    "data = " + data + " retData = " + retData + " mainSign = " + mainSign + " control = " + control));
             return ErrorManager.ErrorType.CommonParamError.getValue();
         }
         if (retData == null) {
             EventManager.getDefault().post(new HardwareErroeEvent("向安全单元发送命令并获取安全单元返回数据失败，出现在A1BSafetyUnitModule类 read()方法中",
-                    "data = "+data+" retData = "+retData+" mainSign = "+mainSign+" control = "+control));
+                    "data = " + data + " retData = " + retData + " mainSign = " + mainSign + " control = " + control));
             return ErrorManager.ErrorType.CommonBufferError.getValue();
         }
         if (protocol == null || communicate == null) {
             EventManager.getDefault().post(new HardwareErroeEvent("向安全单元发送命令并获取安全单元返回数据失败，出现在A1BSafetyUnitModule类 read()方法中",
-                    "data = "+data+" retData = "+retData+" mainSign = "+mainSign+" control = "+control));
+                    "data = " + data + " retData = " + retData + " mainSign = " + mainSign + " control = " + control));
             return ErrorManager.ErrorType.CommonProtocolError.getValue();
         }
         SafetyUnitFrame upFrame = getFrameNewInstance();
@@ -71,9 +75,11 @@ public class CommonSafetyUnitEssentialMethod extends ISafetyUnitEssentialMethod<
         String upString = upFrame.getString();
         if (upString == null) { // 无法获取上行字符串，则组帧时出现异常，返回有帧保持的异常
             EventManager.getDefault().post(new HardwareErroeEvent("向安全单元发送命令并获取安全单元返回数据失败，无法获取上行字符串upString = null，出现在A1BSafetyUnitModule类 read()方法中",
-                    "data = "+data+" retData = "+retData+" mainSign = "+mainSign+" control = "+control+" upString = "+upString));
+                    "data = " + data + " retData = " + retData + " mainSign = " + mainSign + " control = " + control + " upString = " + upString));
             return upFrame.getException();
         }
+
+        Log.d("upgrage1_command", upString);
 
         int sendRet = communicate.write(upString);
         if (sendRet != 0) {
@@ -87,6 +93,8 @@ public class CommonSafetyUnitEssentialMethod extends ISafetyUnitEssentialMethod<
 
         // 判断返回的数据是否能够组成安全单元通讯下行帧
         SafetyUnitFrame downFrame = protocol.parseDown(sb.toString());
+
+        Log.d("upgrage1_response", downFrame.getString());
         if (downFrame.getException() != 0) {
             return downFrame.getException();
         }
@@ -104,34 +112,43 @@ public class CommonSafetyUnitEssentialMethod extends ISafetyUnitEssentialMethod<
     }
 
     /**
-     * 从安全单元获取请求
-     * 默认的主功能标识为01否则会返回错误
+     * 从安全单元获取请求 （此时从安全单元获取的帧格式是 命令帧格式  ）
+     * 默认的主功能标识为01 否则会返回错误
+     *
      * @param mainSign 返回-主功能标识
-     * @param control 返回-请求命令码
-     * @param data 返回-请求数据域
-     * @param status 返回-状态码
+     * @param control  返回-请求命令码
+     * @param data     返回-请求数据域
+     * @param status   返回-状态码  // 貌似没用
      * @return 0-成功
-     *          CommonBufferError-返回值缓冲区为空
-     *          CommonReadError-读取数据为空
-     *          SafetyUnitError-安全单元操作设备操作失败
-     *          SafetyFrameError-安全单元通讯帧格式错误
-     *          SafetyFrameMatchError-上下行帧不匹配
-     *          SafetyGetStatusError-安全单元下行帧返回了异常帧
+     * CommonBufferError-返回值缓冲区为空
+     * CommonReadError-读取数据为空
+     * SafetyUnitError-安全单元操作设备操作失败
+     * SafetyFrameError-安全单元通讯帧格式错误
+     * SafetyFrameMatchError-上下行帧不匹配
+     * SafetyGetStatusError-安全单元下行帧返回了异常帧
      */
     synchronized public int getFrame(StringBuffer mainSign, StringBuffer control, StringBuffer status, StringBuffer data) {
         if (mainSign == null || control == null || status == null || data == null) {
             EventManager.getDefault().post(new HardwareErroeEvent("从安全单元获取请求失败，出现在CommonSafetyUnitEssentialMethod类 getFrame()方法中",
-                    "mainSign = "+mainSign+" control = "+control+" status = "+status+" data = "+data));
+                    "mainSign = " + mainSign + " control = " + control + " status = " + status + " data = " + data));
             return ErrorManager.ErrorType.CommonBufferError.getValue();
         }
         StringBuffer sb = new StringBuffer();
-        int recvRet = communicate.read(sb, getReadTimeout());
+
+        int recvRet;
+
+        recvRet = communicate.read(sb, getReadTimeout());
+        EventManager.getDefault().post(new HardwareErroeEvent(recvRet+"",
+                sb.toString()
+        ));
+        Log.d("upgrade_come", sb.toString() + "   time : " + getReadTimeout() + "  status: " + recvRet);
         if (recvRet != 0) { // 从安全单元读取数据错误
             return recvRet;
         }
 
         // 判断返回的数据是否能够组成安全单元通讯上行帧（请求帧）
         SafetyUnitFrame upFrame = protocol.parseUp(sb.toString());
+
         if (upFrame.getException() != 0) {
             return upFrame.getException();
         }
@@ -144,20 +161,21 @@ public class CommonSafetyUnitEssentialMethod extends ISafetyUnitEssentialMethod<
         return 0;
     }
 
+
     /**
      * 向安全单元发送请求响应
-     * @param mainSign 发送的主功能标识
-     * @param control 发送的命令码
-     * @param status 状态码
-     * @param data 发送数据
-     * @return 0-发送成功
-     *          CommonParamError-输入参数不合法
-     *          CommonWriteError-数据写入错误
-     *          CommonProtocolError-协议定义为空
-     *          SafetyUnitError-安全单元操作设备操作失败
-     *          SafetyFrameError-安全单元通讯帧格式错误
-     *          SafetyFrameMatchError-上下行帧不匹配
      *
+     * @param mainSign 发送的主功能标识
+     * @param control  发送的命令码
+     * @param status   状态码
+     * @param data     发送数据
+     * @return 0-发送成功
+     * CommonParamError-输入参数不合法
+     * CommonWriteError-数据写入错误
+     * CommonProtocolError-协议定义为空
+     * SafetyUnitError-安全单元操作设备操作失败
+     * SafetyFrameError-安全单元通讯帧格式错误
+     * SafetyFrameMatchError-上下行帧不匹配
      */
     synchronized public int sendFrame(String mainSign, String control, String status, String data) {
         if (mainSign == null || mainSign.length() != 2 ||
@@ -165,24 +183,35 @@ public class CommonSafetyUnitEssentialMethod extends ISafetyUnitEssentialMethod<
                 status == null || status.length() != 2 ||
                 data == null) {
             EventManager.getDefault().post(new HardwareErroeEvent("向安全单元发送请求响应失败，出现在CommonSafetyUnitEssentialMethod类 sendFrame()方法中",
-                    "mainSign = "+mainSign+" control = "+control+" status = "+status+" data = "+data));
+                    "mainSign = " + mainSign + " control = " + control + " status = " + status + " data = " + data));
             return ErrorManager.ErrorType.CommonParamError.getValue();
         }
         if (protocol == null || communicate == null) {
             EventManager.getDefault().post(new HardwareErroeEvent("向安全单元发送请求响应失败，出现在CommonSafetyUnitEssentialMethod类 sendFrame()方法中",
-                    "mainSign = "+mainSign+" control = "+control+" status = "+status+" data = "+data));
+                    "mainSign = " + mainSign + " control = " + control + " status = " + status + " data = " + data));
             return ErrorManager.ErrorType.CommonProtocolError.getValue();
         }
         SafetyUnitFrame downFrame = getFrameNewInstance();
-        downFrame.setMainSign("01");
+        Log.d("upgrade_send",(downFrame== null)+"");
+        //Log.d("upgrade_send", downFrame.getException()+"");
+        //downFrame.setMainSign("01");
+        downFrame.setMainSign(mainSign);
         downFrame.setControl(control);
         downFrame.setStatusCode(status);
         downFrame.setData(data);
 
         String downString = downFrame.getString();
+        Log.d("upgrade_send",downString);
+        EventManager.getDefault().post(new HardwareErroeEvent("",
+                " 主功能标识： "+mainSign
+                        +" 命令/响应码： "+control
+                        +" 状态码： "+status
+        ));
+        //Intent intent = new Intent("com.example.mu16jj.broadcastreceiver");
+        //BaseApplication.;
         if (downString == null) { // 无法获取发送字符串，则组帧时出现异常，返回有帧保持的异常
             EventManager.getDefault().post(new HardwareErroeEvent("向安全单元发送请求响应失败，出现在CommonSafetyUnitEssentialMethod类 sendFrame()方法中",
-                    "mainSign = "+mainSign+" control = "+control+" status = "+status+" data = "+data+" downString = "+downString));
+                    "mainSign = " + mainSign + " control = " + control + " status = " + status + " data = " + data + " downString = " + downString));
             return downFrame.getException();
         }
 
@@ -191,28 +220,29 @@ public class CommonSafetyUnitEssentialMethod extends ISafetyUnitEssentialMethod<
 
     /**
      * 判断返回的帧是否有异常出现
-     * @param upFrame 上行帧实例（请求帧）
+     *
+     * @param upFrame   上行帧实例（请求帧）
      * @param downFrame 下行帧实例（响应帧）
      * @return 0-无异常
-     *          SafetyFrameError-安全单元通讯帧格式错误
-     *          SafetyFrameMatchError-上下行帧不匹配
-     *          SafetyGetStatusError-安全单元下行帧返回了异常帧
+     * SafetyFrameError-安全单元通讯帧格式错误
+     * SafetyFrameMatchError-上下行帧不匹配
+     * SafetyGetStatusError-安全单元下行帧返回了异常帧
      */
     public int checkDownFrameException(SafetyUnitFrame upFrame, SafetyUnitFrame downFrame) {
         // 判断输入的帧没有异常
         if (upFrame == null || downFrame == null) {
             EventManager.getDefault().post(new HardwareErroeEvent("安全单元返回的帧有异常出现，出现在CommonSafetyUnitEssentialMethod类 checkDownFrameException()方法中",
-                    "upFrame = "+upFrame+" downFrame = "+downFrame));
+                    "upFrame = " + upFrame + " downFrame = " + downFrame));
             return ErrorManager.ErrorType.SafetyFrameError.getValue();
         }
         if (upFrame.getException() != 0) {
             EventManager.getDefault().post(new HardwareErroeEvent("安全单元返回的帧有异常出现，出现在CommonSafetyUnitEssentialMethod类 checkDownFrameException()方法中",
-                    "upFrame.getException() = "+upFrame.getException()));
+                    "upFrame.getException() = " + upFrame.getException()));
             return upFrame.getException();
         }
         if (downFrame.getException() != 0) {
             EventManager.getDefault().post(new HardwareErroeEvent("安全单元返回的帧有异常出现，出现在CommonSafetyUnitEssentialMethod类 checkDownFrameException()方法中",
-                    "downFrame.getException() = "+downFrame.getException()));
+                    "downFrame.getException() = " + downFrame.getException()));
             return downFrame.getException();
         }
 
@@ -220,20 +250,20 @@ public class CommonSafetyUnitEssentialMethod extends ISafetyUnitEssentialMethod<
             // 判断是否为下行帧
             if (DataConvert.getMaskedValue(downFrame.getControl(), 0x80) != 0x80) {
                 EventManager.getDefault().post(new HardwareErroeEvent("安全单元返回的帧有异常出现，出现在CommonSafetyUnitEssentialMethod类 checkDownFrameException()方法中",
-                        "DataConvert.getMaskedValue(downFrame.getControl(), 0x80) = "+DataConvert.getMaskedValue(downFrame.getControl(), 0x80)));
+                        "DataConvert.getMaskedValue(downFrame.getControl(), 0x80) = " + DataConvert.getMaskedValue(downFrame.getControl(), 0x80)));
                 return ErrorManager.ErrorType.SafetyFrameError.getValue();
             }
             // 判断上下行帧是否匹配
             if (DataConvert.getMaskedValue(downFrame.getControl(), 0x7F) !=
                     DataConvert.getMaskedValue(upFrame.getControl(), 0x7F)) {
                 EventManager.getDefault().post(new HardwareErroeEvent("安全单元返回的帧有异常出现，出现在CommonSafetyUnitEssentialMethod类 checkDownFrameException()方法中",
-                        "DataConvert.getMaskedValue(downFrame.getControl(), 0x7F) = "+DataConvert.getMaskedValue(downFrame.getControl(), 0x7F)));
+                        "DataConvert.getMaskedValue(downFrame.getControl(), 0x7F) = " + DataConvert.getMaskedValue(downFrame.getControl(), 0x7F)));
                 return ErrorManager.ErrorType.SafetyFrameMatchError.getValue();
             }
             // 判断是否有异常信息
             if (!"00".equals(downFrame.getStatusCode())) {
                 EventManager.getDefault().post(new HardwareErroeEvent("安全单元返回的帧有异常出现，出现在CommonSafetyUnitEssentialMethod类 checkDownFrameException()方法中",
-                        "downFrame.getStatusCode() = "+downFrame.getStatusCode()));
+                        "downFrame.getStatusCode() = " + downFrame.getStatusCode()));
                 return ErrorManager.ErrorType.SafetyGetStatusError.getValue();
             }
         } catch (DataConvert.DataConvertException ex) {

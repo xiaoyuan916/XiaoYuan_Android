@@ -40,7 +40,6 @@ public class ByteUtils {
         }
         return stringBuilder.toString();
     }
-
     /**
      * 将10进制字符串转化为16进制
      *
@@ -84,9 +83,9 @@ public class ByteUtils {
         } else if (intValue.length() == 9) {//如果终端逻辑地址为9位转化为八位
             resultStr.append(intValue.substring(0, 4));
             String lastStr = "";
-            if (isHex(intValue.substring(4, 9))) {
-                lastStr = Integer.toHexString(Integer.parseInt(intValue.substring(4, 9), 16)).toUpperCase();
-            } else {
+            if(isHex(intValue.substring(4, 9))){
+                lastStr = Integer.toHexString(Integer.parseInt(intValue.substring(4, 9),16)).toUpperCase();
+            }else{
                 lastStr = Integer.toHexString(Integer.parseInt(intValue.substring(4, 9))).toUpperCase();
             }
             if (lastStr.length() < 4) {
@@ -96,15 +95,15 @@ public class ByteUtils {
                 }
                 stringBuffer.append(lastStr);
                 resultStr.append(stringBuffer.toString());
-            } else if (lastStr.length() > 4) {
+            } else if(lastStr.length() > 4){
                 StringBuffer stringBuffer = new StringBuffer();
                 lastStr = Integer.toHexString(Integer.parseInt(intValue.substring(4, 9))).toUpperCase();
-                if (lastStr.length() == 4) {
+                if(lastStr.length() == 4){
                     stringBuffer.append(lastStr);
                     resultStr.append(stringBuffer.toString());
                 }
 
-            } else {
+            }else{
                 resultStr.append(lastStr);
             }
             result = resultStr.toString();
@@ -113,7 +112,6 @@ public class ByteUtils {
         }
         return result;
     }
-
 
     /**
      * 将10进制转换成16进程
@@ -160,7 +158,6 @@ public class ByteUtils {
         }
         return result;
     }
-
 
     public static boolean isHex(String s) {
         for (int i = 0; i < s.length(); i++) {
@@ -269,12 +266,12 @@ public class ByteUtils {
                 resultStr.append(radixStr);
             }
             result = resultStr.toString();
-        } else if (value.length() == 9) {
+        } else if(value.length() == 9){
             String str1 = value.substring(0, 4);
             String str2 = value.substring(4, 9);
-            result = str1 + "_" + str2;
+            result = str1+"_"+str2;
 
-        } else {
+        }else{
             result = value;
         }
         return result;
@@ -440,91 +437,90 @@ public class ByteUtils {
 
     /**
      * 把16进制的字符串转换成2进制数
-     *
      * @param n
      * @return
      */
-    public static String HexToBin(String n) {
+    public static String HexToBin(String n){
         char[] chars = n.toCharArray();
         char str;
         String s = "";
         int p = 0;
-        for (int i = 0; i < chars.length; i++) {
+        for(int i = 0;i < chars.length;i++){
             str = chars[i];
-            if (str >= '0' && str <= '9') {
+            if(str >= '0' && str <= '9'){
                 String s1 = Character.toString(str); //字符转字符串
                 p = Integer.valueOf(s1).intValue(); //字符串转整形
-            } else {
-                if (str == 'A') {
+            }else{
+                if(str == 'A'){
                     str = 10;
-                } else if (str == 'B') {
+                }else if(str == 'B'){
                     str = 11;
-                } else if (str == 'C') {
+                }else if(str == 'C'){
                     str = 12;
-                } else if (str == 'D') {
+                }else if(str == 'D'){
                     str = 13;
-                } else if (str == 'E') {
+                }else if(str == 'E'){
                     str = 14;
-                } else if (str == 'F') {
+                }else if(str == 'F'){
                     str = 15;
-                } else {
+                }else{
 
                 }
-                p = (int) str;
+                p = (int)str;
             }
-            switch (p) {
+            switch (p){
                 case 0:
-                    s += "0000";
+                    s+= "0000";
                     break;
 
                 case 1:
-                    s += "0001";
+                    s+= "0001";
                     break;
 
                 case 2:
-                    s += "0010";
+                    s+= "0010";
                     break;
                 case 3:
-                    s += "0011";
+                    s+= "0011";
                     break;
                 case 4:
-                    s += "0100";
+                    s+= "0100";
                     break;
 
                 case 5:
-                    s += "0101";
+                    s+= "0101";
                     break;
 
                 case 6:
-                    s += "0110";
+                    s+= "0110";
                     break;
 
                 case 7:
-                    s += "0111";
+                    s+= "0111";
                     break;
                 case 8:
-                    s += "1000";
+                    s+= "1000";
                     break;
                 case 9:
-                    s += "1001";
+                    s+= "1001";
                     break;
                 case 10:
-                    s += "1010";
+                    s+= "1010";
                     break;
                 case 11:
-                    s += "1011";
+                    s+= "1011";
                     break;
                 case 12:
-                    s += "1100";
+                    s+= "1100";
                     break;
                 case 13:
-                    s += "1101";
+                    s+= "1101";
                     break;
                 case 14:
-                    s += "1110";
+                    s+= "1110";
                     break;
                 case 15:
-                    s += "1111";
+                    s+= "1111";
                     break;
 
                 default:

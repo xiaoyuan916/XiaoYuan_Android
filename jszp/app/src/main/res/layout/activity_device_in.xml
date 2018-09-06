@@ -1,33 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:background="@color/gray1"
-	tools:context=".activity.DeviceInActivity">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray1"
+    android:orientation="vertical"
+    tools:context=".activity.DeviceInActivity">
 
-	<include layout="@layout/layout_title"/>
+    <include layout="@layout/layout_title" />
 
-	<Button
-		android:id="@+id/bt_sure"
-		android:layout_width="match_parent"
-		android:layout_height="39dp"
-		android:layout_alignParentBottom="true"
-		android:background="@drawable/select_white_bt"
-		android:gravity="center"
-		android:text="下发"
-		android:visibility="gone"
-		android:textColor="@color/title_green"
-		android:textSize="16sp"
-		/>
+    <include layout="@layout/head_device_in" />
 
-	<android.support.v7.widget.RecyclerView
-		android:id="@+id/rv_in_tasks"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:layout_above="@id/bt_sure"
-		android:layout_below="@id/rl_title"
-		/>
-</RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="7dp"
+        android:layout_weight="1">
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srlAccentColor="#00000000"
+            app:srlEnablePreviewInEditMode="true"
+            app:srlPrimaryColor="#00000000">
+
+            <com.scwang.smartrefresh.layout.header.ClassicsHeader
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_in_tasks"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    </LinearLayout>
+
+
+    <!--<Button-->
+        <!--android:id="@+id/bt_sure"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="39dp"-->
+        <!--android:background="@drawable/select_white_bt"-->
+        <!--android:gravity="center"-->
+        <!--android:text="下发"-->
+        <!--android:textColor="@color/title_green"-->
+        <!--android:textSize="16sp"-->
+        <!--android:visibility="gone" />-->
+</LinearLayout>

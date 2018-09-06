@@ -3,7 +3,6 @@ package cepri.device.utils;
 import android.os.Build;
 
 import com.sgcc.pda.hardware.SOConfig;
-import com.sgcc.pda.hardware.util.Constant;
 import com.sgcc.pda.sdk.utils.FileUtils;
 import com.sgcc.pda.sdk.utils.LogUtil;
 
@@ -12,6 +11,16 @@ import com.sgcc.pda.sdk.utils.LogUtil;
  */
 public class LibInfo {
     static {
+//       if (Build.MODEL.equals("HE5001-II")||Build.MODEL.equals("TCHN-105W")||Build.MODEL.equals("SC3402A")){
+//            System.load("data/data/com.sgcc.pda/lib/libcepri_dev.so");
+//        }else if (Build.MODEL.equals("TCHN-106")){
+//           System.load("data/data/com.sgcc.pda/lib/libcepri_tchn.so");
+//       }else if (Build.MODEL.equals("7202G3A")||Build.MODEL.equals("7202G")){
+//           System.load("data/data/com.sgcc.pda/lib/libcepri_kl.so");
+////           System.loadLibrary("cepri_dev");
+//       }else if(Build.MODEL.equals("HT380")){
+//           System.loadLibrary("cepri_tchn_tc");
+//       }
 
         /**
          * 优化后 最终加载SO 的代码
@@ -27,7 +36,7 @@ public class LibInfo {
             if (SOConfig.isTC()){
                 System.loadLibrary("cepri_HT380");
             }
-            System.load(Constant.ASSETS_URL+ deviceTypte+".so");
+            System.load("/data/data/com.sgcc.pda.jszp/lib/libcepri_"+ deviceTypte+".so");
 
         }
     }

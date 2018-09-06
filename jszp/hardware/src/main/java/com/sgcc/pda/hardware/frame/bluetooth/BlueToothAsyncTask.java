@@ -3,8 +3,9 @@ package com.sgcc.pda.hardware.frame.bluetooth;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.util.Log;
 
-import com.sgcc.pda.hardware.util.PeripheralParamUtil;
+import com.sgcc.pda.sdk.utils.SharepreferenceUtil;
 
 /**
  * @Author: GuangJie-Wang
@@ -21,7 +22,8 @@ public class BlueToothAsyncTask extends AsyncTask<Object, Void, byte[]> {
     public BlueToothAsyncTask(Context context, Handler handler) {
         this.mContext = context;
         this.mHandler = handler;
-        name = PeripheralParamUtil.getPeripheralName(context);
+        name=SharepreferenceUtil.getBlueName(mContext,SharepreferenceUtil.getMyWsType(mContext));
+        Log.e("tag", "----blue--name----"+name);
     }
 
     @Override
@@ -35,5 +37,10 @@ public class BlueToothAsyncTask extends AsyncTask<Object, Void, byte[]> {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    protected void onCancelled() {
+        super.onCancelled();
     }
 }

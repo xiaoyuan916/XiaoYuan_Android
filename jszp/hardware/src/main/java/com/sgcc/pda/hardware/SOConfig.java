@@ -23,7 +23,6 @@ public class SOConfig {
         }
         return false;
     }
-
     /**
      * 是否是同昌HT380的掌机
      */

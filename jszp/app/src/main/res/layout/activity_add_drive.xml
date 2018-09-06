@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color1"
+    android:orientation="vertical"
+    >
+    <include layout="@layout/layout_title"/>
+
+    <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="45dp"
+    >
+    <EditText
+        android:id="@+id/et_car_no"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:hint="请输入车牌号码"
+        android:background="@color/white"
+        android:padding="8dp"
+        android:maxLength="16"
+       android:singleLine="true"
+        />
+
+    <ImageView
+        android:id="@+id/iv_car_no_clear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/delx_hui"
+        android:layout_alignParentRight="true"
+        android:padding="16dp"
+        android:layout_centerVertical="true"
+        />
+</RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="8dp"
+        >
+        <EditText
+            android:id="@+id/et_driver_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="请输入司机名称"
+            android:background="@color/white"
+            android:padding="8dp"
+            android:maxLength="16"
+            android:singleLine="true"
+            />
+
+        <ImageView
+            android:id="@+id/iv_driver_name_clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/delx_hui"
+            android:layout_alignParentRight="true"
+            android:padding="16dp"
+            android:layout_centerVertical="true"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="8dp"
+        >
+        <EditText
+            android:id="@+id/et_driver_tel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="请输入司机电话"
+            android:background="@color/white"
+            android:padding="8dp"
+            android:inputType="phone"
+            android:maxLength="11"
+           android:singleLine="true"
+            />
+
+        <ImageView
+            android:id="@+id/iv_driver_tel_clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/delx_hui"
+            android:layout_alignParentRight="true"
+            android:padding="16dp"
+            android:layout_centerVertical="true"
+            />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="注意：您输入的车牌号码/司机姓名/司机电话将会进 行绑定，并存储到数据库中请谨慎操作"
+       android:layout_margin="16dp"
+        android:textSize="14sp"
+        android:textColor="@color/darkgray"
+        />
+</LinearLayout>

@@ -1,5 +1,6 @@
 package com.sgcc.pda.jszp.activity;
 
+import android.content.Intent;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -39,15 +40,23 @@ public class SignForResultActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        success = getIntent().getBooleanExtra("success", false);
+        Intent intent = getIntent();
+        success = intent.getBooleanExtra("success", false);
+        String orderNum=intent.getStringExtra("orderNum");
+        String boxCount= intent.getStringExtra("boxCount");
+        String address = intent.getStringExtra("address");
         if (success) {
-
-
+            tvResult.setText("签收成功");
+            ivSuccess.setImageResource(R.drawable.ic_duigou);
+            ivSignResult.setImageResource(R.drawable.signsuccess);
         } else {
             tvResult.setText("签收失败");
             ivSuccess.setImageResource(R.drawable.ic_x);
             ivSignResult.setImageResource(R.drawable.signfailure);
         }
+        tvOrderNum.setText(orderNum);
+        tvBoxCount.setText(boxCount);
+        tvAddress.setText(address);
     }
 
     @Override

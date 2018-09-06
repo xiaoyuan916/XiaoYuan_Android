@@ -142,7 +142,6 @@ public class ScanOutFragment extends Fragment {
     }
 
     private void initListener() {
-
     }
 
 
@@ -164,7 +163,6 @@ public class ScanOutFragment extends Fragment {
                 startActivityForResult(intent, 101);
             }
             break;
-
         }
     }
 

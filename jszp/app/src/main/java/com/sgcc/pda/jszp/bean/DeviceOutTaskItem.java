@@ -1,41 +1,46 @@
 package com.sgcc.pda.jszp.bean;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 平库出库列表
+ */
 public class DeviceOutTaskItem implements Serializable {
+    private String taskNo;//配送任务编号
+    @SerializedName("splitTasks")
+    private List<DeviceOutSecondSubTaskItem> subTaskItems;
 
 
-    private String num;
-    private List<DeviceOutSubTaskItem> subTaskItems = new ArrayList<>();
-
-
-    public DeviceOutTaskItem(String num) {
-        this.num = num;
+    public DeviceOutTaskItem(List<DeviceOutSecondSubTaskItem> subTaskItems) {
+        this.taskNo = "201805221234567890";
+        this.subTaskItems = subTaskItems;
     }
 
-    public void addSubTask(DeviceOutSubTaskItem deviceOutSubTaskItem) {
+    public void addSubTask(DeviceOutSecondSubTaskItem deviceOutSubTaskItem) {
         subTaskItems.add(deviceOutSubTaskItem);
     }
 
-    public void removeSubTask(DeviceOutSubTaskItem deviceOutSubTaskItem) {
+    public void removeSubTask(DeviceOutSecondSubTaskItem deviceOutSubTaskItem) {
         subTaskItems.remove(deviceOutSubTaskItem);
     }
 
-    public String getNum() {
-        return num;
+    public String getTaskNo() {
+        return taskNo;
     }
 
-    public void setNum(String num) {
-        this.num = num;
+    public void setTaskNo(String taskNo) {
+        this.taskNo = taskNo;
     }
 
-    public List<DeviceOutSubTaskItem> getSubTaskItems() {
+    public List<DeviceOutSecondSubTaskItem> getSubTaskItems() {
         return subTaskItems;
     }
 
-    public void setSubTaskItems(List<DeviceOutSubTaskItem> subTaskItems) {
+    public void setSubTaskItems(List<DeviceOutSecondSubTaskItem> subTaskItems) {
         this.subTaskItems = subTaskItems;
     }
 }

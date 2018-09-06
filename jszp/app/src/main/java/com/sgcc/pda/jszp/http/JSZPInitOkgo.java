@@ -36,17 +36,17 @@ public class JSZPInitOkgo {
 
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         //log相关
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("OkGo");
-        loggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.BODY);        //log打印级别，决定了log显示的详细程度
-        loggingInterceptor.setColorLevel(Level.INFO);                               //log颜色级别，决定了log在控制台显示的颜色
-        builder.addInterceptor(loggingInterceptor);                                 //添加OkGo默认debug日志
+//        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("OkGo");
+//        loggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.BODY);        //log打印级别，决定了log显示的详细程度
+//        loggingInterceptor.setColorLevel(Level.INFO);                               //log颜色级别，决定了log在控制台显示的颜色
+//        builder.addInterceptor(loggingInterceptor);                                 //添加OkGo默认debug日志
         //第三方的开源库，使用通知显示当前请求的log，不过在做文件下载的时候，这个库好像有问题，对文件判断不准确
         //builder.addInterceptor(new ChuckInterceptor(this));
 
         //超时时间设置，默认60秒
-        builder.readTimeout(OkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS);      //全局的读取超时时间
-        builder.writeTimeout(OkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS);     //全局的写入超时时间
-        builder.connectTimeout(OkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS);   //全局的连接超时时间
+        builder.readTimeout(10000, TimeUnit.MILLISECONDS);      //全局的读取超时时间
+        builder.writeTimeout(10000, TimeUnit.MILLISECONDS);     //全局的写入超时时间
+        builder.connectTimeout(10000, TimeUnit.MILLISECONDS);   //全局的连接超时时间
 
         //自动管理cookie（或者叫session的保持），以下几种任选其一就行
         //builder.cookieJar(new CookieJarImpl(new SPCookieStore(this)));            //使用sp保持cookie，如果cookie不过期，则一直有效

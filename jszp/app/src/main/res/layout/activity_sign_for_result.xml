@@ -71,7 +71,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_alignParentRight="true"
-				android:text="201805221234567890"
+				android:text=""
 				android:textColor="@color/tv_black"
 				android:textSize="14sp"
 				/>
@@ -95,7 +95,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_alignParentRight="true"
-				android:text="六合区供电公司"
+				android:text=""
 				android:textColor="@color/tv_black"
 				android:textSize="14sp"
 				/>
@@ -119,7 +119,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_alignParentRight="true"
-				android:text="3900只/50箱"
+				android:text=""
 				android:textColor="@color/tv_black"
 				android:textSize="14sp"
 				/>

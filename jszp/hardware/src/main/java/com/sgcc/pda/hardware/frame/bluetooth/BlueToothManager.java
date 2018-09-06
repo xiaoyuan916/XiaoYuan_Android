@@ -12,12 +12,20 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.sgcc.pda.hardware.event.BlueConnectedEvent;
+import com.sgcc.pda.hardware.event.BlueEntityEvent;
+import com.sgcc.pda.hardware.util.DataConvert;
+import com.sgcc.pda.hardware.util.EventManager;
 import com.sgcc.pda.hardware.util.ToastManager;
 import com.sgcc.pda.sdk.utils.LogUtil;
+import com.sgcc.pda.sdk.utils.SharepreferenceUtil;
+import com.sgcc.pda.sdk.utils.StringUtil;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -33,10 +41,13 @@ public class BlueToothManager {
 
     public static int open_result = 0;
 
-    private BlueToothReceiver mBlueToothReceiver;
+    //    private BlueToothReceiver mBlueToothReceiver;
+    private BlueToothConnextReceiver blueToothConnextReceiver;
+    private BlueToothSendReceiver blueToothSendReceiver;
 
     private Context mContext;
     private String name;
+    private BlueDeviceEntity blueDeviceEntity;
 
     public BlueToothManager(Context context) {
         this.mContext = context;
@@ -46,6 +57,10 @@ public class BlueToothManager {
 
     public void setUiHandler(Handler handler) {
         mHandler = handler;
+    }
+
+    public void setBluetoothAdapter(BluetoothAdapter handler) {
+        bluetooth_adapter = handler;
     }
 
     /**
@@ -114,22 +129,35 @@ public class BlueToothManager {
         openBluetooth();
 
 //        bluetoothReceiver = new BluetoothConnectActivityReceiver();
-        mBlueToothReceiver = new BlueToothReceiver();
-        IntentFilter intentRequestPaird = new IntentFilter();
-        intentRequestPaird
-                .addAction("android.bluetooth.device.action.PAIRING_REQUEST");
-        intentRequestPaird.addAction(BluetoothDevice.ACTION_FOUND);
-        intentRequestPaird.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
-        intentRequestPaird.addAction(BluetoothDevice.ACTION_FOUND);
-        intentRequestPaird.addAction(BluetoothDevice.ACTION_FOUND);
-//        mContext.registerReceiver(bluetoothReceiver,
+//        mBlueToothReceiver = new BlueToothReceiver();
+//        IntentFilter intentRequestPaird = new IntentFilter();
+//        intentRequestPaird
+//                .addAction("android.bluetooth.device.action.PAIRING_REQUEST");
+//        intentRequestPaird.addAction(BluetoothDevice.ACTION_FOUND);
+//        intentRequestPaird.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
+//        intentRequestPaird.addAction(BluetoothDevice.ACTION_FOUND);
+//        intentRequestPaird.addAction(BluetoothDevice.ACTION_FOUND);
+////        mContext.registerReceiver(bluetoothReceiver,
+////                intentRequestPaird);
+//        mContext.registerReceiver(mBlueToothReceiver,
 //                intentRequestPaird);
-        mContext.registerReceiver(mBlueToothReceiver,
-                intentRequestPaird);
         bReceiver = new FindBlueToothDeviceReceiver();
         IntentFilter intentFilter = new IntentFilter(
                 BluetoothDevice.ACTION_FOUND);
         mContext.registerReceiver(bReceiver, intentFilter);
+
+
+        blueToothConnextReceiver = new BlueToothConnextReceiver();
+        IntentFilter intentFilter1 = new IntentFilter();
+        intentFilter1.addAction("blueconnect");
+        mContext.registerReceiver(blueToothConnextReceiver, intentFilter1);
+
+        blueToothSendReceiver = new BlueToothSendReceiver();
+        IntentFilter intentFilter2 = new IntentFilter();
+        intentFilter2.addAction("bluesend");
+        mContext.registerReceiver(blueToothSendReceiver, intentFilter2);
+
+
         BluetoothChatService.GetInstance().addListener(this, 0);
 
         boolean isPaired = false;
@@ -139,7 +167,7 @@ public class BlueToothManager {
         if (pairedDevices.size() > 0) {
 //            isPaired = true;
             for (BluetoothDevice device : pairedDevices) {
-                if (device.getName().contains(deviceName)) {
+                if (!StringUtil.isBlank(deviceName) && device.getName().contains(deviceName)) {
                     this.mConnectedDevice = device;
                     name = device.getName();
                     LogUtil.d("TL", "name====" + name);
@@ -159,6 +187,7 @@ public class BlueToothManager {
                 e.printStackTrace();
             }
         } else {
+            SharepreferenceUtil.setBlueConnectFlag(mContext, false);
             scanDevice t_scan = new scanDevice();
             t_scan.start();
 
@@ -171,6 +200,7 @@ public class BlueToothManager {
         return open_result;
     }
 
+
     /**
      * 关闭蓝牙
      *
@@ -179,17 +209,20 @@ public class BlueToothManager {
     public void close()// 断开连接
     {
         BlueToothUtil.LINK_STATE = 0;
-//        if (bluetoothReceiver != null) {
-//            mContext.unregisterReceiver(bluetoothReceiver);
-//            bluetoothReceiver = null;
-//        }
-        if (mBlueToothReceiver != null) {
-            mContext.unregisterReceiver(mBlueToothReceiver);
-            mBlueToothReceiver = null;
-        }
+
         if (bReceiver != null) {
             mContext.unregisterReceiver(bReceiver);
             bReceiver = null;
+        }
+
+        if (blueToothConnextReceiver != null) {
+            mContext.unregisterReceiver(blueToothConnextReceiver);
+            blueToothConnextReceiver = null;
+        }
+
+        if (blueToothSendReceiver != null) {
+            mContext.unregisterReceiver(blueToothSendReceiver);
+            blueToothSendReceiver = null;
         }
 
         BluetoothChatService.GetInstance().Stop();
@@ -201,6 +234,7 @@ public class BlueToothManager {
 
         // return result;
     }
+
 
     /**
      * 发送蓝牙指令
@@ -224,11 +258,8 @@ public class BlueToothManager {
         while (it.hasNext()) {
             String key = (String) it.next();
             frame = data.get(key);
-            if(null != frame){
-                BluetoothChatService.GetInstance().write(frame);
-                sendTime++;
-            }
-
+            BluetoothChatService.GetInstance().write(frame);
+            sendTime++;
         }
 
         if (sendTime == data.size()) {
@@ -238,6 +269,26 @@ public class BlueToothManager {
         }
         LogUtil.d("TL", "result=" + result);
         return result;
+    }
+
+    /**
+     * 发送蓝牙指令
+     *
+     * @return
+     */
+    public int sendData(String frameStr) {
+        // 清除蓝牙接收结果的列表
+        BlueToothUtil.INFRA_REC.clear();
+
+        int result = 0;
+        byte[] frame = DataConvert.toBytes(frameStr);
+
+        BlueToothUtil.REC_CMD_NUM = 0;
+
+        BluetoothChatService.GetInstance().addListener(this, 1);
+
+        BluetoothChatService.GetInstance().write(frame);
+        return 1;
     }
 
     // ===============================================================
@@ -258,6 +309,8 @@ public class BlueToothManager {
         }
     }
 
+    List<BlueDeviceEntity> infos = new ArrayList<>();
+
     class FindBlueToothDeviceReceiver extends BroadcastReceiver {
 
         @Override
@@ -267,33 +320,62 @@ public class BlueToothManager {
                 if (BluetoothDevice.ACTION_FOUND.equals(intent.getAction())) {
                     BluetoothDevice temdevice = intent
                             .getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                    Log.i(TAG, "搜索到设备===>设备名称为:====>"
-                            + temdevice.getName() + temdevice.getAddress());
-                    if (temdevice.getName() != null
-                            && temdevice.getName().trim().contains(deviceName)) {
-                        mConnectedDevice = temdevice;
-                        if (mConnectedDevice != null) {
-                            if (connection(mConnectedDevice)) {
-                                // while (true) {
-                                Log.i(TAG, "connecting...");
-                                if (mConnectedDevice.getBondState() == BluetoothDevice.BOND_BONDED) {
-                                    ToastManager.getInstance().displayToast("该设备已绑定其它设备");
-                                }
-                                // 启动线程连接的设备
-                                m_connect_thread = new ConnectThread(
-                                        mConnectedDevice);
-                                m_connect_thread.start();
-                                try {
-                                    m_connect_thread.join();
-                                    return;
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
-                                // }
-                                // }
-                            }
+
+                    boolean isHas = false;
+                    String state;
+                    if (temdevice.getBondState() != BluetoothDevice.BOND_BONDED) {
+                        state = "未配对";
+                    } else {
+                        state = "已配对";
+                    }
+
+                    for (int i = 0; i < infos.size(); i++) {
+                        if (infos.get(i).mac.equals(temdevice.getAddress())) {
+                            isHas = true;
+                            break;
                         }
                     }
+
+                    if (!isHas) {
+                        BlueDeviceEntity info = new BlueDeviceEntity();
+                        info.name = temdevice.getName();
+                        info.mac = temdevice.getAddress();
+                        info.state = state;
+                        info.device = temdevice;
+                        infos.add(info);
+
+                        EventManager.getDefault().post(new BlueEntityEvent(infos));
+
+                        Log.e(TAG, "搜索到设备===>设备名称为:====>"
+                                + temdevice.getName() + " " + temdevice.getAddress());
+                    }
+
+
+//                    if (temdevice.getName() != null
+//                            && temdevice.getName().trim().contains(deviceName)) {
+//                        mConnectedDevice = temdevice;
+//                        if (mConnectedDevice != null) {
+//                            if (connection(mConnectedDevice)) {
+//                                // while (true) {
+//                                Log.i(TAG, "connecting...");
+//                                if (mConnectedDevice.getBondState() == BluetoothDevice.BOND_BONDED) {
+//                                    ToastManager.getInstance().displayToast("该设备已绑定其它设备");
+//                                }
+//                                // 启动线程连接的设备
+//                                m_connect_thread = new ConnectThread(
+//                                        mConnectedDevice);
+//                                m_connect_thread.start();
+//                                try {
+//                                    m_connect_thread.join();
+//                                    return;
+//                                } catch (InterruptedException e) {
+//                                    e.printStackTrace();
+//                                }
+//                                // }
+//                                // }
+//                            }
+//                        }
+//                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -324,7 +406,7 @@ public class BlueToothManager {
         mHandler.sendMessage(msg);
     }
 
-    private class ConnectThread extends Thread {
+    public class ConnectThread extends Thread {
         private BluetoothSocket mmSocket;
 
         public ConnectThread(BluetoothDevice device) {
@@ -352,18 +434,28 @@ public class BlueToothManager {
                     bluetooth_adapter.cancelDiscovery();
                     try {
                         mmSocket.connect();
-                        Log.i(TAG, "蓝牙连接成功");
-                        bluetoothLine("蓝牙连接成功");
+                        Log.e(TAG, "--------蓝牙连接成功");
+//                        bluetoothLine("蓝牙连接成功");
+                        EventManager.getDefault().post(new BlueConnectedEvent());
                         BluetoothChatService.GetInstance().Start(mmSocket);
+                        SharepreferenceUtil.setBlueConnectFlag(mContext, true);
                         open_result = 1;
                         BlueToothUtil.LINK_STATE = 1;
+                        if (blueDeviceEntity != null && !StringUtil.isBlank(blueDeviceEntity.name)) {
+                            Log.e(TAG, "----blueDeviceEntity.name----" + blueDeviceEntity.name);
+                            Log.e(TAG, "----getWSType----" + SharepreferenceUtil.getMyWsType(mContext));
+                            SharepreferenceUtil.setBlueName(mContext, blueDeviceEntity.name, SharepreferenceUtil.getMyWsType(mContext));
+                        }
                     } catch (IOException e) {
+                        e.printStackTrace();
+                        SharepreferenceUtil.setBlueConnectFlag(mContext, false);
                         LogUtil.d("TL", e.getMessage());
                         open_result = 0;
                         // 关闭这个socket
                         try {
                             mmSocket.close();
                         } catch (IOException e2) {
+                            e.printStackTrace();
                         }
                     }
                 }
@@ -444,29 +536,71 @@ public class BlueToothManager {
         this.deviceName = deviceName;
     }
 
-    public class BlueToothReceiver extends BroadcastReceiver {
 
-        String strPsw = BlueToothUtil.PIN_ID;// "8260"
+    public class BlueToothConnextReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(
-                    "android.bluetooth.device.action.PAIRING_REQUEST")) {
-                BluetoothDevice btDevice = intent
-                        .getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+            Log.e("tag", "---------111---------");
+            if (intent.getAction().equals("blueconnect")) {
+                Log.e("tag", "---------222---------");
+                blueDeviceEntity = intent.getParcelableExtra("name");
+                mConnectedDevice = blueDeviceEntity.device;
 
-                Log.i("tag11111", "ddd");
+                if (null != m_connect_thread) {
+                    m_connect_thread.cancel();
+                    m_connect_thread = null;
+                }
+
+                m_connect_thread = new ConnectThread(mConnectedDevice);
+                m_connect_thread.start();
                 try {
-                    BlueToothUtil.setPin(btDevice.getClass(), btDevice, strPsw); // 手机和蓝牙采集器配对
-                    BlueToothUtil.createBond(btDevice.getClass(), btDevice);
-                    BlueToothUtil.cancelPairingUserInput(btDevice.getClass(), btDevice);
-                } catch (Exception e) {
+                    m_connect_thread.join();
+                } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
-
         }
     }
+
+    public class BlueToothSendReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.e("tag", "---------333---------");
+            if (intent.getAction().equals("bluesend")) {
+                Log.e("tag", "---------444---------");
+
+                String frameStr = intent.getStringExtra("name");
+                sendData(frameStr);
+            }
+        }
+    }
+
+
+//    public class BlueToothReceiver extends BroadcastReceiver {
+//
+//        String strPsw = BlueToothUtil.PIN_ID;// "8260"
+//
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            if (intent.getAction().equals(
+//                    "android.bluetooth.device.action.PAIRING_REQUEST")) {
+//                BluetoothDevice btDevice = intent
+//                        .getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+//
+//                Log.i("tag11111", "ddd");
+//                try {
+//                    BlueToothUtil.setPin(btDevice.getClass(), btDevice, strPsw); // 手机和蓝牙采集器配对
+//                    BlueToothUtil.createBond(btDevice.getClass(), btDevice);
+//                    BlueToothUtil.cancelPairingUserInput(btDevice.getClass(), btDevice);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//        }
+//    }
 }
 
 

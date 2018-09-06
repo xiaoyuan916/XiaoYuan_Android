@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="68dp">
+    <!--圆圈布局-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="16dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/v_order_status_line_top"
+            android:layout_width="1dp"
+            android:layout_height="10dp"
+            android:background="#ff009d85" />
+
+        <ImageView
+            android:id="@+id/iv_order_status_circle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/jszp_jiedian_yuanxin" />
+
+        <View
+            android:id="@+id/v_order_status_line"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#ff009d85" />
+    </LinearLayout>
+
+    <!--右边的布局-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_order_status_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="江苏省电力公司已完成配送订单核验"
+            android:textColor="#ff009d85"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_order_status_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="2018-06-25 16:09:30"
+            android:textColor="#ff009d85"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+</LinearLayout>

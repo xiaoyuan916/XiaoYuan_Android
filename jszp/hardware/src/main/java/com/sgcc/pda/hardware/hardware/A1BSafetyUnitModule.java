@@ -1,5 +1,6 @@
 package com.sgcc.pda.hardware.hardware;
 
+import android.util.Log;
 import com.sgcc.pda.hardware.SOConfig;
 import com.sgcc.pda.hardware.event.HardwareErroeEvent;
 import com.sgcc.pda.hardware.shell.Shell;
@@ -18,7 +19,7 @@ import com.thinta.product.zdevice.SafetyUnit;
  */
 public class A1BSafetyUnitModule implements ICommunicate {
     private static SafetyUnit safetyUnit = new SafetyUnit();
-    private static final int BUFFER_LENGTH = 512;
+    private static final int BUFFER_LENGTH = 1024*1024;
     private boolean isOpen = false;
 
     /**
@@ -39,13 +40,13 @@ public class A1BSafetyUnitModule implements ICommunicate {
             EventManager.getDefault().post(new HardwareErroeEvent("打开通讯端口失败,出现在A1BSafetyUnitModule类 open()方法中", "isOpen = " + isOpen));
             return ErrorManager.ErrorType.SafetyUnitError.getValue();
         } else {
+            Log.d("upgrade","  open : ");
             int op = Shell.SecurityUnit_init();
             if (op == 0) {
                 if (NewProtocol.isNewProtocol()) {
-                    Shell.SecurityUnit_config(9600, 8, 2, 1, 0);
+                    Shell.SecurityUnit_config(115200, 8, 0, 1, 1);
                 } else {
-
-                    Shell.SecurityUnit_config(9600, 8, 2, 1);
+                    Shell.SecurityUnit_config(115200, 8, 0, 1);
                 }
                 isOpen = true;
                 ret = 0;
@@ -115,7 +116,7 @@ public class A1BSafetyUnitModule implements ICommunicate {
         if (SOConfig.useOldSO) {
             byte[] buffer;
             do {
-                buffer = safetyUnit.receive(BUFFER_LENGTH, (int) timeout, 500);
+                buffer = safetyUnit.receive(BUFFER_LENGTH, (int) timeout, 5000);
                 data.append(DataConvert.toHexString(buffer));
             } while (buffer != null && buffer.length >= BUFFER_LENGTH);
 
@@ -124,8 +125,9 @@ public class A1BSafetyUnitModule implements ICommunicate {
             return 0;
         } else {
             //清除读取缓存
-            Shell.SecurityUnit_clearRevCache();
+             Shell.SecurityUnit_clearRevCache();
             Shell.SecurityUnit_setTimeOut(1, (int) timeout);
+
             //开始读取s
             byte[] buffer = new byte[BUFFER_LENGTH];
             int offset = 0;
@@ -133,14 +135,16 @@ public class A1BSafetyUnitModule implements ICommunicate {
             byte r[];
             do {
                 if (NewProtocol.isNewProtocol()){
-                    rcount = Shell.SecurityUnit_recvData(buffer, offset,1024);
+                    rcount = Shell.SecurityUnit_recvData(buffer, offset,BUFFER_LENGTH);
 //                    Shell.SecurityUnit_clearRevCache();
+                    Log.d("upgrade"," read: New Protocol  返回字节数: "+ rcount);
                 }else {
                     rcount = Shell.SecurityUnit_recvData(buffer, offset);
+                    Log.d("upgrade"," read: old Protocol  返回字节数: "+ rcount);
                 }
                 if (rcount > 0) {
                     r = new byte[rcount];
-//                    Log.i("TAG","r.length...."+r.length);
+                    Log.i("TAG","r.length...." + r.length);
                     System.arraycopy(buffer, 0, r, 0, rcount);
                     offset += rcount;
                     data.append(DataConvert.toHexString(r));
@@ -151,7 +155,9 @@ public class A1BSafetyUnitModule implements ICommunicate {
                 }
             } while (r != null && r.length >= BUFFER_LENGTH);
             // 将接收到的数据写入日志
-            CommonFunc.log(getClass().getName() + " RECEIVE : " + data);
+          //  LogUtil.e("TL","给爸爸显示E6----"+data.toString().substring(data.toString().length()-2,data.toString().length()));
+            CommonFunc.log(getClass().getName() + " RECEIVE: " + data);
+
             return 0;
         }
     }
@@ -180,7 +186,10 @@ public class A1BSafetyUnitModule implements ICommunicate {
             ret = safetyUnit.send(sendData, 0, sendData.length);
         } else {
             ret = Shell.SecurityUnit_sendData(sendData, 0, sendData.length);
+
         }
+        Log.d("upgrade","  write：  ret : "+ ret);
+
         if (NewProtocol.isNewProtocol()){
             if (ret == 0){
                 ret = 0;
@@ -198,6 +207,7 @@ public class A1BSafetyUnitModule implements ICommunicate {
                 ret = ErrorManager.ErrorType.CommonWriteError.getValue();
             }
         }
+        Log.d("upgrade","  write：  ret : "+ ret);
         return ret;
     }
 }

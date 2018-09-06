@@ -122,6 +122,16 @@ public class DateUtil {
     }
 
     /**
+     * 返回“2015-03-26”格式
+     *
+     * @param date
+     * @return
+     */
+    public static String toDateString(Date date,SimpleDateFormat format) {
+        return format.format(date);
+    }
+
+    /**
      * 获取星期几，返回“星期二”
      *
      * @param date
