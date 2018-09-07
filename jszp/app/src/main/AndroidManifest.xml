@@ -34,7 +34,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.LoginActivity" />
-        <activity android:name=".activity.ScanActivity" android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.ScanActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".activity.ManualActivity" />
         <activity android:name=".activity.DeliveryActivity" />
         <activity android:name=".activity.DeliverySendResultActivity" />
@@ -96,18 +98,11 @@
             android:name=".activity.DeviceBoxActivity"
             android:launchMode="singleTask" />
         <activity android:name=".activity.DeviceBoxManualActivity" />
-        <activity android:name=".activity.JszpOrderDetailsActivity"></activity>
-
-
-
-
-
-
-
-
-        <activity android:name=".activity.TaskOutQueryActivity"></activity>
-        <activity android:name=".activity.TaskQueryDetailActivity"></activity>
-
+        <activity android:name=".activity.JszpOrderDetailsActivity" />
+        <activity android:name=".activity.TaskOutQueryActivity" />
+        <activity android:name=".activity.TaskQueryDetailActivity" />
+        <activity android:name=".activity.JszpTurnoverBoxScanActivity" />
+        <activity android:name=".activity.JszpBoxsManualActivity"></activity>
     </application>
 
 </manifest>

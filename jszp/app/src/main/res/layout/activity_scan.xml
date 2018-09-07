@@ -1,26 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:background="@color/alphablack1"
 	tools:context=".activity.ScanActivity">
-
-	<!--<com.sgcc.pda.jszp.zxing.myscanner.ScannerView-->
-		<!--android:id="@+id/scanner_view"-->
-		<!--android:layout_width="match_parent"-->
-		<!--android:layout_height="match_parent"/>-->
-	<SurfaceView
-		android:id="@+id/surfaceView"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent" />
-	<wangfei.scan2.client.android.AutoScannerView
-		android:id="@+id/autoScanner"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent" />
-
 
 	<RelativeLayout
 		android:id="@+id/rl_title"
@@ -61,9 +46,20 @@
 			android:gravity="center"
 			android:visibility="gone"
 			/>
-
 	</RelativeLayout>
 
+	<SurfaceView
+		android:id="@+id/surfaceView"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:paddingBottom="80dp"
+		android:layout_below="@id/rl_title"/>
+	<wangfei.scan2.client.android.AutoScannerView
+		android:id="@+id/autoScanner"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:paddingBottom="80dp"
+		android:layout_below="@id/rl_title"/>
 	<LinearLayout
 		android:id="@+id/ll_check_count"
 		android:layout_width="match_parent"
@@ -105,14 +101,12 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content">
 
-
 				<TextView
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:text="共计："
 					android:textColor="@color/darkgray"
 					android:textSize="15sp"/>
-
 				<TextView
 					android:id="@+id/tv_count"
 					android:layout_width="wrap_content"

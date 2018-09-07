@@ -1,17 +1,17 @@
 package com.sgcc.pda.jszp.bean;
 
 public class JSZPOutboundScanQueryRequestEntity extends BaseRequestEntity {
-    private String relaNo;//关联单号
+    private long relaNo;//关联单号
 
     private int pageNo;//页码
 
     private int pageSize;//页大小
 
-    public String getRelaNo() {
+    public long getRelaNo() {
         return relaNo;
     }
 
-    public void setRelaNo(String relaNo) {
+    public void setRelaNo(long relaNo) {
         this.relaNo = relaNo;
     }
 

@@ -69,7 +69,7 @@ public class JSZPScanItActivity extends Scan2Activity implements View.OnClickLis
                             = jszpEquipmentScanningResultEntity.getScanData();
                     int inputNumNow = scanData.getInputNum();
                     inputNum += inputNumNow;
-                    tv_inbound_task_count.setText(inputNum + "/" + jszpDeliveryReceiptResultIoPlanDetsEntity.getQty());
+//                    tv_inbound_task_count.setText(inputNum + "/" + jszpDeliveryReceiptResultIoPlanDetsEntity.getQty());
                     //重置扫描
                     reScan();
                     break;
@@ -120,9 +120,9 @@ public class JSZPScanItActivity extends Scan2Activity implements View.OnClickLis
     }
 
     public void initData() {
-        flag = getIntent().getIntExtra("flag", 0);
-        if (1 == flag) {
-        }
+//        flag = getIntent().getIntExtra("flag", 0);
+//        if (1 == flag) {
+//        }
         Intent intent = getIntent();
         Serializable serializable
                 = (Serializable) intent.getStringExtra("jszpDeliveryReceiptResultIoPlanDetsEntity");
@@ -219,6 +219,8 @@ public class JSZPScanItActivity extends Scan2Activity implements View.OnClickLis
     private void obtainNetData(String text) {
         JSZPEquipmentScanningRequestEntity jszpEquipmentScanningRequestEntity = new JSZPEquipmentScanningRequestEntity();
         jszpEquipmentScanningRequestEntity.setBarCodes(text);
+        jszpEquipmentScanningRequestEntity.setRelaNo("1572");
+        jszpEquipmentScanningRequestEntity.setIoFlag(true);
         JSZPOkgoHttpUtils.postString(JSZPUrls.URL_SCAN_DEV,
                 this, jszpEquipmentScanningRequestEntity,
                 mHandler, SCAN_DEV_WHAT, JSZPEquipmentScanningResultEntity.class);

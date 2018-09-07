@@ -63,6 +63,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:text="63箱"
+            android:id="@+id/tv_box_count"
             android:textColor="#009D85"
             android:textSize="14dp" />
     </RelativeLayout>
@@ -139,6 +140,7 @@
             android:text="扫码" />
 
         <TextView
+            android:id="@+id/tv_box_enter_recall"
             android:gravity="center"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

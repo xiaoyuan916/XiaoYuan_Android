@@ -23,6 +23,7 @@ import com.sgcc.pda.jszp.activity.DeviceOutActivity;
 import com.sgcc.pda.jszp.activity.DevicePickActivity;
 import com.sgcc.pda.jszp.activity.ExpressConfirmListActivity;
 import com.sgcc.pda.jszp.activity.JszpTurnoverBoxRecallActivity;
+import com.sgcc.pda.jszp.activity.JszpTurnoverBoxScanActivity;
 import com.sgcc.pda.jszp.activity.LogisticsSendActivity;
 import com.sgcc.pda.jszp.activity.QueryDeviceActivity;
 import com.sgcc.pda.jszp.activity.QueryOrderActivity;
@@ -180,6 +181,7 @@ public class MainActivity extends BaseActivity {
         rvChaxun.setAdapter(cxadapter);
         cxadapter.setDataItems(cxitems);
 
+        //上面十个模块
         psadapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(BaseViewHolder baseViewHolder) {
@@ -239,7 +241,7 @@ public class MainActivity extends BaseActivity {
             public void onItemClick(BaseViewHolder baseViewHolder) {
                 switch (baseViewHolder.getItemPosition()) {
                     case 0:
-                        Intent intent2 = new Intent(MainActivity.this, JszpTurnoverBoxRecallActivity.class);
+                        Intent intent2 = new Intent(MainActivity.this, JszpTurnoverBoxScanActivity.class);
                         startActivity(intent2);
                         break;
                     case 1:

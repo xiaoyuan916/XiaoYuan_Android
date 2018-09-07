@@ -58,7 +58,7 @@
 
 		<TextView
 			style="@style/style_tv_left1"
-			android:text="供电公司"/>
+			android:text="申请单位"/>
 
 		<TextView
 			android:id="@+id/tv_company"
@@ -69,23 +69,7 @@
 
 	</RelativeLayout>
 
-	<include layout="@layout/layout_fenge_1dp"/>
-	<RelativeLayout
-		android:id="@+id/rl_supply"
-		style="@style/style_option_rl">
 
-		<TextView
-			style="@style/style_tv_left1"
-			android:text="供电所"/>
-
-		<TextView
-			android:id="@+id/tv_supply"
-			style="@style/style_tv_right"/>
-
-		<ImageView
-			style="@style/style_iv_right"/>
-
-	</RelativeLayout>
 
 	<include layout="@layout/layout_fenge_7dp"/>
 	<RelativeLayout

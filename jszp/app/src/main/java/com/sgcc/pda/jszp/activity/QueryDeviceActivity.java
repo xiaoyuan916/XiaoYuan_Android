@@ -109,7 +109,6 @@ public class QueryDeviceActivity extends BaseActivity {
                 break;
         }
 
-
         deviceInfoFragment.upDataUI(obj);
         if (obj.getAsset().getTracks() != null) {
             deviceStateFragment.upDataUI(obj);

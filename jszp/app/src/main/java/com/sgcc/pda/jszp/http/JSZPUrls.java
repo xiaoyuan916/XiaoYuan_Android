@@ -50,7 +50,6 @@ public class JSZPUrls {
      */
     public static final String URL_SIGN_NEGATIVE_IN_PLAN_DET = SERVER + "ioTask/signNegativeInPlanDet";
 
-
     /**
      * 2.1.3.1.1.	查询物流运输记录  物流派车列表
      */
@@ -178,5 +177,25 @@ public class JSZPUrls {
      */
     public static final String URL_GET_DIST_APP= SERVER + "distApp/getDistApp";
 
+    /**
+     * 2.1.5.2.2.获取订单
+     */
+    public static final String URL_QUERY_SUB_WH_AND_DP= SERVER + "distApp/querySubWhAndDp";
 
+    /**
+     * 2.1.4.1.1.周转箱初始化
+     */
+    public static final String URL_INIT_TURNOVER_BOX= SERVER + "box/initTurnoverBox";
+    /**
+     * 2.1.4.1.1.周转箱初始化
+     */
+    public static final String URL_SCAN_TURNOVER_BOXS= SERVER + "box/scanTurnoverBoxs";
+    /**
+     * 2.1.4.1.3.查询已扫描周转箱
+     */
+    public static final String URL_QUERY_TURNOVER_BOXS= SERVER + "box/queryTurnoverBoxs";
+    /**
+     * 2.1.4.1.4.周转箱召回
+     */
+    public static final String URL_CALL_TURNOVER_BOXS= SERVER + "box/callTurnoverBoxs";
 }

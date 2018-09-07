@@ -111,14 +111,15 @@ public class DeviceInDetailActivity extends BaseActivity {
 
     private void refreshUIMore(ArrayList<JSZPOutboundScanQueryResultEntity.
             JSZPOutboundScanQueryScanResultEntity.JSZPOutboundScanQueryDevData> devData) {
-        jszpOutboundScanQueryAdapter.setDatas(devData);
+        jszpOutboundScanQueryAdapter=new JSZPOutboundScanQueryAdapter(devData);
+            jszpOutboundScanQueryAdapter.setDatas(devData);
     }
 
     /**
      * 数据bean
      */
     private ArrayList<JSZPOutboundScanQueryResultEntity.JSZPOutboundScanQueryScanResultEntity.
-            JSZPOutboundScanQueryDevData> devDatas;
+            JSZPOutboundScanQueryDevData> devDatas=new ArrayList<>();
 
     /**
      * 数据请求回来刷新界面
@@ -166,8 +167,7 @@ public class DeviceInDetailActivity extends BaseActivity {
      *
      * @param jszpDeliveryReceiptResultIoPlanDetsEntity
      */
-    private void initHeaderView(IoTaskDets
-                                        jszpDeliveryReceiptResultIoPlanDetsEntity) {
+    private void initHeaderView(IoTaskDets jszpDeliveryReceiptResultIoPlanDetsEntity) {
         tvInTaskNum.setText(jszpDeliveryReceiptResultIoPlanDetsEntity.getPlanNo());
         tvDeviceDescrible.setText(jszpDeliveryReceiptResultIoPlanDetsEntity.getEquipDesc());
         tvTaskCount.setText(jszpDeliveryReceiptResultIoPlanDetsEntity.getQty() + "");
@@ -191,19 +191,18 @@ public class DeviceInDetailActivity extends BaseActivity {
         });
     }
 
-
     /**
      * 请求获取当前的单据的条码数据
      */
     private void obtainNetData() {
         mRequestEntity = new JSZPOutboundScanQueryRequestEntity();
         mRequestEntity.setPageNo(JzspConstants.PageStart);
-        mRequestEntity.setPageNo(JzspConstants.PageSize);
+        mRequestEntity.setPageSize(JzspConstants.PageSize);
         getListData();
     }
 
     private void getListData() {
-        mRequestEntity.setRelaNo(jszpDeliveryReceiptResultIoPlanDetsEntity.getSplitTaskNo());
+        mRequestEntity.setRelaNo(jszpDeliveryReceiptResultIoPlanDetsEntity.getTaskId());//1572
         JSZPOkgoHttpUtils.postString(JSZPUrls.URL_OUTBOUND_STORAGE_DEVICE_SCAN_RESULT_QUERY, this,
                 mRequestEntity, mHandler,
                 OUTBOUND_STORAGE_DEVICE_SCAN_RESULT_QUERY_WHAT, JSZPOutboundScanQueryResultEntity.class);

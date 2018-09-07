@@ -15,10 +15,13 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.sgcc.pda.jszp.R;
+import com.sgcc.pda.jszp.adapter.JSZPOutboundScanQueryAdapter;
 import com.sgcc.pda.jszp.adapter.ScanDeviceDataAdapter;
 import com.sgcc.pda.jszp.adapter.SpaceItemDecoration;
 import com.sgcc.pda.jszp.base.BaseActivity;
 import com.sgcc.pda.jszp.bean.IoTaskDets;
+import com.sgcc.pda.jszp.bean.JSZPOutboundScanQueryRequestEntity;
+import com.sgcc.pda.jszp.bean.JSZPOutboundScanQueryResultEntity;
 import com.sgcc.pda.jszp.bean.ReturnWarehouseGoodsConfirmRequestEntity;
 import com.sgcc.pda.jszp.bean.ReturnWarehouseGoodsConfirmResultEntity;
 import com.sgcc.pda.jszp.bean.ScanDeviceDate;
@@ -85,6 +88,27 @@ public class ReturnWarehouseGoodsDetailActivity extends BaseActivity {
     //分页
     int pageNo = JzspConstants.PageStart;
 
+    /**
+     * 列表adapter
+     */
+    private JSZPOutboundScanQueryAdapter jszpOutboundScanQueryAdapter;
+    /**
+     * 请求的bean
+     */
+    private JSZPOutboundScanQueryRequestEntity mRequestEntity;
+    /**
+     * 数据bean
+     */
+    private ArrayList<JSZPOutboundScanQueryResultEntity.JSZPOutboundScanQueryScanResultEntity.
+            JSZPOutboundScanQueryDevData> devDatas = new ArrayList<>();
+
+    private void refreshUIMore(ArrayList<JSZPOutboundScanQueryResultEntity.
+            JSZPOutboundScanQueryScanResultEntity.JSZPOutboundScanQueryDevData> devData) {
+        jszpOutboundScanQueryAdapter = new JSZPOutboundScanQueryAdapter(devData);
+        jszpOutboundScanQueryAdapter.setDatas(devData);
+
+    }
+
 
     private Handler mHandler = new Handler() {
         @Override
@@ -100,26 +124,53 @@ public class ReturnWarehouseGoodsDetailActivity extends BaseActivity {
 
                     break;
                 case GET_List_WHAT:
-                    //列表数据
-                    scanDeviceResultEntity = (ScanDeviceResultEntity) msg.obj;
-                    if (pageNo == JzspConstants.PageStart) {
-                        //刷新
-                        mList.clear();
-                    }
-                    List<ScanDeviceDate> items = scanDeviceResultEntity.getDevData();
-                    if (items != null) {
-                        mList.addAll(items);
-                        baseItemAdapter.notifyDataSetChanged();
-                        if (items.size() < JzspConstants.PageSize) {
+                    JSZPOutboundScanQueryResultEntity jszpOutboundScanQueryResultEntity =
+                            (JSZPOutboundScanQueryResultEntity) msg.obj;
+                    if (mRequestEntity.getPageNo() != 1) {
+                        refreshUIMore(jszpOutboundScanQueryResultEntity.getScanResult().getDevData());
+                        if (jszpOutboundScanQueryResultEntity.getScanResult().getDevData().size() < 0) {
                             refreshLayout.setEnableLoadmore(false);
                         }
-                    } else {
-                        refreshLayout.setEnableLoadmore(false);
+                        return;
                     }
+                    refreshUI(jszpOutboundScanQueryResultEntity.getScanResult().getDevData());
+                    refreshLayout.setEnableLoadmore(true);
+
+//                    //列表数据
+//                    scanDeviceResultEntity = (ScanDeviceResultEntity) msg.obj;
+//                    if (pageNo == JzspConstants.PageStart) {
+//                        //刷新
+//                        mList.clear();
+//                    }
+//                    List<ScanDeviceDate> items = scanDeviceResultEntity.getDevData();
+//                    if (items != null) {
+//                        mList.addAll(items);
+//                        baseItemAdapter.notifyDataSetChanged();
+//                        if (items.size() < JzspConstants.PageSize) {
+//                            refreshLayout.setEnableLoadmore(false);
+//                        }
+//                    } else {
+//                        refreshLayout.setEnableLoadmore(false);
+//                    }
                     break;
             }
         }
     };
+
+
+    /**
+     * 数据请求回来刷新界面
+     *
+     * @param devData
+     */
+    private void refreshUI(ArrayList<JSZPOutboundScanQueryResultEntity.
+            JSZPOutboundScanQueryScanResultEntity.JSZPOutboundScanQueryDevData> devData) {
+        devDatas = devData;
+        rvDevices.setNestedScrollingEnabled(false);
+        rvDevices.setLayoutManager(new LinearLayoutManager(this));
+        jszpOutboundScanQueryAdapter = new JSZPOutboundScanQueryAdapter(devDatas);
+        rvDevices.setAdapter(jszpOutboundScanQueryAdapter);
+    }
 
     @Override
     public int getLayoutResId() {
@@ -147,26 +198,35 @@ public class ReturnWarehouseGoodsDetailActivity extends BaseActivity {
         initViewData(mIoTaskDets);
         mList = new ArrayList<>();
         //初始化数据
-        initListUiData();
+        obtainNetData();
     }
 
-    //初始化列表数据
-    private void initListUiData() {
-        baseItemAdapter = new BaseItemAdapter();
-        rvDevices.setLayoutManager(new LinearLayoutManager(this));
-        rvDevices.addItemDecoration(new SpaceItemDecoration(2));
-        scanDeviceDataAdapter = new ScanDeviceDataAdapter(this);
-        baseItemAdapter.register(ScanDeviceDate.class, scanDeviceDataAdapter);
-        rvDevices.setAdapter(baseItemAdapter);
-        baseItemAdapter.setDataItems(mList);
-        scanDeviceDataAdapter.setOnScanClickListener(new ScanDeviceDataAdapter.OnScanClickListener() {
-            @Override
-            public void onDeleteDevice(int position) {
-                mList.remove(position);
-                baseItemAdapter.notifyDataSetChanged();
-            }
-        });
+    /**
+     * 请求获取当前的单据的条码数据
+     */
+    private void obtainNetData() {
+        mRequestEntity = new JSZPOutboundScanQueryRequestEntity();
+        mRequestEntity.setPageNo(JzspConstants.PageStart);
+        mRequestEntity.setPageSize(JzspConstants.PageSize);
+        getListData();
     }
+//    //初始化列表数据
+//    private void initListUiData() {
+//        baseItemAdapter = new BaseItemAdapter();
+//        rvDevices.setLayoutManager(new LinearLayoutManager(this));
+//        rvDevices.addItemDecoration(new SpaceItemDecoration(2));
+//        scanDeviceDataAdapter = new ScanDeviceDataAdapter(this);
+//        baseItemAdapter.register(ScanDeviceDate.class, scanDeviceDataAdapter);
+//        rvDevices.setAdapter(baseItemAdapter);
+//        baseItemAdapter.setDataItems(mList);
+//        scanDeviceDataAdapter.setOnScanClickListener(new ScanDeviceDataAdapter.OnScanClickListener() {
+//            @Override
+//            public void onDeleteDevice(int position) {
+//                mList.remove(position);
+//                baseItemAdapter.notifyDataSetChanged();
+//            }
+//        });
+//    }
 
     /**
      * 绑定数据
@@ -181,22 +241,25 @@ public class ReturnWarehouseGoodsDetailActivity extends BaseActivity {
 
     @Override
     public void initListener() {
-        refreshLayout.setEnableRefresh(true);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                refreshListData();
+                obtainNetData();
                 refreshlayout.finishRefresh();
+
             }
         });
+
         refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
-                pageNo++;
+                mRequestEntity.setPageSize(mRequestEntity.getPageNo() + 1);
                 getListData();
                 refreshlayout.finishLoadmore();
+
             }
         });
+
     }
 
     //刷新数据
@@ -206,16 +269,12 @@ public class ReturnWarehouseGoodsDetailActivity extends BaseActivity {
         getListData();
     }
 
-    //获取扫描列表数据
-    private void getListData() {
-        Map<String, String> map = new HashMap<>();
-//        map.put("relaNo", realNo);
-        map.put("pageNo", pageNo + "");
-        map.put("pageSize", JzspConstants.PageSize + "");
 
-        JSZPOkgoHttpUtils.postString(JSZPUrls.URL_OUTBOUND_STORAGE_DEVICE_SCAN_RESULT_QUERY,
-                this, map,
-                mHandler, GET_List_WHAT, ScanDeviceResultEntity.class);
+    private void getListData() {
+        mRequestEntity.setRelaNo(mIoTaskDets.getTaskId());//1572
+        JSZPOkgoHttpUtils.postString(JSZPUrls.URL_OUTBOUND_STORAGE_DEVICE_SCAN_RESULT_QUERY, this,
+                mRequestEntity, mHandler,
+                GET_List_WHAT, JSZPOutboundScanQueryResultEntity.class);
     }
 
 
@@ -223,9 +282,10 @@ public class ReturnWarehouseGoodsDetailActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_scan://扫一扫
-                Intent intent = new Intent(ReturnWarehouseGoodsDetailActivity.this, JSZPScanItActivity.class);
-                intent.putExtra("flag", 1);
 
+                Intent intent = new Intent(ReturnWarehouseGoodsDetailActivity.this, JSZPScanItActivity.class);
+                intent.putExtra("jszpDeliveryReceiptResultIoPlanDetsEntity", (Serializable) mIoTaskDets);
+                intent.putExtra("flag", 1);
                 startActivityForResult(intent, 999);
                 break;
             case R.id.tv_confirm://确认入库
@@ -242,11 +302,11 @@ public class ReturnWarehouseGoodsDetailActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            if (requestCode == 999) {
+        if (requestCode == 999 && resultCode == RESULT_OK) {
+
+            obtainNetData();
 
 
-            }
         }
     }
 
@@ -260,7 +320,6 @@ public class ReturnWarehouseGoodsDetailActivity extends BaseActivity {
                 this, requestEntity,
                 mHandler, WHAT_RETURN_WAREHOUSE_GOODS_CONFIRM_LIS, ReturnWarehouseGoodsConfirmResultEntity.class);
     }
-
 
 
 }
