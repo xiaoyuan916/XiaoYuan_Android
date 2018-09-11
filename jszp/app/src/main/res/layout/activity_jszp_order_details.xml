@@ -64,7 +64,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="订单编号：30014745335"
+                    android:text="订单编号："
                     android:textColor="#ff292929"
                     android:textSize="16sp" />
 
@@ -72,7 +72,7 @@
                     android:id="@+id/tv_query_order_qty"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="3000只"
+                    android:text="0只"
                     android:textColor="#ff292929"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -87,7 +87,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="南京市供电公司"
+                    android:text=""
                     android:textColor="#ff999999"
                     android:textSize="16sp" />
 
@@ -95,7 +95,7 @@
                     android:id="@+id/tv_query_order_check"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="已核验"
+                    android:text=""
                     android:textColor="#ff009d85"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -116,18 +116,18 @@
             android:layout_marginTop="9dp">
 
             <TextView
-                android:layout_width="56dp"
-                android:layout_height="14dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="配送库房"
                 android:textColor="#ff999999"
                 android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/tv_order_distribution_warehouse"
-                android:layout_width="70dp"
-                android:layout_height="14dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:text="省中心库房"
+                android:text=""
                 android:textColor="#ff292929"
                 android:textSize="14sp" />
         </RelativeLayout>
@@ -138,18 +138,18 @@
             android:layout_marginTop="9dp">
 
             <TextView
-                android:layout_width="56dp"
-                android:layout_height="14dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="提报日期"
                 android:textColor="#ff999999"
                 android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/tv_order_presentation_date"
-                android:layout_width="70dp"
-                android:layout_height="14dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:text="2018.06.25"
+                android:text=""
                 android:textColor="#ff292929"
                 android:textSize="14sp" />
         </RelativeLayout>
@@ -160,18 +160,18 @@
             android:layout_marginTop="9dp">
 
             <TextView
-                android:layout_width="56dp"
-                android:layout_height="14dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="剩余时限"
                 android:textColor="#ff999999"
                 android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/tv_order_residual_time"
-                android:layout_width="70dp"
-                android:layout_height="14dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:text="6天6小时"
+                android:text=""
                 android:textColor="#ff292929"
                 android:textSize="14sp" />
         </RelativeLayout>
@@ -183,14 +183,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
-        android:background="@color/white"
         android:fillViewport="false"
         app:layout_scrollFlags="enterAlways"
-        app:tabIndicatorColor="#057523"
-        app:tabIndicatorHeight="0dp"
+        app:tabIndicatorColor="#009D85"
+        app:tabIndicatorHeight="2dp"
         app:tabMode="fixed"
         app:tabSelectedTextColor="#009D85"
-        app:tabTextColor="#ced0d3">
+        app:tabTextColor="@color/darkgray">
 
         <android.support.design.widget.TabItem
             android:layout_width="match_parent"

@@ -58,8 +58,7 @@ public class JszpOrderStatusFragment extends Fragment {
     private void initView() {
         rv_orders.setNestedScrollingEnabled(false);
         rv_orders.setLayoutManager(new LinearLayoutManager(getActivity()));
-        rv_orders.addItemDecoration(new SpaceItemDecoration(15));
-        mStatusAdpter = new JszpOrderStatusAdpter();
+        mStatusAdpter = new JszpOrderStatusAdpter(getActivity());
         rv_orders.setAdapter(mStatusAdpter);
     }
 

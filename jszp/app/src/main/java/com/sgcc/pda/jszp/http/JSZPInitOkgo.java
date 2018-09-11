@@ -23,6 +23,12 @@ import javax.net.ssl.X509TrustManager;
 
 import okhttp3.OkHttpClient;
 
+/**
+ * 网络请求
+ * 1，所有的模块的网络请求
+ * 2，post的使用
+ * 3，map及json数据格式
+ */
 public class JSZPInitOkgo {
     public void initOkGo(Application app) {
         //---------这里给出的是示例代码,告诉你可以这么传,实际使用的时候,根据需要传,不需要就不传-------------//

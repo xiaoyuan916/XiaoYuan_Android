@@ -1,5 +1,6 @@
 package com.sgcc.pda.jszp.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
@@ -40,7 +41,7 @@ public class ReturnCarActivity extends BaseActivity {
      */
     private static final int GET_WAIT_LOAD_NEGATIVE_OUT_PLAN_DET_WHAT = 6001;
     private static final int SCAN_DEV_WHAT = 6002;
-    private static final int LOAD_NEGATIVE_OUT_PLAN_DET_WHAT=6003;
+    private static final int LOAD_NEGATIVE_OUT_PLAN_DET_WHAT = 6003;
     /**
      * 控件
      */
@@ -70,6 +71,7 @@ public class ReturnCarActivity extends BaseActivity {
     /**
      * handler 处理
      */
+    @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -77,7 +79,11 @@ public class ReturnCarActivity extends BaseActivity {
             switch (msg.what) {
                 case GET_WAIT_LOAD_NEGATIVE_OUT_PLAN_DET_WHAT:
                     ReturnCarResultEntity resultEntity = (ReturnCarResultEntity) msg.obj;
-                    upDataUI(resultEntity);
+                    if(resultEntity.getSplitTask()!=null) {
+                        upDataUI(resultEntity);
+                    }else{
+                        ToastUtils.showToast(ReturnCarActivity.this,"获取数据异常");
+                    }
                     break;
                 case SCAN_DEV_WHAT:
                     JSZPEquipmentScanningResultEntity jszpEquipmentScanningResultEntity =
@@ -114,11 +120,13 @@ public class ReturnCarActivity extends BaseActivity {
     private void upDataUI(ReturnCarResultEntity resultEntity) {
         splitTaskNo = resultEntity.getSplitTask().getSplitTaskNo();
         tv_delivery_order.setText("配送单: " + resultEntity.getSplitTask().getTaskNo());
-        tv_box_qty.setText(resultEntity.getSplitTask().getIoTaskDets().get(0).getFinishBoxQty() + "箱");
-        tv_receiving_warehouse.setText("接收库房："+resultEntity.getSplitTask().getDpName());
-        returnItems.addAll(resultEntity.getSplitTask().getIoTaskDets()) ;
-        //刷新adapter
-        returnAdapter.notifyDataSetChanged();
+        tv_receiving_warehouse.setText("接收库房：" + resultEntity.getSplitTask().getDpName());
+        if(resultEntity.getSplitTask().getIoTaskDets()!=null && resultEntity.getSplitTask().getIoTaskDets().size()!=0){
+            tv_box_qty.setText(resultEntity.getSplitTask().getIoTaskDets().get(0).getFinishBoxQty() + "箱");
+            returnItems.addAll(resultEntity.getSplitTask().getIoTaskDets());
+            //刷新adapter
+            returnAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -148,7 +156,7 @@ public class ReturnCarActivity extends BaseActivity {
         requestEntity.setBaseNo(number);
         JSZPOkgoHttpUtils.postString(JSZPUrls.URL_GET_WAIT_LOAD_NEGATIVE_OUT_PLAN_DET,
                 this, requestEntity,
-                mHandler, GET_WAIT_LOAD_NEGATIVE_OUT_PLAN_DET_WHAT,ReturnCarResultEntity.class);
+                mHandler, GET_WAIT_LOAD_NEGATIVE_OUT_PLAN_DET_WHAT, ReturnCarResultEntity.class);
     }
 
     private void initDataView() {
@@ -169,9 +177,14 @@ public class ReturnCarActivity extends BaseActivity {
             @Override
             public void onSomaClick(BaseViewHolder baseViewHolder) {
                 checkposition = baseViewHolder.getItemPosition();
-                Intent intent = new Intent(ReturnCarActivity.this, ScanActivity.class);
-                intent.putExtra("type", 2);
-                intent.putExtra("tasknum", ((IoTaskDets) baseViewHolder.getItemData()).getSplitTaskNo());
+                Intent intent = new Intent(ReturnCarActivity.this, JSZPScanItActivity.class);
+                IoTaskDets ioTaskDets =  (IoTaskDets) baseViewHolder.getItemData();
+                intent.putExtra("taskNo", ioTaskDets.getPlanDetNo());
+                intent.putExtra("realNo", ioTaskDets.getTaskId());
+                intent.putExtra("currentNum", 0);
+                intent.putExtra("totalNum", ioTaskDets.getQty());
+                intent.putExtra("isIo",false);
+                intent.putExtra("equipCode",ioTaskDets.getEquipCode());
                 startActivityForResult(intent, 101);
             }
 
@@ -202,8 +215,8 @@ public class ReturnCarActivity extends BaseActivity {
     @OnClick(R.id.bt_sure)
     public void onViewClicked() {
         for (IoTaskDets item : returnItems) {
-            if(item.getRealCount() != item.getQty()){
-                ToastUtils.showToast(this,"任务没有核对完毕");
+            if (item.getRealCount() != item.getQty()) {
+                ToastUtils.showToast(this, "任务没有核对完毕");
                 return;
             }
         }
@@ -216,7 +229,7 @@ public class ReturnCarActivity extends BaseActivity {
         requestEntity.setSplitTaskNo(splitTaskNo);
         JSZPOkgoHttpUtils.postString(JSZPUrls.URL_LOAD_NEGATIVE_OUT_PLAN_DET,
                 this, requestEntity,
-                mHandler, LOAD_NEGATIVE_OUT_PLAN_DET_WHAT,BaseEntity.class);
+                mHandler, LOAD_NEGATIVE_OUT_PLAN_DET_WHAT, BaseEntity.class);
     }
 
     @Override
@@ -224,9 +237,6 @@ public class ReturnCarActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case 101:
-                String numberCode = data.getStringExtra("number");
-                obtainNetData(numberCode);
-                break;
             case 102:
                 if (resultCode != RESULT_OK) return;
                 int realcount = data.getIntExtra("realcount", 0);
@@ -234,8 +244,6 @@ public class ReturnCarActivity extends BaseActivity {
                 returnAdapter.notifyItemChanged(checkposition);
                 changeBtnStatus();
                 break;
-
-
         }
     }
 
@@ -249,25 +257,25 @@ public class ReturnCarActivity extends BaseActivity {
         jszpEquipmentScanningRequestEntity.setBarCodes(text);
         JSZPOkgoHttpUtils.postString(JSZPUrls.URL_SCAN_DEV,
                 this, jszpEquipmentScanningRequestEntity,
-                mHandler, SCAN_DEV_WHAT,JSZPEquipmentScanningResultEntity.class);
+                mHandler, SCAN_DEV_WHAT, JSZPEquipmentScanningResultEntity.class);
     }
 
     /**
      * 修改返回装车按钮
      */
-    private void changeBtnStatus(){
+    private void changeBtnStatus() {
         boolean isEnable = true;
-        if(returnItems.size() == 0){
+        if (returnItems.size() == 0) {
             isEnable = false;
         }
-        for (IoTaskDets ioTaskDets:returnItems){
-            if(ioTaskDets.getQty() != ioTaskDets.getRealCount()){
+        for (IoTaskDets ioTaskDets : returnItems) {
+            if (ioTaskDets.getQty() != ioTaskDets.getRealCount()) {
                 isEnable = false;
                 break;
             }
         }
 
-        btSure.setTextColor(isEnable?getResources().getColor(R.color.title_green):getResources().getColor(R.color.darkgray));
+        btSure.setTextColor(isEnable ? getResources().getColor(R.color.title_green) : getResources().getColor(R.color.darkgray));
         btSure.setClickable(isEnable);
     }
 }

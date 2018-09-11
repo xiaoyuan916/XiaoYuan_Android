@@ -11,6 +11,7 @@ public class JzspConstants {
     public static final String MAC="";
     public static final String OrgNo="3240000";
 
+    public static final int  RESULT_FINISH = 10;
 
     public static final int PageStart = 1;//列表开始页数
     public static final int PageSize = 10;//每页条数

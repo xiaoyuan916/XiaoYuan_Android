@@ -1,5 +1,6 @@
 package com.sgcc.pda.jszp.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
@@ -17,13 +18,14 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.sgcc.pda.jszp.R;
 import com.sgcc.pda.jszp.adapter.JSZPOutboundScanQueryAdapter;
 import com.sgcc.pda.jszp.adapter.ScanDeviceDataAdapter;
-import com.sgcc.pda.jszp.adapter.SpaceItemDecoration;
 import com.sgcc.pda.jszp.base.BaseActivity;
 import com.sgcc.pda.jszp.bean.IoTaskDets;
 import com.sgcc.pda.jszp.bean.JSZPOutboundScanQueryRequestEntity;
 import com.sgcc.pda.jszp.bean.JSZPOutboundScanQueryResultEntity;
 import com.sgcc.pda.jszp.bean.ReturnWarehouseGoodsConfirmRequestEntity;
 import com.sgcc.pda.jszp.bean.ReturnWarehouseGoodsConfirmResultEntity;
+import com.sgcc.pda.jszp.bean.ScanDeleteRequest;
+import com.sgcc.pda.jszp.bean.ScanDeleteResult;
 import com.sgcc.pda.jszp.bean.ScanDeviceDate;
 import com.sgcc.pda.jszp.bean.ScanDeviceResultEntity;
 import com.sgcc.pda.jszp.http.JSZPOkgoHttpUtils;
@@ -33,9 +35,7 @@ import com.sgcc.pda.sdk.utils.ToastUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -43,10 +43,11 @@ import butterknife.OnClick;
 /**
  * 返程入库设备详情界面（第三层界面）
  */
-public class ReturnWarehouseGoodsDetailActivity extends BaseActivity {
+public class ReturnWarehouseGoodsDetailActivity extends BaseActivity implements JSZPOutboundScanQueryAdapter.DeleteItemListerner {
 
     private static final int WHAT_RETURN_WAREHOUSE_GOODS_CONFIRM_LIS = 9006;
     private static final int GET_List_WHAT = 9008;
+    private static final int URL_DELETE_IN_WHAT = 9003;
     @BindView(R.id.tv_title)
     TextView tvTitle;
     @BindView(R.id.tv_head)
@@ -79,7 +80,7 @@ public class ReturnWarehouseGoodsDetailActivity extends BaseActivity {
     ImageView ivState;
 
     private IoTaskDets mIoTaskDets;
-    private long mPlanDetNo;//请求参数
+    private String mPlanDetNo;//请求参数
 
     BaseItemAdapter baseItemAdapter;
     List<ScanDeviceDate> mList;
@@ -102,6 +103,10 @@ public class ReturnWarehouseGoodsDetailActivity extends BaseActivity {
     private ArrayList<JSZPOutboundScanQueryResultEntity.JSZPOutboundScanQueryScanResultEntity.
             JSZPOutboundScanQueryDevData> devDatas = new ArrayList<>();
 
+    private ScanDeleteRequest mScanDeleteRequest;
+
+    private JSZPOutboundScanQueryResultEntity jszpOutboundScanQueryResultEntity;
+
     private void refreshUIMore(ArrayList<JSZPOutboundScanQueryResultEntity.
             JSZPOutboundScanQueryScanResultEntity.JSZPOutboundScanQueryDevData> devData) {
         jszpOutboundScanQueryAdapter = new JSZPOutboundScanQueryAdapter(devData);
@@ -109,7 +114,7 @@ public class ReturnWarehouseGoodsDetailActivity extends BaseActivity {
 
     }
 
-
+    @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -121,10 +126,9 @@ public class ReturnWarehouseGoodsDetailActivity extends BaseActivity {
                     if ("1".equals(obj.getRT_F())) {
                         ToastUtils.showToast(ReturnWarehouseGoodsDetailActivity.this, "入库成功");
                     }
-
                     break;
                 case GET_List_WHAT:
-                    JSZPOutboundScanQueryResultEntity jszpOutboundScanQueryResultEntity =
+                     jszpOutboundScanQueryResultEntity =
                             (JSZPOutboundScanQueryResultEntity) msg.obj;
                     if (mRequestEntity.getPageNo() != 1) {
                         refreshUIMore(jszpOutboundScanQueryResultEntity.getScanResult().getDevData());
@@ -136,27 +140,19 @@ public class ReturnWarehouseGoodsDetailActivity extends BaseActivity {
                     refreshUI(jszpOutboundScanQueryResultEntity.getScanResult().getDevData());
                     refreshLayout.setEnableLoadmore(true);
 
-//                    //列表数据
-//                    scanDeviceResultEntity = (ScanDeviceResultEntity) msg.obj;
-//                    if (pageNo == JzspConstants.PageStart) {
-//                        //刷新
-//                        mList.clear();
-//                    }
-//                    List<ScanDeviceDate> items = scanDeviceResultEntity.getDevData();
-//                    if (items != null) {
-//                        mList.addAll(items);
-//                        baseItemAdapter.notifyDataSetChanged();
-//                        if (items.size() < JzspConstants.PageSize) {
-//                            refreshLayout.setEnableLoadmore(false);
-//                        }
-//                    } else {
-//                        refreshLayout.setEnableLoadmore(false);
-//                    }
+                    break;
+                case URL_DELETE_IN_WHAT:
+                    ScanDeleteResult mScanDeleteResult = (ScanDeleteResult) msg.obj;
+                    if ("1".equals(mScanDeleteResult.getRT_F())) {
+                        ToastUtils.showToast(ReturnWarehouseGoodsDetailActivity.this, "全部删除成功");
+                        obtainNetData();
+                        jszpOutboundScanQueryAdapter.notifyDataSetChanged();
+//                        finish();
+                    }
                     break;
             }
         }
     };
-
 
     /**
      * 数据请求回来刷新界面
@@ -210,23 +206,7 @@ public class ReturnWarehouseGoodsDetailActivity extends BaseActivity {
         mRequestEntity.setPageSize(JzspConstants.PageSize);
         getListData();
     }
-//    //初始化列表数据
-//    private void initListUiData() {
-//        baseItemAdapter = new BaseItemAdapter();
-//        rvDevices.setLayoutManager(new LinearLayoutManager(this));
-//        rvDevices.addItemDecoration(new SpaceItemDecoration(2));
-//        scanDeviceDataAdapter = new ScanDeviceDataAdapter(this);
-//        baseItemAdapter.register(ScanDeviceDate.class, scanDeviceDataAdapter);
-//        rvDevices.setAdapter(baseItemAdapter);
-//        baseItemAdapter.setDataItems(mList);
-//        scanDeviceDataAdapter.setOnScanClickListener(new ScanDeviceDataAdapter.OnScanClickListener() {
-//            @Override
-//            public void onDeleteDevice(int position) {
-//                mList.remove(position);
-//                baseItemAdapter.notifyDataSetChanged();
-//            }
-//        });
-//    }
+
 
     /**
      * 绑定数据
@@ -241,12 +221,12 @@ public class ReturnWarehouseGoodsDetailActivity extends BaseActivity {
 
     @Override
     public void initListener() {
+
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 obtainNetData();
-                refreshlayout.finishRefresh();
-
+                refreshlayout.finishRefresh(500);
             }
         });
 
@@ -255,10 +235,11 @@ public class ReturnWarehouseGoodsDetailActivity extends BaseActivity {
             public void onLoadmore(RefreshLayout refreshlayout) {
                 mRequestEntity.setPageSize(mRequestEntity.getPageNo() + 1);
                 getListData();
-                refreshlayout.finishLoadmore();
+                refreshlayout.finishLoadmore(500);
 
             }
         });
+
 
     }
 
@@ -282,10 +263,17 @@ public class ReturnWarehouseGoodsDetailActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_scan://扫一扫
-
+                if(mIoTaskDets==null || jszpOutboundScanQueryResultEntity==null){
+                    ToastUtils.showToast(ReturnWarehouseGoodsDetailActivity.this,"数据还未获取成功，请稍候...");
+                    return;
+                }
                 Intent intent = new Intent(ReturnWarehouseGoodsDetailActivity.this, JSZPScanItActivity.class);
-                intent.putExtra("jszpDeliveryReceiptResultIoPlanDetsEntity", (Serializable) mIoTaskDets);
-                intent.putExtra("flag", 1);
+                intent.putExtra("taskNo",mIoTaskDets.getPlanNo());
+                intent.putExtra("realNo",mIoTaskDets.getTaskId());
+                intent.putExtra("currentNum",jszpOutboundScanQueryResultEntity.getScanResult().getTotalRecords());
+                intent.putExtra("totalNum",mIoTaskDets.getQty());
+                intent.putExtra("isIo",true);
+                intent.putExtra("equipCode",mIoTaskDets.getEquipCode());
                 startActivityForResult(intent, 999);
                 break;
             case R.id.tv_confirm://确认入库
@@ -293,19 +281,30 @@ public class ReturnWarehouseGoodsDetailActivity extends BaseActivity {
                 break;
             case R.id.iv_delete://删除已扫描设备
                 //删除
-                mList.clear();
-                baseItemAdapter.notifyDataSetChanged();
+                deleteAll();
+//                baseItemAdapter.notifyDataSetChanged();
                 break;
         }
+    }
+    //删除全部扫描
+    private void deleteAll() {
+        mScanDeleteRequest =
+                new ScanDeleteRequest();
+        mScanDeleteRequest.setTaskId(mIoTaskDets.getTaskId());
+        deleteDevice();
+    }
+
+    private void deleteDevice() {
+        JSZPOkgoHttpUtils.postString(JSZPUrls.URL_SCAN_DELETE, this,
+                mScanDeleteRequest, mHandler,
+                URL_DELETE_IN_WHAT, ScanDeleteResult.class);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 999 && resultCode == RESULT_OK) {
-
             obtainNetData();
-
 
         }
     }
@@ -322,4 +321,10 @@ public class ReturnWarehouseGoodsDetailActivity extends BaseActivity {
     }
 
 
+    @Override
+    public void deleteItem(int position) {
+        mScanDeleteRequest = new ScanDeleteRequest();
+        mScanDeleteRequest.setBarCode(jszpOutboundScanQueryResultEntity.getScanResult().getDevData().get(position).getBarCode());
+        deleteDevice();
+    }
 }

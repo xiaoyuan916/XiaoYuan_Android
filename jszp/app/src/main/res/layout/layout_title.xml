@@ -20,6 +20,17 @@
 		android:paddingRight="10dp"
 		android:src="@drawable/return_bai"
 		/>
+	<ImageView
+		android:id="@+id/iv_close"
+		android:layout_width="36dp"
+		android:layout_height="match_parent"
+		android:layout_centerVertical="true"
+		android:layout_marginLeft="10dp"
+		android:layout_toRightOf="@id/iv_return"
+		android:paddingLeft="10dp"
+		android:visibility="gone"
+		android:paddingRight="10dp"
+		android:src="@mipmap/iv_close" />
 
 	<TextView
 		android:id="@+id/tv_title"
@@ -57,6 +68,18 @@
 		android:scaleType="center"
 		android:visibility="gone"
 		android:onClick="onIvRightClick"
+		android:background="@drawable/select_return_bt"
+		/>
+	<ImageView
+		android:id="@+id/iv_search"
+		android:layout_width="52dp"
+		android:layout_height="match_parent"
+		android:paddingLeft="10dp"
+		android:paddingRight="10dp"
+		android:layout_alignParentRight="true"
+		android:src="@mipmap/search_bai"
+		android:scaleType="center"
+		android:visibility="gone"
 		android:background="@drawable/select_return_bt"
 		/>
 </RelativeLayout>

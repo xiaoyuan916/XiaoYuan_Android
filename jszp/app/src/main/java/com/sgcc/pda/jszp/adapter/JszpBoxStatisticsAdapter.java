@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.sgcc.pda.jszp.R;
 import com.sgcc.pda.jszp.bean.JszpBoxRecallDetEntity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -19,7 +20,7 @@ import java.util.List;
  * date:2018/9/7
  */
 public class JszpBoxStatisticsAdapter extends RecyclerView.Adapter<JszpBoxStatisticsAdapter.ViewHolder> {
-    private List<JszpBoxRecallDetEntity> mList;
+    private List<JszpBoxRecallDetEntity> mList=new ArrayList<>();
 
     @NonNull
     @Override
@@ -32,8 +33,8 @@ public class JszpBoxStatisticsAdapter extends RecyclerView.Adapter<JszpBoxStatis
     public void onBindViewHolder(@NonNull JszpBoxStatisticsAdapter.ViewHolder holder, int position) {
         JszpBoxRecallDetEntity jszpBoxRecallDetEntity = mList.get(position);
         if (jszpBoxRecallDetEntity==null)return;
-        holder.mTvBoxRecallInfo.setText(jszpBoxRecallDetEntity.getRecallDetId());
-        holder.mTvBoxRecallCount.setText(jszpBoxRecallDetEntity.getSumQty());
+        holder.mTvBoxRecallInfo.setText(jszpBoxRecallDetEntity.getSortCodeLabel());
+        holder.mTvBoxRecallCount.setText(jszpBoxRecallDetEntity.getSumQty()+"");
     }
 
     @Override
@@ -45,7 +46,8 @@ public class JszpBoxStatisticsAdapter extends RecyclerView.Adapter<JszpBoxStatis
      * 更新UI
      */
     public void updataUI(List<JszpBoxRecallDetEntity> mList) {
-        this.mList = mList;
+        this.mList.clear();
+        this.mList.addAll(mList);
         notifyDataSetChanged();
     }
 

@@ -9,10 +9,12 @@ import java.io.Serializable;
 public class ScanDeviceDate implements Serializable {
     private String barCode;//条码
     private String equipCateg;//设备类别
+    private String equipCategLable;//设备类别
     private String equipCode;//设备码
     private String equipDesc;//设备码描述
     private String statusCode;//设备状态  查看3.2.16
     private String excepDesc;//异常描述
+    private String statusCodeLabel;//设备状态
 
     public ScanDeviceDate( String barCode){
         this.barCode = barCode;
@@ -64,5 +66,21 @@ public class ScanDeviceDate implements Serializable {
 
     public void setExcepDesc(String excepDesc) {
         this.excepDesc = excepDesc;
+    }
+
+    public String getStatusCodeLabel() {
+        return statusCodeLabel;
+    }
+
+    public void setStatusCodeLabel(String statusCodeLabel) {
+        this.statusCodeLabel = statusCodeLabel;
+    }
+
+    public String getEquipCategLable() {
+        return equipCategLable;
+    }
+
+    public void setEquipCategLable(String equipCategLable) {
+        this.equipCategLable = equipCategLable;
     }
 }

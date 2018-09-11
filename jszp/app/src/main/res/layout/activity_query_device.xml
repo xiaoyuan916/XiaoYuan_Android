@@ -46,7 +46,6 @@
                         android:id="@+id/tv_device_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="电能表"
                         android:textColor="@color/white"
                         android:textSize="16sp" />
 
@@ -55,7 +54,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:text="资产编号:124125456"
                         android:textColor="@color/white"
                         android:textSize="14sp" />
 
@@ -64,7 +62,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:text="0.2S二级单相智能电能表220V,6(10)A"
                         android:textColor="@color/white"
                         android:textSize="14sp" />
                 </LinearLayout>

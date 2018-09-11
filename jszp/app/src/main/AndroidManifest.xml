@@ -77,7 +77,7 @@
         <activity
             android:name=".activity.AddDriveActivity"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".activity.JSZPScanItActivity" />
+        <activity android:name=".activity.JSZPScanItActivity"   android:launchMode="singleTask"  />
         <activity
             android:name=".activity.ScanForDeviceOutActivity"
             android:windowSoftInputMode="adjustPan" />
@@ -101,8 +101,19 @@
         <activity android:name=".activity.JszpOrderDetailsActivity" />
         <activity android:name=".activity.TaskOutQueryActivity" />
         <activity android:name=".activity.TaskQueryDetailActivity" />
-        <activity android:name=".activity.JszpTurnoverBoxScanActivity" />
-        <activity android:name=".activity.JszpBoxsManualActivity"></activity>
+        <activity android:name=".activity.JszpTurnoverBoxScanActivity"
+            android:launchMode="singleTask"   />
+        <activity android:name=".activity.JszpBoxsManualActivity" />
+        <activity android:name=".activity.JszpDpSelect1Activity" />
+        <activity android:name=".activity.JszpDpSelect2Activity" />
+        <activity android:name=".activity.JszpDpSelect3Activity" />
+        <activity android:name=".activity.ScanDevicePickFinshActivity"></activity>
+
+
+
+
+
+        <activity android:name=".activity.JSZPManualItActivity"></activity>
     </application>
 
 </manifest>

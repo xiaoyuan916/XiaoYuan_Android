@@ -63,7 +63,6 @@ public class ExpressBindAdapter<T extends ExpressBindItem> extends BaseViewHolde
                 }
             });
         }
-
         //扫描添加设备
         iv_saomiao.setOnClickListener(new View.OnClickListener() {
             @Override

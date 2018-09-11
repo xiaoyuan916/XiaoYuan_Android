@@ -17,7 +17,7 @@ public class ExpressBindItem {
 
     public class ExpressDeviceItem{
         private String barCode;//设备条码
-        private String deviceName;//设备名称
+        private String deviceName;//设备名称/
 //        private String pkgNo;//包裹号
         private String taskNo;//配送任务编号
         private String equipCateg;//设备类别

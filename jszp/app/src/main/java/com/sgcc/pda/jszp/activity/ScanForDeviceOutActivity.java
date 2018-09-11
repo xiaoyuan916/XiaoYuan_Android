@@ -1,5 +1,6 @@
 package com.sgcc.pda.jszp.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
@@ -50,18 +51,19 @@ public class ScanForDeviceOutActivity extends Scan2Activity implements View.OnCl
     //批量扫描时  开始编码
     private String startCode;
 
+    private String taskNo;//任务号
     private String realNo;//关联单号
     private String equipCode;//设备码
     private int totalNum;//需要扫描的总数
     private int currentNum;//目前已扫描的数量
 
+    @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
                 case SCAN_DEV_WHAT:
-                    reScan();
                     ScanResultEntity scanResultEntity =
                             (ScanResultEntity) msg.obj;
                     ScanResultEntity.ScanDate scanData
@@ -73,7 +75,6 @@ public class ScanForDeviceOutActivity extends Scan2Activity implements View.OnCl
                 case SCAN_DEV_WHAT+ JSZPOkgoHttpUtils.JSZP_OK_HTTTP_ERROR:
                 case SCAN_DEV_WHAT+ JSZPOkgoHttpUtils.JSZP_OK_HTTTP_FAIL:
                     //扫描提交失败
-                    reScan();
                     break;
 
             }
@@ -98,14 +99,17 @@ public class ScanForDeviceOutActivity extends Scan2Activity implements View.OnCl
         ivClose = (ImageView) findViewById(R.id.iv_close);
 
 
+        rbIndex = getIntent().getIntExtra("index",0);
+        taskNo = getIntent().getStringExtra("taskNo");
         equipCode = getIntent().getStringExtra("equipCode");
         realNo = getIntent().getStringExtra("realNo");
         totalNum = getIntent().getIntExtra("totalNum",0);
         currentNum = getIntent().getIntExtra("currentNum",0);
 
+        tvTaskNo.setText("任务号："+taskNo);
         tvTaskNum.setText(currentNum+"/"+totalNum);
 
-        rbScanBox.setChecked(true);
+        changeRb(rbIndex);
 
         btmanual.setOnClickListener(this);
         rbScanPiliang.setOnClickListener(this);
@@ -132,11 +136,45 @@ public class ScanForDeviceOutActivity extends Scan2Activity implements View.OnCl
         if(rbScanPiliang.isChecked()){
             if(TextUtils.isEmpty(startCode)){
                 startCode = text;
+                tvContent.setText("请扫描或输入结束设备条形码");
             }else{
                 scanData(text);
             }
         }else{
             scanData(text);
+        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                /**
+                 *要执行的操作
+                 */
+
+                reScan();
+            }
+        }, 1000);//1秒后执行Runnable中的run
+    }
+    private void changeRb(int index){
+        rbIndex = index;
+        switch (index){
+            case 0:
+                //箱扫码
+                rbScanBox.setChecked(true);
+                tvContent.setText("请扫描或输入周转箱条形码");
+                rbIndex = 0;
+                break;
+            case 1:
+                //单设备扫码
+                rbScanDevice.setChecked(true);
+                tvContent.setText("请扫描或输入设备条形码");
+                rbIndex = 1;
+                break;
+            case 2:
+                //批量扫码
+                rbScanPiliang.setChecked(true);
+                tvContent.setText("请扫描或输入开始设备条形码");
+                rbIndex = 2;
+                break;
         }
     }
 
@@ -147,25 +185,25 @@ public class ScanForDeviceOutActivity extends Scan2Activity implements View.OnCl
             case R.id.bt_manual:
                 Intent intent = new Intent(this, ManualForDeviceOutActivity.class);
                 intent.putExtra("index",rbIndex);
+                intent.putExtra("taskNo", taskNo);
+                intent.putExtra("realNo", realNo);
+                intent.putExtra("equipCode", equipCode);
+                intent.putExtra("totalNum", totalNum);
+                intent.putExtra("currentNum", currentNum);
                 startActivityForResult(intent, 111);
+                finish();
                 break;
             case R.id.tv_scan_box:
                 //周转箱
-                rbScanBox.setChecked(true);
-                tvContent.setText("请扫描或输入周转箱条形码");
-                rbIndex = 0;
+                changeRb(0);
                 break;
             case R.id.tv_scan_device:
                 //单设备
-                rbScanDevice.setChecked(true);
-                tvContent.setText("请扫描或输入设备条形码");
-                rbIndex = 1;
+                changeRb(1);
                 break;
             case R.id.tv_scan_piliang:
                 //批量设备
-                rbScanPiliang.setChecked(true);
-                tvContent.setText("请扫描或输入开始和结束设备条形码");
-                rbIndex = 2;
+                changeRb(2);
                 break;
             case R.id.iv_close:
                 AppManager.getAppManager().finishActivity(DeviceOutDetailActivity.class);
@@ -189,25 +227,30 @@ public class ScanForDeviceOutActivity extends Scan2Activity implements View.OnCl
     //提交扫描接口
     private void scanData(String code) {
         JSZPEquipmentScanningRequestEntity jszpEquipmentScanningRequestEntity = new JSZPEquipmentScanningRequestEntity();
-//        if(rbScanPiliang.isChecked()){
-//            jszpEquipmentScanningRequestEntity.setBeginBarCode(startCode);
-//            jszpEquipmentScanningRequestEntity.setEndBarCode(code);
-//        }else {
-//            jszpEquipmentScanningRequestEntity.setBarCodes(code);
-//        }
-//        jszpEquipmentScanningRequestEntity.setIo(true);
-//        jszpEquipmentScanningRequestEntity.setRelaNo(realNo);
-//        jszpEquipmentScanningRequestEntity.setEquipCode(equipCode);
-//        jszpEquipmentScanningRequestEntity.setResult(false);
-
-        jszpEquipmentScanningRequestEntity.setBarCodes("001");
+        if(rbScanPiliang.isChecked()){
+            jszpEquipmentScanningRequestEntity.setBeginBarCode(startCode);
+            jszpEquipmentScanningRequestEntity.setEndBarCode(code);
+        }else {
+            jszpEquipmentScanningRequestEntity.setBarCodes(code);
+        }
         jszpEquipmentScanningRequestEntity.setIoFlag(true);
-        jszpEquipmentScanningRequestEntity.setRelaNo("1572");
-        jszpEquipmentScanningRequestEntity.setEquipCode("8200000000100989");
+        jszpEquipmentScanningRequestEntity.setRelaNo(realNo);
+        jszpEquipmentScanningRequestEntity.setEquipCode(equipCode);
+        jszpEquipmentScanningRequestEntity.setResultFlag(false);
+
+//        jszpEquipmentScanningRequestEntity.setBarCodes("001");
+//        jszpEquipmentScanningRequestEntity.setIoFlag(true);
+//        jszpEquipmentScanningRequestEntity.setRelaNo("1572");
+//        jszpEquipmentScanningRequestEntity.setEquipCode("8200000000100989");
 
         JSZPOkgoHttpUtils.postString(JSZPUrls.URL_SCAN_DEV,
                 this, jszpEquipmentScanningRequestEntity,
                 mHandler, SCAN_DEV_WHAT,ScanResultEntity.class);
+        if(rbScanPiliang.isChecked()){
+            tvContent.setText("请扫描或输入开始设备条形码");
+            startCode="";
+        }
+
     }
 
     @Override

@@ -22,7 +22,6 @@ import com.sgcc.pda.jszp.activity.DeviceBoxScanActivity;
 import com.sgcc.pda.jszp.activity.DeviceOutActivity;
 import com.sgcc.pda.jszp.activity.DevicePickActivity;
 import com.sgcc.pda.jszp.activity.ExpressConfirmListActivity;
-import com.sgcc.pda.jszp.activity.JszpTurnoverBoxRecallActivity;
 import com.sgcc.pda.jszp.activity.JszpTurnoverBoxScanActivity;
 import com.sgcc.pda.jszp.activity.LogisticsSendActivity;
 import com.sgcc.pda.jszp.activity.QueryDeviceActivity;
@@ -44,6 +43,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+/**
+ * 主页界面，APP所有模块的入口界面
+ * 1，配送管理大模块
+ * 2，查询管理大模块
+ * 3，辅助功能大模块
+ */
 public class MainActivity extends BaseActivity {
 
     private float llHeight;         //搜索框高度
@@ -129,10 +134,8 @@ public class MainActivity extends BaseActivity {
                 etparams.height = (int) (dscHeight - alphaScale * (dscHeight - llHeight));
                 vbg.setAlpha(1 - alphaScale);
                 rlScan.getParent().requestLayout();
-
             }
         });
-
     }
 
     @Override
@@ -241,15 +244,15 @@ public class MainActivity extends BaseActivity {
             public void onItemClick(BaseViewHolder baseViewHolder) {
                 switch (baseViewHolder.getItemPosition()) {
                     case 0:
-                        Intent intent2 = new Intent(MainActivity.this, JszpTurnoverBoxScanActivity.class);
+                        Intent intent2 = new Intent(MainActivity.this, JszpTurnoverBoxScanActivity.class);//周转箱召回
                         startActivity(intent2);
                         break;
                     case 1:
-                        Intent intent = new Intent(MainActivity.this, DeviceBoxScanActivity.class);
+                        Intent intent = new Intent(MainActivity.this, DeviceBoxScanActivity.class);//设备组箱
                         startActivity(intent);
                         break;
                     case 2: {
-                        Intent intent1 = new Intent(MainActivity.this, DevicePickActivity.class);
+                        Intent intent1 = new Intent(MainActivity.this, DevicePickActivity.class);//设备拣选
                         startActivity(intent1);
                     }
                     break;
@@ -262,21 +265,28 @@ public class MainActivity extends BaseActivity {
             public void onItemClick(BaseViewHolder baseViewHolder) {
                 switch (baseViewHolder.getItemPosition()) {
                     case 0: {
-                        Intent intent = new Intent(MainActivity.this, ScanActivity.class);
+                        Intent intent = new Intent(MainActivity.this, ScanActivity.class);//设备查询
                         intent.putExtra("type", MyComment.QUERY_DEVICE);
                         startActivity(intent);
                     }
                     break;
-                    case 1: {
-                        Intent intent = new Intent(MainActivity.this, QueryOrderActivity.class);
+                    case 1: {//订单查询
+                        Intent intent = new Intent(MainActivity.this, QueryOrderActivity.class);//订单查询
                         startActivity(intent);
                     }
                     break;
                     case 2: {
-                        startActivity( new Intent(MainActivity.this, TaskOutQueryActivity.class));
+                        //出库
+                        Intent intent =  new Intent(MainActivity.this, TaskOutQueryActivity.class);//出库查询
+                        intent.putExtra("type",1);
+                        startActivity(intent);
                     }
                     break;
                     case 3: {
+                        //入库
+                        Intent intent =  new Intent(MainActivity.this, TaskOutQueryActivity.class);//入库查询
+                        intent.putExtra("type",0);
+                        startActivity(intent);
                     }
                     break;
 
@@ -318,7 +328,10 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.iv_saoma:
                 //暂时屏蔽搜索物料详情的点击
-                ToastUtils.showToast(MainActivity.this,"暂时不支持本功能");
+//                ToastUtils.showToast(MainActivity.this,"暂时不支持本功能");
+                Intent intent1 = new Intent(MainActivity.this, ScanActivity.class);
+                intent1.putExtra("type", MyComment.QUERY_DEVICE);
+                startActivity(intent1);
                 break;
             case R.id.iv_scan://点击搜索框
                 //暂时屏蔽搜索物料详情的点击

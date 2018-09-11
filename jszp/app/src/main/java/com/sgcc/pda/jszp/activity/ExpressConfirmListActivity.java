@@ -1,5 +1,6 @@
 package com.sgcc.pda.jszp.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
@@ -60,6 +61,7 @@ public class ExpressConfirmListActivity extends BaseActivity {
     ExpressConfirmListResultEntity expressDistAutoesResultEntity;//请求结果集
 
     private String taskNo,dpName;//查询条件
+    @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -119,7 +121,7 @@ public class ExpressConfirmListActivity extends BaseActivity {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 refreshListData();
-                refreshlayout.finishRefresh();
+                refreshlayout.finishRefresh(500);
             }
         });
         refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
@@ -127,7 +129,7 @@ public class ExpressConfirmListActivity extends BaseActivity {
             public void onLoadmore(RefreshLayout refreshlayout) {
                 pageNo++;
                 getListData();
-                refreshlayout.finishLoadmore();
+                refreshlayout.finishLoadmore(500);
             }
         });
     }

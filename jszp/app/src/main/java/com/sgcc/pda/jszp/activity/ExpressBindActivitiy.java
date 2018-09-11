@@ -1,5 +1,6 @@
 package com.sgcc.pda.jszp.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
@@ -20,13 +21,14 @@ import com.sgcc.pda.jszp.base.MyComment;
 import com.sgcc.pda.jszp.bean.BaseEntity;
 import com.sgcc.pda.jszp.bean.ExpressBindItem;
 import com.sgcc.pda.jszp.bean.ExpressBindRequestEntity;
+import com.sgcc.pda.jszp.bean.ScanDeviceDate;
+import com.sgcc.pda.jszp.bean.ScanResultEntity;
 import com.sgcc.pda.jszp.http.JSZPOkgoHttpUtils;
 import com.sgcc.pda.jszp.http.JSZPUrls;
 import com.sgcc.pda.jszp.util.JzspConstants;
 import com.sgcc.pda.sdk.utils.ToastUtils;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -54,6 +56,7 @@ public class ExpressBindActivitiy extends BaseActivity{
 
     private String taskNo,distAutoId;
 
+    @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -133,7 +136,7 @@ public class ExpressBindActivitiy extends BaseActivity{
 
     }
 
-    @OnClick({R.id.iv_plus,R.id.iv_delete,R.id.tv_confirm})
+    @OnClick({R.id.iv_plus,R.id.iv_delete,R.id.tv_confirm,R.id.iv_saomiao})
    void OnClick(View view){
         switch (view.getId()){
             case R.id.iv_plus:
@@ -149,6 +152,13 @@ public class ExpressBindActivitiy extends BaseActivity{
             case R.id.tv_confirm:
                 //确认提交
                 confirm();
+                break;
+            case R.id.iv_saomiao:
+                //扫描快递单号
+                Intent intent = new Intent(ExpressBindActivitiy.this, ScanActivity.class);
+                intent.putExtra("type", MyComment.SCAN_EXPRESS_DEVICE);
+                intent.putExtra("sub_type", 1);
+                startActivityForResult(intent, 101);
                 break;
         }
     }
@@ -185,11 +195,20 @@ public class ExpressBindActivitiy extends BaseActivity{
         switch (requestCode) {
             case 100: {
                 //扫描设备
-                String number = data.getStringExtra("number");
+                ScanResultEntity.ScanDate scanData = (ScanResultEntity.ScanDate) data.getSerializableExtra("scanData");
                 int position =  data.getIntExtra("position",0);
                 ExpressBindItem expressBindItem=  expressBindItems.get(position);
-                expressBindItem.addExpressDeviceItem(new Date().getTime()+"","扫描表",taskNo,JzspConstants.Device_Category_DianYaHuGanQi,"8200000000100222");
+
+                for (ScanDeviceDate scanDeviceDate:scanData.getNomarlDevData()){
+                    expressBindItem.addExpressDeviceItem(scanDeviceDate.getBarCode(),scanDeviceDate.getEquipCategLable(),taskNo,scanDeviceDate.getEquipCateg(),scanDeviceDate.getEquipCode());
+                }
                 baseItemAdapter.notifyDataSetChanged();
+            }
+            break;
+            case 101: {
+                //扫描快递单号
+                String number = data.getStringExtra("number");
+                et_express_no.setText(number);
             }
             break;
         }

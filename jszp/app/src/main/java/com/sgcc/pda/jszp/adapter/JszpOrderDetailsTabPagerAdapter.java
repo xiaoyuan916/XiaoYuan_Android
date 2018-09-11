@@ -28,4 +28,11 @@ public class JszpOrderDetailsTabPagerAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return list.size();
     }
+
+
+    private String[] titles={"订单状态","订单明细"};
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return titles[position];
+    }
 }

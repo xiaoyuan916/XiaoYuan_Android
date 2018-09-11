@@ -32,7 +32,7 @@ public class JszpBoxRcallAdapter extends RecyclerView.Adapter<JszpBoxRcallAdapte
     public void onBindViewHolder(@NonNull JszpBoxRcallAdapter.ViewHolder holder, final int position) {
         JszpBoxRecallDetEntity jszpBoxRecallDetEntity = turnoverBoxRecallDets.get(position);
         holder.mTvBoxCode.setText(jszpBoxRecallDetEntity.getBarCode());
-        holder.mTvBoxInfo.setText(jszpBoxRecallDetEntity.getRecallDetId());
+        holder.mTvBoxInfo.setText(jszpBoxRecallDetEntity.getSortCodeLabel());
         holder.mIvDeleteBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,13 +64,13 @@ public class JszpBoxRcallAdapter extends RecyclerView.Adapter<JszpBoxRcallAdapte
      * @param turnoverBoxRecallDets
      */
     public void updataUI(List<JszpBoxRecallDetEntity> turnoverBoxRecallDets) {
-        turnoverBoxRecallDets.clear();
-        turnoverBoxRecallDets.addAll(turnoverBoxRecallDets);
+        this.turnoverBoxRecallDets.clear();
+        this.turnoverBoxRecallDets.addAll(turnoverBoxRecallDets);
         notifyDataSetChanged();
     }
 
     public void addDataUI(List<JszpBoxRecallDetEntity> turnoverBoxRecallDets) {
-        turnoverBoxRecallDets.addAll(turnoverBoxRecallDets);
+        this.turnoverBoxRecallDets.addAll(turnoverBoxRecallDets);
         notifyDataSetChanged();
     }
 

@@ -1,43 +1,44 @@
 package com.sgcc.pda.jszp.activity;
 
-import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.os.Handler;
-import android.os.Message;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.contrarywind.interfaces.IPickerViewData;
 import com.sgcc.pda.jszp.R;
 import com.sgcc.pda.jszp.base.BaseActivity;
-import com.sgcc.pda.jszp.bean.BaseRequestEntity;
 import com.sgcc.pda.jszp.bean.JszpAppStatusBean;
-import com.sgcc.pda.jszp.bean.JszpDpsResultEntity;
 import com.sgcc.pda.jszp.bean.JszpOrgListEntity;
 import com.sgcc.pda.jszp.bean.JszpQueryOrderRequestEntity;
 import com.sgcc.pda.jszp.bean.JszpSgAppTypeBean;
-import com.sgcc.pda.jszp.http.JSZPOkgoHttpUtils;
-import com.sgcc.pda.jszp.http.JSZPUrls;
 import com.sgcc.pda.jszp.util.JszpSelectPickViewUtils;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * 订单查询
+ * 1，处理订单筛选的逻辑
+ */
 public class QueryOrderActivity extends BaseActivity {
     /**
      * 响应码
      */
-    private static final int QUERY_SUB_WH_AND_DP_WHAT = 3001;
+    private static final int SELECT_DP_OPTION_REQUEST = 10;
 
     @BindView(R.id.tv_title)
     TextView tvTitle;
@@ -57,6 +58,30 @@ public class QueryOrderActivity extends BaseActivity {
      * 日期选择
      */
     Calendar ca = Calendar.getInstance();
+    @BindView(R.id.iv_return)
+    ImageView ivReturn;
+    @BindView(R.id.iv_close)
+    ImageView ivClose;
+    @BindView(R.id.tv_right)
+    TextView tvRight;
+    @BindView(R.id.iv_right)
+    ImageView ivRight;
+    @BindView(R.id.iv_search)
+    ImageView ivSearch;
+    @BindView(R.id.rl_title)
+    RelativeLayout rlTitle;
+    @BindView(R.id.rl_order_type)
+    RelativeLayout rlOrderType;
+    @BindView(R.id.rl_company)
+    RelativeLayout rlCompany;
+    @BindView(R.id.rl_order_state)
+    RelativeLayout rlOrderState;
+    @BindView(R.id.rl_start_time)
+    RelativeLayout rlStartTime;
+    @BindView(R.id.rl_end_time)
+    RelativeLayout rlEndTime;
+    @BindView(R.id.bt_query)
+    Button btQuery;
     private int mYear1 = ca.get(Calendar.YEAR);
     private int mMonth1 = ca.get(Calendar.MONTH);
     private int mDay1 = ca.get(Calendar.DAY_OF_MONTH);
@@ -72,36 +97,19 @@ public class QueryOrderActivity extends BaseActivity {
     private JszpOrgListEntity orgBean;
 
 
-    @SuppressLint("HandlerLeak")
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case QUERY_SUB_WH_AND_DP_WHAT:
-                    JszpDpsResultEntity obj = (JszpDpsResultEntity) msg.obj;
-                    if (obj == null || obj.getOrgList() == null) return;
-                    mOrgList = new ArrayList<>();
-                    mOrgList.addAll(obj.getOrgList());
-                    initShowDp();
-                    break;
-            }
-        }
-    };
-
     /**
      * 展示供应区域
      */
-    private void initShowDp() {
-        JszpSelectPickViewUtils.showOptionsPickerBuilder(QueryOrderActivity.this,
-                mOrgList, new OnOptionsSelectListener() {
-                    @Override
-                    public void onOptionsSelect(int options1, int options2, int options3, View v) {
-                        orgBean = (JszpOrgListEntity) mOrgList.get(options1);
-                        tvCompany.setText(orgBean.getOrgName());
-                    }
-                });
-    }
+//    private void initShowDp() {
+//        JszpSelectPickViewUtils.showOptionsPickerBuilder(QueryOrderActivity.this,
+//                mOrgList, new OnOptionsSelectListener() {
+//                    @Override
+//                    public void onOptionsSelect(int options1, int options2, int options3, View v) {
+//                        orgBean = (JszpOrgListEntity) mOrgList.get(options1);
+//                        tvCompany.setText(orgBean.getOrgName());
+//                    }
+//                });
+//    }
 
     /**
      * 区域的列表
@@ -116,6 +124,7 @@ public class QueryOrderActivity extends BaseActivity {
     @Override
     public void initView() {
         tvTitle.setText("订单查询");
+        ivClose.setVisibility(View.VISIBLE);
 
     }
 
@@ -129,7 +138,7 @@ public class QueryOrderActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.rl_order_type, R.id.rl_company, R.id.rl_order_state, R.id.rl_start_time, R.id.rl_end_time, R.id.bt_query})
+    @OnClick({R.id.rl_order_type,R.id.iv_close, R.id.rl_company, R.id.rl_order_state, R.id.rl_start_time, R.id.rl_end_time, R.id.bt_query})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_order_type:
@@ -143,11 +152,12 @@ public class QueryOrderActivity extends BaseActivity {
                 });
                 break;
             case R.id.rl_company:
-                if (mOrgList!=null&&mOrgList.size()>0){
-                    initShowDp();
-                    return;
-                }
-                obtainCompanyData();
+//                if (mOrgList!=null&&mOrgList.size()>0){
+//                    initShowDp();
+//                    return;
+//                }
+//                obtainCompanyData();
+                startActivityForResult(new Intent(this, JszpDpSelect1Activity.class), SELECT_DP_OPTION_REQUEST);
                 break;
             case R.id.rl_order_state:
                 final List<IPickerViewData> statusList = JszpSelectPickViewUtils.initStatusData();
@@ -170,8 +180,22 @@ public class QueryOrderActivity extends BaseActivity {
                 JszpQueryOrderRequestEntity requestEntity = getJszpQueryOrderRequestEntity();
                 intent1.putExtra("JszpQueryOrderRequestEntity", requestEntity);
                 startActivity(intent1);
+                break;
+            case R.id.iv_close:
                 finish();
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == SELECT_DP_OPTION_REQUEST && resultCode == RESULT_OK) {
+            JszpOrgListEntity orgEntity = (JszpOrgListEntity) data.getSerializableExtra("jszpOrgListEntity");
+            if (orgEntity != null) {
+                orgBean = orgEntity;
+                tvCompany.setText(orgBean.getOrgName());
+            }
         }
     }
 
@@ -193,10 +217,10 @@ public class QueryOrderActivity extends BaseActivity {
         if (orgBean != null) {
             requestEntity.setOrgNo(orgBean.getOrgNo());
         }
-        if (!TextUtils.isEmpty(mYear1 + "")) {
+        if (!TextUtils.isEmpty(tvStartTime.getText().toString())) {
             requestEntity.setBeginAppDate(initDate(mYear1, mMonth1, mDay1));
         }
-        if (!TextUtils.isEmpty(mYear2 + "")) {
+        if (!TextUtils.isEmpty(tvEndTime.getText().toString())) {
             requestEntity.setEndAppDate(initDate(mYear2, mMonth2, mDay2));
         }
         return requestEntity;
@@ -227,15 +251,6 @@ public class QueryOrderActivity extends BaseActivity {
         return stringBuffer;
     }
 
-    /**
-     * 获取公司的信息
-     */
-    private void obtainCompanyData() {
-        BaseRequestEntity requestEntity = new BaseRequestEntity();
-        JSZPOkgoHttpUtils.postString(JSZPUrls.URL_QUERY_SUB_WH_AND_DP,
-                this, requestEntity,
-                mHandler, QUERY_SUB_WH_AND_DP_WHAT, JszpDpsResultEntity.class);
-    }
 
     /**
      * 日期选择器对话框监听

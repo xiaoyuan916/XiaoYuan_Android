@@ -7,20 +7,20 @@ import java.io.Serializable;
  * date:2018/9/5
  */
 public class JszpOrderTrackEntity implements Serializable {
-    private int trackId;//跟踪记录标识
+    private long trackId;//跟踪记录标识
     private String appDetNo;//订单明细编号
     private String appNoAPP_NO;//订单编号
     private String appDetStatus;//订单明细状态
     private String handleActSort;//处理环节分类
     private String handleAct;//处理环节
     private String handleDesc;//处理说明
-    private String handleTime;//处理时间
+    private long handleTime;//处理时间
 
-    public int getTrackId() {
+    public long getTrackId() {
         return trackId;
     }
 
-    public void setTrackId(int trackId) {
+    public void setTrackId(long trackId) {
         this.trackId = trackId;
     }
 
@@ -72,11 +72,11 @@ public class JszpOrderTrackEntity implements Serializable {
         this.handleDesc = handleDesc;
     }
 
-    public String getHandleTime() {
+    public long getHandleTime() {
         return handleTime;
     }
 
-    public void setHandleTime(String handleTime) {
+    public void setHandleTime(long handleTime) {
         this.handleTime = handleTime;
     }
 }

@@ -14,12 +14,9 @@ import com.freelib.multiitem.adapter.BaseItemAdapter;
 import com.sgcc.pda.jszp.R;
 import com.sgcc.pda.jszp.adapter.DeliveryConfirmDetailItemAdapter;
 import com.sgcc.pda.jszp.adapter.DeviceStateAdapter;
-import com.sgcc.pda.jszp.bean.DeviceItem;
-import com.sgcc.pda.jszp.bean.DeviceQueryResultEntity;
 import com.sgcc.pda.jszp.bean.DeviceQueryTracks;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,7 +30,7 @@ public class DeviceStateFragment extends Fragment implements DeliveryConfirmDeta
     private Context context;
 
     BaseItemAdapter stateAdapter;
-    List<DeviceItem> data;
+    ArrayList<DeviceQueryTracks> data;
 
     @Override
     public void onAttach(Context context) {
@@ -67,10 +64,10 @@ public class DeviceStateFragment extends Fragment implements DeliveryConfirmDeta
     public void initView() {
         rvOrders.setLayoutManager(new LinearLayoutManager(getContext()));
         stateAdapter=new BaseItemAdapter();
-        data=new ArrayList<>();
-
-
-        stateAdapter.register(DeviceItem.class,new DeviceStateAdapter<DeviceItem>(this));
+        if(data == null){
+            data = new ArrayList<>();
+        }
+        stateAdapter.register(DeviceQueryTracks.class,new DeviceStateAdapter<DeviceQueryTracks>(this));
         rvOrders.setAdapter(stateAdapter);
         stateAdapter.setDataItems(data);
 
@@ -89,15 +86,7 @@ public class DeviceStateFragment extends Fragment implements DeliveryConfirmDeta
         return data.size();
     }
 
-    /**
-     * 更新UI
-     * @param obj
-     */
-    public void upDataUI(DeviceQueryResultEntity obj) {
-        for (DeviceQueryTracks
-                jszpDeviceQueryAssertEntity :obj.getAsset().getTracks()){
-            data.add(new DeviceItem(jszpDeviceQueryAssertEntity.getBusi_id()));
-        }
-        stateAdapter.notifyDataSetChanged();
+    public void setData(ArrayList<DeviceQueryTracks> data) {
+        this.data = data;
     }
 }

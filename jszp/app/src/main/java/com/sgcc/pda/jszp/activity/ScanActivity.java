@@ -1,7 +1,10 @@
 package com.sgcc.pda.jszp.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.os.Handler;
+import android.os.Message;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageView;
@@ -10,16 +13,22 @@ import android.widget.TextView;
 
 import com.sgcc.pda.jszp.R;
 import com.sgcc.pda.jszp.base.MyComment;
+import com.sgcc.pda.jszp.bean.JSZPEquipmentScanningRequestEntity;
+import com.sgcc.pda.jszp.bean.ScanResultEntity;
 import com.sgcc.pda.jszp.http.JSZPOkgoHttpUtils;
+import com.sgcc.pda.jszp.http.JSZPUrls;
 import com.sgcc.pda.jszp.util.AppManager;
 import com.sgcc.pda.jszp.util.LogUtils;
+import com.sgcc.pda.sdk.utils.ToastUtils;
 
 import wangfei.scan2.Scan2Activity;
 import wangfei.scan2.client.android.AutoScannerView;
 
-public class ScanActivity extends Scan2Activity implements View.OnClickListener {
+import static com.sgcc.pda.jszp.util.JzspConstants.RESULT_FINISH;
 
-//    @BindView(R.id.scanner_view)
+public class ScanActivity extends Scan2Activity implements View.OnClickListener {
+    private static final int SCAN_DEV_WHAT = 1001;
+    //    @BindView(R.id.scanner_view)
 //    ScannerView scannerView;
 //    @BindView(R.id.iv_return)
     ImageView ivReturn;
@@ -42,8 +51,32 @@ public class ScanActivity extends Scan2Activity implements View.OnClickListener 
     private int type;
     private int sub_type = 0;//子分类
     private int position;//列表位置
-    private int flag =0;
+    private int flag = 0;
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case SCAN_DEV_WHAT:
+                    ScanResultEntity scanResultEntity =
+                            (ScanResultEntity) msg.obj;
+                    ScanResultEntity.ScanDate scanData
+                            = scanResultEntity.getScanData();
+                    if(scanData.getNomarlDevData()!=null) {
+                        Intent intent = new Intent();
+                        intent.putExtra("scanData", scanData);
+                        intent.putExtra("position", position);
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    }else{
+                        ToastUtils.showToast(ScanActivity.this,"扫描数据异常");
+                    }
+                    break;
 
+            }
+        }
+    };
 
     //    @Override
 //    public int getLayoutResId() {
@@ -288,7 +321,7 @@ public class ScanActivity extends Scan2Activity implements View.OnClickListener 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        LogUtils.d("扫描结果"+data);
+        LogUtils.d("扫描结果" + data);
         if (resultCode == RESULT_OK) {
             String number = data.getStringExtra("number");
             onGetNumberCallBack(number);
@@ -316,6 +349,11 @@ public class ScanActivity extends Scan2Activity implements View.OnClickListener 
                 case 100 + MyComment.QUERY_DEVICE:
                     break;
                 case 100 + MyComment.SCAN_EXPRESS_DEVICE:
+                    //返回设备绑定
+                    if(resultCode == RESULT_FINISH) {
+                        setResult(RESULT_OK, data);
+                        finish();
+                    }
                     break;
             }
         }
@@ -393,12 +431,35 @@ public class ScanActivity extends Scan2Activity implements View.OnClickListener 
                 finish();
                 break;
             case MyComment.SCAN_EXPRESS_DEVICE:
-                //快递绑定扫描
-                data.putExtra("position", position);
-                setResult(RESULT_OK, data);
-                finish();
+                if (sub_type == 1) {
+                    //sao扫描快递单号
+                    setResult(RESULT_OK, data);
+                    finish();
+                } else {
+                    //扫描设备
+                    scanData(number);
+                }
                 break;
         }
+    }
+
+
+    //提交扫描接口
+    private void scanData(String code) {
+        JSZPEquipmentScanningRequestEntity jszpEquipmentScanningRequestEntity = new JSZPEquipmentScanningRequestEntity();
+        jszpEquipmentScanningRequestEntity.setBarCodes(code);
+        jszpEquipmentScanningRequestEntity.setIoFlag(false);
+        jszpEquipmentScanningRequestEntity.setResultFlag(true);
+
+        JSZPOkgoHttpUtils.postString(JSZPUrls.URL_SCAN_DEV,
+                this, jszpEquipmentScanningRequestEntity,
+                mHandler, SCAN_DEV_WHAT, ScanResultEntity.class);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                reScan();
+            }
+        },1000);
     }
 
     @Override

@@ -5,13 +5,13 @@ package com.sgcc.pda.jszp.bean;
  * date:2018/9/6
  */
 public class JszpRecallIDResultEntity extends BaseEntity {
-    private String recallID;
+    private String recallId;
 
     public String getRecallID() {
-        return recallID;
+        return recallId;
     }
 
     public void setRecallID(String recallID) {
-        this.recallID = recallID;
+        this.recallId = recallID;
     }
 }

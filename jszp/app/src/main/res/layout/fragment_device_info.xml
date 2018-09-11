@@ -18,7 +18,6 @@
 			android:layout_height="wrap_content"
 			android:layout_alignParentRight="true"
 			android:layout_centerVertical="true"
-			android:text="合格在库"
 			android:textColor="@color/title_green"
 			android:textSize="14sp"
 			/>
@@ -33,7 +32,6 @@
 
 		<TextView
 			android:id="@+id/tv_type"
-			android:text="DDZY1271-Z"
 			style="@style/style_device_info_tv_right"/>
 	</RelativeLayout>
 	<include layout="@layout/layout_fenge_1dp"/>
@@ -46,7 +44,6 @@
 
 		<TextView
 			android:id="@+id/tv_tender"
-			android:text="2018年第二批次"
 			style="@style/style_device_info_tv_right"/>
 	</RelativeLayout>
 	<include layout="@layout/layout_fenge_1dp"/>
@@ -59,7 +56,6 @@
 
 		<TextView
 			android:id="@+id/tv_aog"
-			android:text="201805251234567890"
 			style="@style/style_device_info_tv_right"/>
 	</RelativeLayout>
 	<include layout="@layout/layout_fenge_7dp"/>
@@ -72,7 +68,6 @@
 
 		<TextView
 			android:id="@+id/tv_num"
-			android:text="1234567890"
 			style="@style/style_device_info_tv_right"/>
 	</RelativeLayout>
 	<include layout="@layout/layout_fenge_1dp"/>
@@ -85,7 +80,6 @@
 
 		<TextView
 			android:id="@+id/tv_box_num"
-			android:text="1234567890"
 			style="@style/style_device_info_tv_right"/>
 	</RelativeLayout>
 	<include layout="@layout/layout_fenge_1dp"/>
@@ -98,7 +92,6 @@
 
 		<TextView
 			android:id="@+id/tv_factory"
-			android:text="许继电气股份有限公司"
 			style="@style/style_device_info_tv_right"/>
 	</RelativeLayout>
 	<include layout="@layout/layout_fenge_1dp"/>
@@ -111,7 +104,6 @@
 
 		<TextView
 			android:id="@+id/tv_company"
-			android:text="江苏省计量中心立库库房"
 			style="@style/style_device_info_tv_right"/>
 	</RelativeLayout>
 	<include layout="@layout/layout_fenge_1dp"/>

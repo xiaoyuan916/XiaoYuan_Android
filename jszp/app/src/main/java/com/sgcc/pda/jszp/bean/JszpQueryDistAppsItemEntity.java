@@ -15,10 +15,11 @@ public class JszpQueryDistAppsItemEntity implements Serializable {
     private String appStatusLabel;//订单状态名称
     private String distTypeCode;//配送类型
     private String handleType;//处理方式
-    private String distDate;//要求配送时间
+    private long distDate;//要求配送时间
     private String remainingTime;//配送时限
     private String sgAppNo;//营销工单编号
     private String dpNo;//直配库房编号
+    private String orgName;//单位名称
     private String orgNo;//申请单位
     private String applicantNo;//申请人
     private String appDate;//申请时间
@@ -32,13 +33,20 @@ public class JszpQueryDistAppsItemEntity implements Serializable {
     private String appPrePlanDate;//预演指定计划日期
     private String appPlanDate;//指定计划日期
 
+    public String getOrgName() {
+        return orgName;
+    }
+
+    public void setOrgName(String orgName) {
+        this.orgName = orgName;
+    }
 
     /**
      * 添加单个订单的跟踪信息
      */
-   private List<JszpOrderTrackEntity> tracks;//订单跟踪系信息
-    private List<JszpOrderDistAppDetEntity> distDistAppDets;//正向配送订单明细数据集
-    private List<JszpOrderDistAppDetEntity> retuenDistAppDets;//反向配送订单明细数据集
+    private List<JszpOrderTrackEntity> tracks;//订单跟踪系信息
+    private List<JszpOrderDistAppDetEntity> distAppDets;//正向配送订单明细数据集
+    private List<JszpOrderDistAppDetEntity> returnDistAppDets;//反向配送订单明细数据集
 
     public List<JszpOrderTrackEntity> getTracks() {
         return tracks;
@@ -49,19 +57,19 @@ public class JszpQueryDistAppsItemEntity implements Serializable {
     }
 
     public List<JszpOrderDistAppDetEntity> getDistDistAppDets() {
-        return distDistAppDets;
+        return distAppDets;
     }
 
-    public void setDistDistAppDets(List<JszpOrderDistAppDetEntity> distDistAppDets) {
-        this.distDistAppDets = distDistAppDets;
+    public void setDistDistAppDets(List<JszpOrderDistAppDetEntity> distAppDets) {
+        this.distAppDets = distAppDets;
     }
 
     public List<JszpOrderDistAppDetEntity> getRetuenDistAppDets() {
-        return retuenDistAppDets;
+        return returnDistAppDets;
     }
 
-    public void setRetuenDistAppDets(List<JszpOrderDistAppDetEntity> retuenDistAppDets) {
-        this.retuenDistAppDets = retuenDistAppDets;
+    public void setRetuenDistAppDets(List<JszpOrderDistAppDetEntity> returnDistAppDets) {
+        this.returnDistAppDets = returnDistAppDets;
     }
 
     public String getAppNo() {
@@ -120,11 +128,11 @@ public class JszpQueryDistAppsItemEntity implements Serializable {
         this.handleType = handleType;
     }
 
-    public String getDistDate() {
+    public long getDistDate() {
         return distDate;
     }
 
-    public void setDistDate(String distDate) {
+    public void setDistDate(long distDate) {
         this.distDate = distDate;
     }
 

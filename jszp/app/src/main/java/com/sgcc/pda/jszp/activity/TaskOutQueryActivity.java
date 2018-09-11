@@ -41,6 +41,8 @@ public class TaskOutQueryActivity extends BaseActivity {
     ViewPager mViewPager;
 
     private String[] titles = {"排队中","执行中","已完成","已暂停","已终止"};
+
+    private int type;//0入库  1出库
     @Override
     public int getLayoutResId() {
         return R.layout.activity_task_out_query;
@@ -48,7 +50,12 @@ public class TaskOutQueryActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        tvTitle.setText("出库查询");
+        type = getIntent().getIntExtra("type",0);
+        if(type==1) {
+            tvTitle.setText("出库查询");
+        }else {
+            tvTitle.setText("入库查询");
+        }
 
         initMagicIndicator();
         initViewPager();
@@ -110,7 +117,7 @@ public class TaskOutQueryActivity extends BaseActivity {
    private void initViewPager(){
        List<Fragment> fragmentList = new ArrayList<>();
        for (int i=0;i<titles.length;i++){
-           fragmentList.add(TaskOutQueryFragment.newInstance(i));
+           fragmentList.add(TaskOutQueryFragment.newInstance(i,type));
        }
         IndicatorFragmentAdapter indicatorFragmentAdapter = new IndicatorFragmentAdapter(getSupportFragmentManager(),fragmentList);
        mViewPager.setAdapter(indicatorFragmentAdapter);

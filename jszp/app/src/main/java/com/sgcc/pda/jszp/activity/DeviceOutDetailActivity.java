@@ -1,5 +1,6 @@
 package com.sgcc.pda.jszp.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
@@ -8,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
 import com.freelib.multiitem.adapter.BaseItemAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -17,6 +19,7 @@ import com.sgcc.pda.jszp.R;
 import com.sgcc.pda.jszp.adapter.ScanDeviceDataAdapter;
 import com.sgcc.pda.jszp.adapter.SpaceItemDecoration;
 import com.sgcc.pda.jszp.base.BaseActivity;
+import com.sgcc.pda.jszp.bean.BaseEntity;
 import com.sgcc.pda.jszp.bean.DeviceOutDetailResultEntity;
 import com.sgcc.pda.jszp.bean.DeviceOutSubTaskItem;
 import com.sgcc.pda.jszp.bean.ScanDeviceDate;
@@ -44,6 +47,8 @@ public class DeviceOutDetailActivity extends BaseActivity implements ScanOutFrag
      */
     public static final int GET_Detail_WHAT = 1001;
     public static final int GET_List_WHAT = 1002;
+    public static final int DELETE_SCAN_DEVICE_WHAT = 1003;
+    public static final int DELETE_ALL_DEVICE_WHAT = 1004;
 
     @BindView(R.id.tv_title)
     TextView tvTitle;
@@ -73,11 +78,14 @@ public class DeviceOutDetailActivity extends BaseActivity implements ScanOutFrag
     //详情数据
     private DeviceOutSubTaskItem deviceOutTaskItem;
 
+    private int deletePosition;
+
     @Override
     public int getLayoutResId() {
         return R.layout.activity_device_out_detail;
     }
 
+    @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -97,7 +105,7 @@ public class DeviceOutDetailActivity extends BaseActivity implements ScanOutFrag
                         //刷新
                         mList.clear();
                     }
-                    List<ScanDeviceDate> items = scanDeviceResultEntity.getDevData();
+                    List<ScanDeviceDate> items = scanDeviceResultEntity.getScanResult().getDevData();
                     if(items !=null) {
                         mList.addAll(items);
                         baseItemAdapter.notifyDataSetChanged();
@@ -107,6 +115,16 @@ public class DeviceOutDetailActivity extends BaseActivity implements ScanOutFrag
                     }else{
                         refreshLayout.setEnableLoadmore(false);
                     }
+                    break;
+                case DELETE_ALL_DEVICE_WHAT:
+                    //删除全部设备
+                    mList.clear();
+                    baseItemAdapter.notifyDataSetChanged();
+                    break;
+                case DELETE_SCAN_DEVICE_WHAT:
+                    //删除单个设备
+                    mList.remove(deletePosition);
+                    baseItemAdapter.notifyDataSetChanged();
                     break;
             }
         }
@@ -147,7 +165,7 @@ public class DeviceOutDetailActivity extends BaseActivity implements ScanOutFrag
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 refreshListData();
-                refreshlayout.finishRefresh();
+                refreshlayout.finishRefresh(500);
             }
         });
         refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
@@ -155,7 +173,7 @@ public class DeviceOutDetailActivity extends BaseActivity implements ScanOutFrag
             public void onLoadmore(RefreshLayout refreshlayout) {
                 pageNo++;
                 getListData();
-                refreshlayout.finishLoadmore();
+                refreshlayout.finishLoadmore(500);
             }
         });
     }
@@ -178,8 +196,8 @@ public class DeviceOutDetailActivity extends BaseActivity implements ScanOutFrag
         scanDeviceDataAdapter.setOnScanClickListener(new ScanDeviceDataAdapter.OnScanClickListener() {
             @Override
             public void onDeleteDevice(int position) {
-                mList.remove(position);
-                baseItemAdapter.notifyDataSetChanged();
+                deletePosition = position;
+                deleteDeviceData(mList.get(position).getBarCode());
             }
         });
     }
@@ -227,16 +245,16 @@ public class DeviceOutDetailActivity extends BaseActivity implements ScanOutFrag
                     return;
                 }
                 Intent intent = new Intent(DeviceOutDetailActivity.this, ScanForDeviceOutActivity.class);
+                intent.putExtra("taskNo", deviceOutTaskItem.getPlanDetNo());
                 intent.putExtra("realNo", deviceOutTaskItem.getTaskId());
                 intent.putExtra("equipCode", deviceOutTaskItem.getEquipCode());
                 intent.putExtra("totalNum", deviceOutTaskItem.getQty());
-                intent.putExtra("currentNum", scanDeviceResultEntity.getTotalRecords());
+                intent.putExtra("currentNum", scanDeviceResultEntity.getScanResult().getTotalRecords());
                 startActivityForResult(intent, 111);
                 break;
             case R.id.iv_delete:
                 //删除
-                mList.clear();
-                baseItemAdapter.notifyDataSetChanged();
+               deleteALlDeviceData();
                 break;
         }
     }
@@ -256,5 +274,27 @@ public class DeviceOutDetailActivity extends BaseActivity implements ScanOutFrag
         if (count == 0) btSure.setVisibility(View.GONE);
         else
             btSure.setText("确定出库(" + count + ")");
+    }
+
+    /**
+     * 删除设备
+     */
+    private void deleteDeviceData(String barCode) {
+        Map<String, String> map = new HashMap<>();
+        map.put("barCode", barCode);
+        JSZPOkgoHttpUtils.postString(JSZPUrls.URL_SCAN_DELETE_SCAN_DEV,
+                this, map,
+                mHandler, DELETE_SCAN_DEVICE_WHAT, BaseEntity.class);
+    }
+
+    /**
+     * 删除所有设备
+     */
+    private void deleteALlDeviceData() {
+        Map<String, String> map = new HashMap<>();
+        map.put("taskId",deviceOutTaskItem.getTaskId());
+        JSZPOkgoHttpUtils.postString(JSZPUrls.URL_SCAN_DELETE_SCAN_DEV,
+                this, map,
+                mHandler, DELETE_ALL_DEVICE_WHAT, BaseEntity.class);
     }
 }

@@ -1,5 +1,6 @@
 package com.sgcc.pda.jszp.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
@@ -26,10 +27,8 @@ import com.sgcc.pda.jszp.bean.JSZPReturnSignOrderRequestEntity;
 import com.sgcc.pda.jszp.bean.JSZPreturnShipmentPlanRequestEntity;
 import com.sgcc.pda.jszp.bean.JSZPreturnShipmentPlanResultEntity;
 import com.sgcc.pda.jszp.bean.JSZPreturnStoragePlanResultEntity;
-import com.sgcc.pda.jszp.bean.ReturnItem;
 import com.sgcc.pda.jszp.http.JSZPOkgoHttpUtils;
 import com.sgcc.pda.jszp.http.JSZPUrls;
-import com.sgcc.pda.sdk.utils.ToastUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -73,6 +72,7 @@ public class ReturnSignOrderActivity extends BaseActivity {
     /**
      * handler 处理
      */
+    @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -201,9 +201,14 @@ public class ReturnSignOrderActivity extends BaseActivity {
             @Override
             public void onSomaClick(BaseViewHolder baseViewHolder) {
                 checkposition = baseViewHolder.getItemPosition();
-                Intent intent = new Intent(ReturnSignOrderActivity.this, ScanActivity.class);
-                intent.putExtra("type", 2);
-                intent.putExtra("tasknum", ((IoTaskDets) baseViewHolder.getItemData()).getTaskNo());
+                Intent intent = new Intent(ReturnSignOrderActivity.this, JSZPScanItActivity.class);
+                IoTaskDets ioTaskDets = (IoTaskDets) baseViewHolder.getItemData();
+                intent.putExtra("taskNo", ioTaskDets.getPlanDetNo());
+                intent.putExtra("realNo", ioTaskDets.getTaskId());
+                intent.putExtra("currentNum", 0);
+                intent.putExtra("totalNum", ioTaskDets.getQty());
+                intent.putExtra("isIo",false);
+                intent.putExtra("equipCode",ioTaskDets.getEquipCode());
                 startActivityForResult(intent, 101);
             }
 
@@ -263,13 +268,10 @@ public class ReturnSignOrderActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case 101:
-                String numberCode = data.getStringExtra("number");
-                obtainNetData(numberCode);
-                break;
             case 102:
                 if (resultCode != RESULT_OK) return;
                 int realcount = data.getIntExtra("realcount", 0);
-                returnItems.get(checkposition - 1).setRealCount(realcount);
+                returnItems.get(checkposition-1).setRealCount(realcount);
                 returnAdapter.notifyItemChanged(checkposition);
                 changeBtnStatus();
                 break;

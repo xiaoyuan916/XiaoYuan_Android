@@ -1,183 +1,218 @@
 package com.sgcc.pda.jszp.activity;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Handler;
 import android.os.Message;
-import android.support.design.widget.TabLayout;
+import android.text.TextUtils;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.sgcc.pda.jszp.R;
-import com.sgcc.pda.jszp.bean.IoTaskDets;
 import com.sgcc.pda.jszp.bean.JSZPEquipmentScanningRequestEntity;
-import com.sgcc.pda.jszp.bean.JSZPEquipmentScanningResultEntity;
+import com.sgcc.pda.jszp.bean.ScanResultEntity;
 import com.sgcc.pda.jszp.http.JSZPOkgoHttpUtils;
 import com.sgcc.pda.jszp.http.JSZPUrls;
 import com.sgcc.pda.jszp.util.AppManager;
+import com.sgcc.pda.sdk.utils.ToastUtils;
 
-import java.io.Serializable;
-
+import butterknife.OnClick;
 import wangfei.scan2.Scan2Activity;
 import wangfei.scan2.client.android.AutoScannerView;
 
+/**
+ * 补库入库  返程入库  返程签收  返程装车
+ */
 public class JSZPScanItActivity extends Scan2Activity implements View.OnClickListener {
     /**
      * 各种码值
      */
-    private static final int SCAN_DEV_WHAT = 5001;
-    private static final int MANUAL_REQUEST_CODE = 5002;
-    /**
-     * ui控件
-     */
-//    @BindView(R.id.scanner_view)
-//    ScannerView scanner_view;
-//    @BindView(R.id.iv_return)
-    private ImageView iv_return;
-    //    @BindView(R.id.tv_title)
-    private TextView tv_title;
-    //    @BindView(R.id.tv_enter)
-    private TextView tv_enter;
-    //    @BindView(R.id.tv_inbound_task_code)
-    private TextView tv_inbound_task_code;
-    //    @BindView(R.id.tv_inbound_task_count)
-    private TextView tv_inbound_task_count;
-    //    @BindView(R.id.tl_tab)
-    private TabLayout tl_tab;
-    private ImageView iv_close;
-    /**
-     * 入库任务
-     */
-    private IoTaskDets jszpDeliveryReceiptResultIoPlanDetsEntity;
+    private static final int SCAN_DEV_WHAT = 1001;
 
-    /**
-     * 返程入库传过来标识
-     */
-    private int flag = 0;
+    SurfaceView surfaceView;
+    AutoScannerView autoScanner;
+    ImageView ivReturn;
+    TextView btmanual;
+    TextView tvTaskNo;
+    TextView tvtitle;
+    TextView tvTaskNum;
+    TextView tvContent;
+    RadioButton rbScanBox;
+    RadioButton rbScanDevice;
+    RadioButton rbScanPiliang;
+    ImageView ivClose;
 
+    private int rbIndex;
+
+    //批量扫描时  开始编码
+    private String startCode;
+
+    private String taskNo;//任务号
+    private String realNo;//关联单号
+    private String equipCode;//设备码
+    private int totalNum;//需要扫描的总数
+    private int currentNum;//目前已扫描的数量
+    private boolean isIo;//是否出入库
+
+    private Activity activity;
+
+    @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
                 case SCAN_DEV_WHAT:
-                    JSZPEquipmentScanningResultEntity jszpEquipmentScanningResultEntity =
-                            (JSZPEquipmentScanningResultEntity) msg.obj;
-                    JSZPEquipmentScanningResultEntity.JSZPEquipmentScanningScanDataEntity scanData
-                            = jszpEquipmentScanningResultEntity.getScanData();
-                    int inputNumNow = scanData.getInputNum();
-                    inputNum += inputNumNow;
-//                    tv_inbound_task_count.setText(inputNum + "/" + jszpDeliveryReceiptResultIoPlanDetsEntity.getQty());
-                    //重置扫描
-                    reScan();
+                    ScanResultEntity scanResultEntity =
+                            (ScanResultEntity) msg.obj;
+                    ScanResultEntity.ScanDate scanData
+                            = scanResultEntity.getScanData();
+
+                    currentNum = currentNum + scanData.getNomralNum();
+                    tvTaskNum.setText(currentNum + "/" + totalNum);
                     break;
+                case SCAN_DEV_WHAT + JSZPOkgoHttpUtils.JSZP_OK_HTTTP_ERROR:
+                case SCAN_DEV_WHAT + JSZPOkgoHttpUtils.JSZP_OK_HTTTP_FAIL:
+                    //扫描提交失败
+                    break;
+
             }
         }
     };
-    /**
-     * 获取到的数量
-     */
-    private int inputNum = 0;
-
-//    public int getLayoutResId() {
-//        return R.layout.activity_jszpscan_it;
-//    }
 
     @Override
     public void initView() {
-        //设置屏幕方向为竖屏
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setContentView(R.layout.activity_scan_for_device_out);
         AppManager.getAppManager().addActivity(this);
-        setContentView(R.layout.activity_jszpscan_it);
+        ivReturn = (ImageView) findViewById(R.id.iv_return);
+        surfaceView = (SurfaceView) findViewById(R.id.surfaceView);
+        autoScanner = (AutoScannerView) findViewById(R.id.autoScanner);
+        btmanual = (TextView) findViewById(R.id.bt_manual);
+        tvTaskNo = (TextView) findViewById(R.id.tv_task_no);
+        tvtitle = (TextView) findViewById(R.id.tv_title);
+        tvTaskNum = (TextView) findViewById(R.id.tv_task_num);
+        tvContent = (TextView) findViewById(R.id.tv_content);
+        rbScanBox = (RadioButton) findViewById(R.id.tv_scan_box);
+        rbScanDevice = (RadioButton) findViewById(R.id.tv_scan_device);
+        rbScanPiliang = (RadioButton) findViewById(R.id.tv_scan_piliang);
+        ivClose = (ImageView) findViewById(R.id.iv_close);
+        rbScanPiliang.setVisibility(View.GONE);
 
-        iv_return = (ImageView) findViewById(R.id.iv_return);
-        tv_title = (TextView) findViewById(R.id.tv_title);
-        tv_enter = (TextView) findViewById(R.id.tv_enter);
-        tv_inbound_task_code = (TextView) findViewById(R.id.tv_inbound_task_code);
-        tv_inbound_task_count = (TextView) findViewById(R.id.tv_inbound_task_count);
-        tl_tab = (TabLayout) findViewById(R.id.tl_tab);
-        iv_close = (ImageView) findViewById(R.id.iv_close);
+        rbIndex = getIntent().getIntExtra("index", 0);
+        taskNo = getIntent().getStringExtra("taskNo");
+        equipCode = getIntent().getStringExtra("equipCode");
+        realNo = getIntent().getStringExtra("realNo");
+        totalNum = getIntent().getIntExtra("totalNum", 0);
+        currentNum = getIntent().getIntExtra("currentNum", 0);
+        isIo = getIntent().getBooleanExtra("isIo", isIo);
 
-        initData();
-        initListener();
+        tvTaskNo.setText("任务号：" + taskNo);
+        tvTaskNum.setText(currentNum + "/" + totalNum);
+
+        changeRb(rbIndex);
+
+        btmanual.setOnClickListener(this);
+        rbScanPiliang.setOnClickListener(this);
+        rbScanBox.setOnClickListener(this);
+        rbScanDevice.setOnClickListener(this);
+        ivClose.setOnClickListener(this);
+        ivReturn.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        rbIndex = getIntent().getIntExtra("index", 0);
+        currentNum = getIntent().getIntExtra("currentNum", 0);
+        tvTaskNum.setText(currentNum + "/" + totalNum);
+        changeRb(rbIndex);
+
     }
 
     @Override
     protected AutoScannerView getAutoScannerView() {
-        return (AutoScannerView) findViewById(R.id.autoScanner);
+        return autoScanner;
     }
 
     @Override
     public SurfaceView getSurfaceView() {
-        return (SurfaceView) findViewById(R.id.surfaceView);
+        return surfaceView;
     }
 
     @Override
     public void handleResult(String text) {
-        obtainNetData(text);
+        ToastUtils.showToast(this, text);
+        if (rbScanPiliang.isChecked()) {
+            if (TextUtils.isEmpty(startCode)) {
+                startCode = text;
+                tvContent.setText("请扫描或输入结束设备条形码");
+            } else {
+                scanData(text);
+            }
+        } else {
+            scanData(text);
+        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                /**
+                 *要执行的操作
+                 */
+                reScan();
+            }
+        }, 1000);//1秒后执行Runnable中的run
     }
 
-    public void initData() {
-//        flag = getIntent().getIntExtra("flag", 0);
-//        if (1 == flag) {
-//        }
-        Intent intent = getIntent();
-        Serializable serializable
-                = (Serializable) intent.getStringExtra("jszpDeliveryReceiptResultIoPlanDetsEntity");
-        //强转Serializable
-        if (serializable instanceof IoTaskDets) {
-            jszpDeliveryReceiptResultIoPlanDetsEntity = (IoTaskDets) serializable;
-            //UI赋值
-            initHeaderView(jszpDeliveryReceiptResultIoPlanDetsEntity);
+    private void changeRb(int index) {
+        rbIndex = index;
+        switch (index) {
+            case 0:
+                //箱扫码
+                rbScanBox.setChecked(true);
+                tvContent.setText("请扫描或输入周转箱条形码");
+                rbIndex = 0;
+                break;
+            case 1:
+                //单设备扫码
+                rbScanDevice.setChecked(true);
+                tvContent.setText("请扫描或输入设备条形码");
+                rbIndex = 1;
+                break;
+            case 2:
+                //批量扫码
+                rbScanPiliang.setChecked(true);
+                tvContent.setText("请扫描或输入开始设备条形码");
+                rbIndex = 2;
+                break;
         }
     }
 
-    private void initHeaderView(IoTaskDets jszpDeliveryReceiptResultIoPlanDetsEntity) {
-        tv_inbound_task_code.setText(jszpDeliveryReceiptResultIoPlanDetsEntity.getPlanNo());
-        tv_inbound_task_count.setText(jszpDeliveryReceiptResultIoPlanDetsEntity.getQty());
-    }
-
-    public void initListener() {
-        iv_return.setOnClickListener(this);
-        tv_enter.setOnClickListener(this);
-        iv_close.setOnClickListener(this);
-    }
-
-    /**
-     *添加扫描设置
-     */
-//    @Override
-//    protected void onResume() {
-//        scanner_view.onResume();
-//        super.onResume();
-//    }
-//
-//    @Override
-//    protected void onPause() {
-//        scanner_view.onPause();
-//        super.onPause();
-//    }
-
-    /**
-     * 点击事件处理
-     *
-     * @param v
-     */
-    @Override
-    public void onClick(View v) {
-//    }
-//    @OnClick({R.id.iv_return,R.id.tv_enter,R.id.iv_close})
-//    public void onViewClicked(View v) {
-        switch (v.getId()) {
-            case R.id.iv_return:
-                onBackPressed();
-                setResult(RESULT_OK);
+    @OnClick({R.id.bt_manual, R.id.tv_scan_box, R.id.tv_scan_device, R.id.iv_close})
+    public void onClick(View view) {
+        startCode = "";
+        switch (view.getId()) {
+            case R.id.bt_manual:
+                Intent intent = new Intent(this, JSZPManualItActivity.class);
+                intent.putExtra("index", rbIndex);
+                intent.putExtra("taskNo", taskNo);
+                intent.putExtra("realNo", realNo);
+                intent.putExtra("equipCode", equipCode);
+                intent.putExtra("totalNum", totalNum);
+                intent.putExtra("currentNum", currentNum);
+                intent.putExtra("isIo", isIo);
+                startActivityForResult(intent, 111);
                 break;
-            case R.id.tv_enter:
-                Intent intent = new Intent(this, ManualActivity.class);
-                startActivityForResult(intent, MANUAL_REQUEST_CODE);
+            case R.id.tv_scan_box:
+                //周转箱
+                changeRb(0);
+                break;
+            case R.id.tv_scan_device:
+                //单设备
+                changeRb(1);
                 break;
             case R.id.iv_close:
                 AppManager.getAppManager().finishActivity(DeviceInDetailActivity.class);
@@ -187,42 +222,69 @@ public class JSZPScanItActivity extends Scan2Activity implements View.OnClickLis
                 AppManager.getAppManager().finishActivity(ReturnWarehouseGoodsActivity.class);
                 finish();
                 break;
+            case R.id.iv_return:
+                tofinish();
+                break;
         }
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        tofinish();
+    }
+
+
+    //关闭
+    private void tofinish(){
+        Intent intent = new Intent();
+        intent.putExtra("realcount",currentNum);
+        setResult(RESULT_OK,intent);
+        finish();
+    }
+
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == MANUAL_REQUEST_CODE && requestCode == RESULT_OK) {
-            String number = data.getStringExtra("number");
-            obtainNetData(number);
+        if(resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case 111:
+                    //手动输入
+                    setResult(RESULT_OK,data);
+                    finish();
+                    break;
+            }
         }
     }
 
-    /**
-     * 扫描结果的实现
-     *
-     * @param rawResult    扫描结果
-     * @param parsedResult 抽象类，结果转换成目标类型
-     * @param barcode      位图
-     */
-//    public void onScannerCompletion(Result rawResult, ParsedResult parsedResult, Bitmap barcode) {
-//        String text = rawResult.getText();
-//        obtainNetData(text);
-//    }
-
-    /**
-     * 请求网络获取扫描设备接口
-     *
-     * @param text
-     */
-    private void obtainNetData(String text) {
+    //提交扫描接口
+    private void scanData(String code) {
         JSZPEquipmentScanningRequestEntity jszpEquipmentScanningRequestEntity = new JSZPEquipmentScanningRequestEntity();
-        jszpEquipmentScanningRequestEntity.setBarCodes(text);
-        jszpEquipmentScanningRequestEntity.setRelaNo("1572");
-        jszpEquipmentScanningRequestEntity.setIoFlag(true);
+        jszpEquipmentScanningRequestEntity.setBarCodes(code);
+        jszpEquipmentScanningRequestEntity.setIoFlag(isIo);
+        jszpEquipmentScanningRequestEntity.setRelaNo(realNo);
+        jszpEquipmentScanningRequestEntity.setEquipCode(equipCode);
+        jszpEquipmentScanningRequestEntity.setResultFlag(false);
+
+//        jszpEquipmentScanningRequestEntity.setBarCodes("001");
+//        jszpEquipmentScanningRequestEntity.setIoFlag(true);
+//        jszpEquipmentScanningRequestEntity.setRelaNo("1572");
+//        jszpEquipmentScanningRequestEntity.setEquipCode("8200000000100989");
+
         JSZPOkgoHttpUtils.postString(JSZPUrls.URL_SCAN_DEV,
                 this, jszpEquipmentScanningRequestEntity,
-                mHandler, SCAN_DEV_WHAT, JSZPEquipmentScanningResultEntity.class);
+                mHandler, SCAN_DEV_WHAT, ScanResultEntity.class);
+        if (rbScanPiliang.isChecked()) {
+            tvContent.setText("请扫描或输入开始设备条形码");
+            startCode = "";
+        }
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AppManager.getAppManager().finishActivity(this);
     }
 }

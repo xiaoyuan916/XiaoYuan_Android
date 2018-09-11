@@ -3,6 +3,10 @@ package com.sgcc.pda.jszp.http;
 import com.sgcc.pda.jszp.base.BaseApplication;
 import com.sgcc.pda.jszp.util.JSZPAppInfoUtils;
 
+/**
+ * 网络请求的url
+ * 1，完成各个模块的网络请求url
+ */
 public class JSZPUrls {
     public static final String SERVER = JSZPAppInfoUtils.isApkInDebug(BaseApplication.getInstance()) ?
             "http://192.168.20.211:9096/mod/":"http://192.168.20.211:9096/mod/";
@@ -28,6 +32,8 @@ public class JSZPUrls {
      * 2.1.6.1.1.设备扫描
      */
     public static final String URL_SCAN_DEV = SERVER + "scan/dev";
+
+    public static final String URL_SCAN_DELETE = SERVER + "scan/deleteScanDev";
     /**
      * 2.1.3.8.1.获取待装车返程出库计划
      */
@@ -93,7 +99,6 @@ public class JSZPUrls {
      */
     public static final String URL_POST_LOGISTICS_DETAIL_GO = SERVER + "distTask/getWaitStartLogisticsTask";
 
-
     /**
      * 2.1.3.3.2装车确认详情  配送单
      */
@@ -111,7 +116,7 @@ public class JSZPUrls {
     /**
      * 2.1.5.1.设备查询
      */
-    public static final String URL_GET_EQUIP_INFO= SERVER + "assert/getEquipInfo";
+    public static final String URL_GET_EQUIP_INFO= SERVER + "asset/getEquipInfo";
 
     /**
      *2.1.3.1.3.派车   物流派车--》派车
@@ -180,7 +185,7 @@ public class JSZPUrls {
     /**
      * 2.1.5.2.2.获取订单
      */
-    public static final String URL_QUERY_SUB_WH_AND_DP= SERVER + "distApp/querySubWhAndDp";
+    public static final String URL_QUERY_SUB_WH_AND_DP= SERVER + "distApp/queryAppOrg";
 
     /**
      * 2.1.4.1.1.周转箱初始化
@@ -198,4 +203,51 @@ public class JSZPUrls {
      * 2.1.4.1.4.周转箱召回
      */
     public static final String URL_CALL_TURNOVER_BOXS= SERVER + "box/callTurnoverBoxs";
+
+    /**
+     * 2.1.5.3.1.	查询出入库任务
+     */
+    public static final String URL_IOTASK_QUERY_OUT_IN_PLANDETS= SERVER + "ioTask/queryOutAndInPlanDets";
+
+
+    /**
+     * 2.1.5.3.2.	获取出入库任务
+     */
+    public static final String URL_IOTASK_GET_OUT_IN_PLANDET= SERVER + "ioTask/getOutAndInPlanDet";
+
+
+
+    /**
+     * 2.1.4.2.1.	组箱周转箱扫描
+     */
+    public static final String URL_BOX_SCAN_TURNOVERBOX= SERVER + "box/scanTurnoverBox";
+    /**
+     *2.1.4.2.2.	设备组箱
+     */
+    public static final String URL_ASSET_EQUIP_BIND_BOX= SERVER + "asset/equipBindBox";
+    /**
+     *2.1.4.2.3.	设备解绑
+     */
+    public static final String URL_ASSET_EQUIP_REMOVE_BIND_BOX= SERVER + "asset/equipRemoveBindBox";
+
+
+    /**
+     *2.1.6.1.4.	删除已扫描设备
+     */
+    public static final String URL_SCAN_DELETE_SCAN_DEV= SERVER + "scan/deleteScanDev";
+
+    /**
+     * 2.1.4.1.4.删除已扫描周转箱
+     */
+    public static final String URL_DELETE_AL_SCAN_TURNOVER_BOX= SERVER + "box/deleteAlScanTurnoverBox";
+
+    /**
+     * 设备拣选codetype
+     */
+    public static final String URL_CODE_TYPE= SERVER + "asset/queryCodeValues";
+    /**
+     * 开始拣选
+     */
+    public static final String URL_DEVICE_PICK= SERVER + "asset/equipSelection";
+
 }

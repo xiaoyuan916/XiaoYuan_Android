@@ -1,5 +1,6 @@
 package com.sgcc.pda.jszp.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
@@ -57,6 +58,7 @@ public class DeliveryConfirmActivity extends BaseActivity {
     DeliveryConfirmRequestEntity deliveryConfirmRequestEntity;//列表请求集
     DeliveryConfirmResultEntity deliveryConfirmResultEntity;//列表结果集
 
+    @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -85,6 +87,7 @@ public class DeliveryConfirmActivity extends BaseActivity {
                         List<LogisticsDistAutoesItem> items = ((DeliveryConfirmResultEntity) msg.obj).getLogisticsDistAutoes();
                         mList.addAll(items);
                         baseItemAdapter.notifyDataSetChanged();
+                        refreshLayout.setEnableLoadmore(true);
                         if(items.size()<JzspConstants.PageSize){
                             refreshLayout.setEnableLoadmore(false);
                         }
@@ -125,7 +128,7 @@ public class DeliveryConfirmActivity extends BaseActivity {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 refreshListData();
-                refreshlayout.finishRefresh();
+                refreshlayout.finishRefresh(500);
             }
         });
         refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
@@ -133,7 +136,8 @@ public class DeliveryConfirmActivity extends BaseActivity {
             public void onLoadmore(RefreshLayout refreshlayout) {
                 deliveryConfirmRequestEntity.setPageNo(deliveryConfirmRequestEntity.getPageNo() + 1);
                 getListData();
-                refreshlayout.finishLoadmore();
+                refreshlayout.finishLoadmore(500);
+                refreshLayout.setEnableLoadmore(false);
             }
         });
     }

@@ -30,6 +30,10 @@ import wangfei.scan2.client.android.AutoScannerView;
 
 import static com.sgcc.pda.jszp.http.JSZPOkgoHttpUtils.JSZP_OK_HTTTP_FAIL;
 
+/**
+ * 周转箱召回界面
+ * 1，处理周转箱召回的流程
+ */
 public class JszpTurnoverBoxScanActivity extends Scan2Activity implements View.OnClickListener {
 
     /**
@@ -103,6 +107,7 @@ public class JszpTurnoverBoxScanActivity extends Scan2Activity implements View.O
     private void initData() {
         Intent intent = getIntent();
         boxCount = intent.getIntExtra("mBoxCount", 0);
+        mRecallID = intent.getStringExtra("mRecallID");
         obtainRecallIdData();
     }
 
@@ -110,7 +115,9 @@ public class JszpTurnoverBoxScanActivity extends Scan2Activity implements View.O
      * 获取recallID
      */
     private void obtainRecallIdData() {
+        if (!TextUtils.isEmpty(mRecallID))return;
         BaseRequestEntity requestEntity = new BaseRequestEntity();
+        requestEntity.setUserId("test01");
         JSZPOkgoHttpUtils.postString(JSZPUrls.URL_INIT_TURNOVER_BOX,
                 this, requestEntity,
                 mHandler, INIT_TURNOVER_BOX_WHAT, JszpRecallIDResultEntity.class);

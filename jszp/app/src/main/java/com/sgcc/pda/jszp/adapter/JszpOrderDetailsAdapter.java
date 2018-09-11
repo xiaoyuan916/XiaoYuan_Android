@@ -91,8 +91,9 @@ public class JszpOrderDetailsAdapter extends RecyclerView.Adapter<JszpOrderDetai
     }
 
     public void updataListUI(List<JszpOrderDistAppDetEntity> distDistAppDets) {
-        distDistAppDets.clear();
-        distDistAppDets.addAll(distDistAppDets);
+        if (distDistAppDets==null||distDistAppDets.size()==0)return;
+        this.distDistAppDets.clear();
+        this.distDistAppDets.addAll(distDistAppDets);
         notifyDataSetChanged();
     }
 

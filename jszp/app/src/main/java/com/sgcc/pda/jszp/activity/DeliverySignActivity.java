@@ -1,6 +1,7 @@
 package com.sgcc.pda.jszp.activity;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
@@ -77,6 +78,7 @@ public class DeliverySignActivity extends BaseActivity {
     /**
      * 界面handler
      */
+    @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -180,7 +182,7 @@ public class DeliverySignActivity extends BaseActivity {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 obtainNetData(number);
-                refreshlayout.finishRefresh();
+                refreshlayout.finishRefresh(500);
             }
         });
     }

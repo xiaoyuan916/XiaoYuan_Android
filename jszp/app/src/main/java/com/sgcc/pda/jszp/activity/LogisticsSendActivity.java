@@ -1,5 +1,6 @@
 package com.sgcc.pda.jszp.activity;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Handler;
@@ -41,6 +42,7 @@ import butterknife.OnClick;
 
 /**
  * 物流派车
+ * 1，物流派车界面控制及逻辑处理
  */
 public class LogisticsSendActivity extends BaseActivity {
     /**
@@ -77,6 +79,7 @@ public class LogisticsSendActivity extends BaseActivity {
     LogisticsSendResultEntity logisticsSendResultEntity;//查询结果集
 
 
+    @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -135,7 +138,7 @@ public class LogisticsSendActivity extends BaseActivity {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 refreshListData();
-                refreshlayout.finishRefresh();
+                refreshlayout.finishRefresh(500);
             }
         });
         refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
@@ -143,7 +146,7 @@ public class LogisticsSendActivity extends BaseActivity {
             public void onLoadmore(RefreshLayout refreshlayout) {
                 logisticsSendRequestEntity.setPageNo(logisticsSendRequestEntity.getPageNo()+1);
                 getListData();
-                refreshlayout.finishLoadmore();
+                refreshlayout.finishLoadmore(500);
             }
         });
     }

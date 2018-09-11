@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/alphablack1"
+    tools:context=".activity.ScanDevicePickFinshActivity">
+
+
+    <RelativeLayout
+        android:id="@+id/rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tool_bar_height"
+        android:background="@color/alphablack2">
+
+        <ImageView
+            android:id="@+id/iv_return"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:src="@drawable/return_bai" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="设备拣选"
+            android:textColor="@color/white"
+            android:textSize="19sp" />
+
+        <TextView
+            android:id="@+id/tv_manual"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="输入"
+            android:textColor="@color/white"
+            android:textSize="19sp"
+            android:visibility="visible" />
+    </RelativeLayout>
+
+    <SurfaceView
+        android:id="@+id/surfaceView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/rl_title"
+        android:paddingBottom="80dp" />
+
+    <wangfei.scan2.client.android.AutoScannerView
+        android:id="@+id/autoScanner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/rl_title"
+        android:paddingBottom="80dp" />
+
+    <LinearLayout
+        android:id="@+id/ll_check_count"
+        android:layout_width="match_parent"
+        android:layout_height="81dp"
+        android:layout_below="@id/rl_title"
+        android:background="@color/alphablack2"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="返回任务："
+                android:textColor="@color/darkgray"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv_task_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="201805081234567898"
+                android:textColor="@color/title_green"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="共计："
+                    android:textColor="@color/darkgray"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="20只"
+                    android:textColor="@color/title_green"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="已清点："
+                    android:textColor="@color/darkgray"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_checked_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="18只"
+                    android:textColor="@color/title_green"
+                    android:textSize="15sp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+    </LinearLayout>
+<ImageView
+    android:id="@+id/iv_pick_success"
+    android:layout_width="match_parent"
+    android:layout_below="@id/rl_title"
+    android:layout_marginTop="25dp"
+    android:src="@mipmap/pick_success"
+    android:visibility="gone"
+    android:scaleType="fitXY"
+    android:layout_height="88dp" />
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="68dp"
+        android:layout_marginRight="68dp"
+        android:layout_marginTop="90dp"
+        android:gravity="center"
+        android:lineSpacingExtra="13dp"
+        android:text="请扫描配送单二维或手动输入返回条码完成设备拣选"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tv_shaixuan"
+        android:layout_width="245dp"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="70dp"
+        android:background="@drawable/select_manual_bt"
+        android:gravity="center"
+        android:text="筛选"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+</RelativeLayout>

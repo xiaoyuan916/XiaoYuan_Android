@@ -1,5 +1,6 @@
 package com.sgcc.pda.jszp.activity;
 
+import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Message;
 import android.widget.Button;
@@ -51,6 +52,7 @@ public class SendExpressDetailActivity extends BaseActivity {
 
     private ExpressDistAutoesItem expressDistAutoesItem;
 
+    @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {

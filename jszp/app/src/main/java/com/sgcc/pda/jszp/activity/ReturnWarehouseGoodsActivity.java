@@ -1,5 +1,6 @@
 package com.sgcc.pda.jszp.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
@@ -52,6 +53,7 @@ public class ReturnWarehouseGoodsActivity extends BaseActivity {
     SmartRefreshLayout refreshLayout;
 
     private ReturnWarehouseResultEntity.SplitTasks mSplitTasks;
+    @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {

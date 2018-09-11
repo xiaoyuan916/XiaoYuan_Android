@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
@@ -9,17 +8,6 @@
 
 	<include layout="@layout/layout_title"/>
 
-	<Button
-		android:id="@+id/bt_sure"
-		android:layout_width="match_parent"
-		android:layout_height="48dp"
-		android:layout_alignParentBottom="true"
-		android:background="@drawable/select_white_bt"
-		android:gravity="center"
-		android:text="开始拣选"
-		android:textColor="@color/title_green"
-		android:textSize="16sp"
-		/>
 
 	<android.support.v4.widget.NestedScrollView
 		android:layout_width="match_parent"
@@ -133,6 +121,32 @@
 				android:background="@color/fenge"/>
 
 			<RelativeLayout
+				android:id="@+id/rl_device_sort"
+				android:layout_width="match_parent"
+				android:layout_height="45dp"
+				android:background="@drawable/select_white_bt">
+
+				<ImageView
+					style="@style/style_left_iv"
+					android:src="@drawable/shape_leibie"/>
+
+				<TextView
+					style="@style/style_tv_left"
+					android:text="设备类别"/>
+
+				<TextView
+					android:id="@+id/tv_device_sort"
+					style="@style/style_tv_right"/>
+
+				<ImageView
+					style="@style/style_iv_right"/>
+			</RelativeLayout>
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="1dp"
+				android:background="@color/fenge"/>
+			<RelativeLayout
 				android:id="@+id/rl_leibie"
 				android:layout_width="match_parent"
 				android:layout_height="45dp"
@@ -197,6 +211,7 @@
 					android:src="@drawable/shape_jiexian"/>
 
 				<TextView
+					android:id="@+id/tv3"
 					style="@style/style_tv_left"
 					android:text="接线方式"/>
 
@@ -224,6 +239,7 @@
 					android:src="@drawable/shape_dianya"/>
 
 				<TextView
+					android:id="@+id/tv4"
 					style="@style/style_tv_left"
 					android:text="电压"/>
 
@@ -251,6 +267,7 @@
 					android:src="@drawable/shape_dianliu"/>
 
 				<TextView
+					android:id="@+id/tv5"
 					style="@style/style_tv_left"
 					android:text="电流"/>
 
@@ -268,6 +285,61 @@
 				android:background="@color/fenge"/>
 
 			<RelativeLayout
+				android:id="@+id/rl_guiyue"
+				android:layout_width="match_parent"
+				android:layout_height="45dp"
+				android:background="@drawable/select_white_bt">
+
+				<ImageView
+					style="@style/style_left_iv"
+					android:src="@drawable/shape_dianliu"/>
+
+				<TextView
+					android:id="@+id/tv6"
+					style="@style/style_tv_left"
+					android:text="通讯规约"/>
+
+				<TextView
+					android:id="@+id/tv_guiyue"
+					style="@style/style_tv_right"/>
+
+				<ImageView
+					style="@style/style_iv_right"/>
+			</RelativeLayout>
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="1dp"
+				android:background="@color/fenge"/>
+
+			<RelativeLayout
+				android:id="@+id/rl_feilv"
+				android:layout_width="match_parent"
+				android:layout_height="45dp"
+				android:background="@drawable/select_white_bt">
+
+				<ImageView
+					style="@style/style_left_iv"
+					android:src="@drawable/shape_dianliu"/>
+
+				<TextView
+					android:id="@+id/tv7"
+					style="@style/style_tv_left"
+					android:text="费率"/>
+
+				<TextView
+					android:id="@+id/tv_feilv"
+					style="@style/style_tv_right"/>
+
+				<ImageView
+					style="@style/style_iv_right"/>
+			</RelativeLayout>
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="1dp"
+				android:background="@color/fenge"/>
+			<RelativeLayout
 				android:id="@+id/rl_zhunque"
 				android:layout_width="match_parent"
 				android:layout_height="45dp"
@@ -278,8 +350,9 @@
 					android:src="@drawable/shape_dengji"/>
 
 				<TextView
+					android:id="@+id/tv8"
 					style="@style/style_tv_left"
-					android:text="准确等级"/>
+					android:text="有功准确等级"/>
 
 				<TextView
 					android:id="@+id/tv_zhunque"
@@ -294,61 +367,63 @@
 				android:layout_height="1dp"
 				android:background="@color/fenge"/>
 
-			<RelativeLayout
-				android:id="@+id/rl_shiduan"
-				android:layout_width="match_parent"
-				android:layout_height="45dp"
-				android:background="@drawable/select_white_bt">
+			<!--<RelativeLayout-->
+				<!--android:id="@+id/rl_shiduan"-->
+				<!--android:layout_width="match_parent"-->
+				<!--android:layout_height="45dp"-->
+				<!--android:background="@drawable/select_white_bt">-->
 
-				<ImageView
-					style="@style/style_left_iv"
-					android:src="@drawable/shape_shiduan"/>
+				<!--<ImageView-->
+					<!--style="@style/style_left_iv"-->
+					<!--android:src="@drawable/shape_shiduan"/>-->
 
-				<TextView
-					style="@style/style_tv_left"
-					android:text="时段"/>
+				<!--<TextView-->
+					<!--android:id="@+id/tv7"-->
+					<!--style="@style/style_tv_left"-->
+					<!--android:text="时段"/>-->
 
-				<TextView
-					android:id="@+id/tv_shiduan"
-					style="@style/style_tv_right"/>
+				<!--<TextView-->
+					<!--android:id="@+id/tv_shiduan"-->
+					<!--style="@style/style_tv_right"/>-->
 
-				<ImageView
-					style="@style/style_iv_right"/>
-			</RelativeLayout>
+				<!--<ImageView-->
+					<!--style="@style/style_iv_right"/>-->
+			<!--</RelativeLayout>-->
 
 			<View
 				android:layout_width="match_parent"
 				android:layout_height="1dp"
 				android:background="@color/fenge"/>
 
-			<RelativeLayout
-				android:id="@+id/rl_daohuo"
-				android:layout_width="match_parent"
-				android:layout_height="45dp"
-				android:background="@drawable/select_white_bt">
+			<!--<RelativeLayout-->
+				<!--android:id="@+id/rl_daohuo"-->
+				<!--android:layout_width="match_parent"-->
+				<!--android:layout_height="45dp"-->
+				<!--android:background="@drawable/select_white_bt">-->
 
-				<ImageView
-					style="@style/style_left_iv"
-					android:src="@drawable/shape_picihao"/>
+				<!--<ImageView-->
+					<!--style="@style/style_left_iv"-->
+					<!--android:src="@drawable/shape_picihao"/>-->
 
-				<TextView
-					style="@style/style_tv_left"
-					android:text="到货批次号"/>
+				<!--<TextView-->
+					<!--style="@style/style_tv_left"-->
+					<!--android:text="到货批次号"/>-->
 
-				<EditText
-					android:id="@+id/et_daohuo"
-					style="@style/style_tv_right"
-					android:hint="请输入到货批次号"
-					android:text=""/>
+				<!--<EditText-->
+					<!--android:id="@+id/et_daohuo"-->
+					<!--style="@style/style_tv_right"-->
+					<!--android:hint="请输入到货批次号"-->
+					<!--android:text=""/>-->
 
-			</RelativeLayout>
+			<!--</RelativeLayout>-->
 
-			<View
-				android:layout_width="match_parent"
-				android:layout_height="7dp"
-				android:background="@color/fenge"/>
+			<!--<View-->
+				<!--android:layout_width="match_parent"-->
+				<!--android:layout_height="7dp"-->
+				<!--android:background="@color/fenge"/>-->
 
 			<LinearLayout
+				android:visibility="gone"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:paddingLeft="15dp"
@@ -383,6 +458,7 @@
 			</LinearLayout>
 
 			<LinearLayout
+				android:visibility="gone"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:padding="15dp">

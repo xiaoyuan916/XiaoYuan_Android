@@ -1,5 +1,6 @@
 package com.sgcc.pda.jszp.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
@@ -52,6 +53,7 @@ public class ExpressConfirmActivity extends BaseActivity {
     private String taskNo;
     private ExpressDistAutoesItem expressDistAutoesItem;
 
+    @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {

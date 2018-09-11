@@ -1,5 +1,6 @@
 package com.sgcc.pda.jszp.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -9,7 +10,7 @@ import java.util.List;
 public class ScanResultEntity extends BaseEntity {
     private ScanDate scanData;
 
-   public class ScanDate{
+   public class ScanDate implements Serializable{
         private int inputNum;//预备扫描结果数
         private int discoverNum;//识别扫描结果数
         private int nomralNum;//正常扫描结果数

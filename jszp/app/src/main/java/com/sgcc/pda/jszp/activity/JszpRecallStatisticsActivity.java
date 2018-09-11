@@ -1,9 +1,7 @@
 package com.sgcc.pda.jszp.activity;
 
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -28,7 +26,6 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class JszpRecallStatisticsActivity extends BaseActivity {
@@ -93,11 +90,15 @@ public class JszpRecallStatisticsActivity extends BaseActivity {
     }
 
     private void initHeadUI(Intent intent) {
-        if (intent.getBooleanExtra("", false)) {
+        if (intent.getBooleanExtra("isSubmitRecall", false)) {
             rlRecallBoxHead.setVisibility(View.GONE);
             llBoxRecallSuccess.setVisibility(View.VISIBLE);
             tvTitle.setText("周转箱召回");
-            tvTitle.setTextColor(0x292929);
+            ivReturn.setBackgroundResource(R.mipmap.return_bai_h);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(30,
+                    30);//两个400分别为添加图片的大小
+            ivReturn.setLayoutParams(params);
+            tvTitle.setTextColor(0xff292929);
             tvBoxRecallGoOn.setVisibility(View.VISIBLE);
             rlHead.setBackgroundResource(R.color.white);
         } else {
@@ -151,20 +152,37 @@ public class JszpRecallStatisticsActivity extends BaseActivity {
     public void initListener() {
 
     }
-    @OnClick({R.id.tv_scan,R.id.iv_return})
+    @OnClick({R.id.tv_box_recall_go_on,R.id.iv_return})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.tv_scan:
-                Intent intent2 = new Intent(this, JszpTurnoverBoxRecallActivity.class);
-                intent2.putExtra("mBoxCount",mBoxCount);
+            case R.id.tv_box_recall_go_on:
+                AppManager.getAppManager().finishActivity(JszpTurnoverBoxRecallActivity.class);
+                AppManager.getAppManager().finishActivity(JszpBoxsManualActivity.class);
+                Intent intent2 = new Intent(this, JszpTurnoverBoxScanActivity.class);
+//                intent2.putExtra("mBoxCount",mBoxCount);
                 startActivity(intent2);
                 finish();
                 break;
             case R.id.iv_return:
+                if (!getIntent().getBooleanExtra("isSubmitRecall", false)){
+                    onBackPressed();
+                    return;
+                }
                 AppManager.getAppManager().finishActivity(JszpTurnoverBoxRecallActivity.class);
                 AppManager.getAppManager().finishActivity(JszpTurnoverBoxScanActivity.class);
                 finish();
                 break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (!getIntent().getBooleanExtra("isSubmitRecall", false)){
+            return;
+        }
+        AppManager.getAppManager().finishActivity(JszpTurnoverBoxRecallActivity.class);
+        AppManager.getAppManager().finishActivity(JszpTurnoverBoxScanActivity.class);
+        AppManager.getAppManager().finishActivity(JszpBoxsManualActivity.class);
     }
 }

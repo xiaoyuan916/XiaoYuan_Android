@@ -263,7 +263,7 @@ public class JSZPOkgoHttpUtils {
                 handler.obtainMessage(what, body).sendToTarget();
             } else {
                 handler.obtainMessage(what+JSZP_OK_HTTTP_FAIL, body).sendToTarget();
-                ToastUtils.showToast(context, "服务器异常  " + body.getRT_F_INFO()+" "+body.getRT_D());
+                ToastUtils.showToast(context, body.getRT_D());
                 handlerDismissProgressDialog(context);
             }
         }

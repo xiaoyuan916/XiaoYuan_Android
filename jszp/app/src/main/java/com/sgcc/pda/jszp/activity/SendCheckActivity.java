@@ -1,6 +1,7 @@
 package com.sgcc.pda.jszp.activity;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
@@ -96,6 +97,7 @@ public class SendCheckActivity extends BaseActivity {
     private int pageNo2 = JzspConstants.PageStart;
     private int pageNo3 = JzspConstants.PageStart;
 
+    @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -301,7 +303,7 @@ public class SendCheckActivity extends BaseActivity {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 refreshListData();
-                refreshlayout.finishRefresh();
+                refreshlayout.finishRefresh(500);
             }
         });
 
@@ -312,7 +314,7 @@ public class SendCheckActivity extends BaseActivity {
                 mTaskItemRequestEntity.setPageNo(pageNo1);
                 mTaskItemRequestEntity.setPageSize(10);
                 getListData();
-                refreshlayout.finishLoadmore();
+                refreshlayout.finishLoadmore(500);
             }
         });
 
@@ -322,7 +324,7 @@ public class SendCheckActivity extends BaseActivity {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 refreshExpressListData();
-                refreshlayout.finishRefresh();
+                refreshlayout.finishRefresh(500);
             }
         });
         expressRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
@@ -332,7 +334,7 @@ public class SendCheckActivity extends BaseActivity {
                 mTaskItemRequestEntity.setPageNo(pageNo2);
                 mTaskItemRequestEntity.setPageSize(10);
                 getExpressListData();
-                refreshlayout.finishLoadmore();
+                refreshlayout.finishLoadmore(500);
             }
         });
         //自提出发刷新
@@ -340,7 +342,7 @@ public class SendCheckActivity extends BaseActivity {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 refreshSelfListData();
-                refreshlayout.finishRefresh();
+                refreshlayout.finishRefresh(500);
             }
         });
         selfRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
@@ -350,7 +352,7 @@ public class SendCheckActivity extends BaseActivity {
                 mTaskItemRequestEntity.setPageNo(pageNo3);
                 mTaskItemRequestEntity.setPageSize(10);
                 getSelfListData();
-                refreshlayout.finishLoadmore();
+                refreshlayout.finishLoadmore(500);
             }
         });
     }

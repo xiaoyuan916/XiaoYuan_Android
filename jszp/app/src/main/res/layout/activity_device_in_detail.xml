@@ -114,8 +114,10 @@
             android:text="设备状态"
             android:layout_marginLeft="140dp"
             android:layout_height="wrap_content" />
-        <CheckBox
+        <ImageView
+            android:id="@+id/iv_delete_all"
             android:layout_marginLeft="20dp"
+            android:src="@drawable/delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>

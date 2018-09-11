@@ -87,7 +87,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="任务号：3434343434343443"
+            android:text="任务号："
             android:textColor="@color/white"
             android:textSize="15sp" />
 
@@ -95,7 +95,7 @@
             android:id="@+id/tv_task_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0/300"
+            android:text="0/0"
             android:textColor="@color/white"
             android:textSize="15sp" />
     </LinearLayout>

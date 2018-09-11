@@ -1,5 +1,6 @@
 package com.sgcc.pda.jszp.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
@@ -80,6 +81,7 @@ public class LogisticDetailActivity extends BaseActivity {
 
     private String distAutoId, taskNo;
 
+    @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -228,6 +230,10 @@ public class LogisticDetailActivity extends BaseActivity {
 
     @OnClick({R.id.rl_car_num, R.id.rl_time})
     public void onViewClicked(View view) {
+        if (logisticsDistAutoesItem==null){
+            ToastUtils.showToast(this,"未获取到车辆信息");
+            return;
+        }
         if (!TextUtils.isEmpty(logisticsDistAutoesItem.getStatus()) && logisticsDistAutoesItem.getStatus().equals(JzspConstants.Car_Status_Sended)) {
             //已派车
             return;

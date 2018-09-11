@@ -1,14 +1,15 @@
 package com.sgcc.pda.jszp.adapter;
 
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
 import com.freelib.multiitem.adapter.holder.BaseViewHolder;
 import com.freelib.multiitem.adapter.holder.BaseViewHolderManager;
 import com.sgcc.pda.jszp.R;
-import com.sgcc.pda.jszp.bean.DeviceItem;
+import com.sgcc.pda.jszp.bean.DeviceQueryTracks;
 
-public class DeviceStateAdapter<T extends DeviceItem> extends BaseViewHolderManager<T> {
+public class DeviceStateAdapter<T extends DeviceQueryTracks> extends BaseViewHolderManager<T> {
     private DeliveryConfirmDetailItemAdapter.CountNotifiCallBack countNotifiCallBack;
 
 
@@ -23,7 +24,14 @@ public class DeviceStateAdapter<T extends DeviceItem> extends BaseViewHolderMana
         View v_indicator = getView(baseViewHolder, R.id.v_indicator);
         TextView tvState = getView(baseViewHolder, R.id.tv_state);
         TextView tvOrderNum = getView(baseViewHolder, R.id.tv_order_num);
-        tvOrderNum.setText(t.getOrder_num());
+        tvOrderNum.setText(t.getBusi_id());
+        if(!TextUtils.isEmpty(t.getDate())&& t.getDate().length() == 10 ){
+            String year = t.getDate().substring(0,4);
+            String data  =t.getDate().substring(5,t.getDate().length());
+            tvDate.setText(data);
+            tvYear.setText(year);
+        }
+        tvState.setText(t.getBusi_type());
         if (getCountNotifiCallBack() != null) {
             if (baseViewHolder.getAdapterPosition() == getCountNotifiCallBack().getcount()-1) {
                 v_indicator.setVisibility(View.GONE);

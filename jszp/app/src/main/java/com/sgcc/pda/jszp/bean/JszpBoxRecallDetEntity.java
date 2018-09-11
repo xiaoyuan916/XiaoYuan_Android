@@ -10,6 +10,16 @@ public class JszpBoxRecallDetEntity implements Serializable{
     private String recallDetId;
     private String sortCode;
     private String barCode;
+    private String sortCodeLabel;
+
+    public String getSortCodeLabel() {
+        return sortCodeLabel;
+    }
+
+    public void setSortCodeLabel(String sortCodeLabel) {
+        this.sortCodeLabel = sortCodeLabel;
+    }
+
     private int sumQty;
 
     public int getSumQty() {

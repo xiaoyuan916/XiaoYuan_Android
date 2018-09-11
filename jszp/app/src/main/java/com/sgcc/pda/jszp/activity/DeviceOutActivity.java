@@ -1,5 +1,6 @@
 package com.sgcc.pda.jszp.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
@@ -31,7 +32,8 @@ import java.util.Map;
 import butterknife.BindView;
 
 /**
- * 平库出库
+ * 平库出库界面逻辑
+ * 1，平库出库操作
  */
 public class DeviceOutActivity extends BaseActivity {
     /**
@@ -56,6 +58,7 @@ public class DeviceOutActivity extends BaseActivity {
     int pageNo = JzspConstants.PageStart;
     private String taskNo;//任务编号
 
+    @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -80,6 +83,7 @@ public class DeviceOutActivity extends BaseActivity {
                         List<DeviceOutTaskItem> items = ((DeviceOutListResultEntity) msg.obj).getDistTasks();
                         mList.addAll(items);
                         baseItemAdapter.notifyDataSetChanged();
+                        refreshLayout.setEnableLoadmore(true);
                         if(items.size()<JzspConstants.PageSize){
                             refreshLayout.setEnableLoadmore(false);
                         }
@@ -113,7 +117,7 @@ public class DeviceOutActivity extends BaseActivity {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 refreshListData();
-                refreshlayout.finishRefresh();
+                refreshlayout.finishRefresh(500);
             }
         });
         refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
@@ -121,7 +125,8 @@ public class DeviceOutActivity extends BaseActivity {
             public void onLoadmore(RefreshLayout refreshlayout) {
                 pageNo++;
                 getListData();
-                refreshlayout.finishLoadmore();
+                refreshlayout.finishLoadmore(500);
+                refreshLayout.setEnableLoadmore(false);
             }
         });
     }

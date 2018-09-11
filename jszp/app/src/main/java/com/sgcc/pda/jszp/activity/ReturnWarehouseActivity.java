@@ -1,6 +1,7 @@
 package com.sgcc.pda.jszp.activity;
 
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
@@ -66,6 +67,7 @@ public class ReturnWarehouseActivity extends BaseActivity {
     /**
      * 界面handler
      */
+    @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -153,7 +155,7 @@ public class ReturnWarehouseActivity extends BaseActivity {
             public void onRefresh(RefreshLayout refreshlayout) {
                 pageNo = 1;
                 obtainNetData();
-                refreshlayout.finishRefresh();
+                refreshlayout.finishRefresh(500);
             }
         });
         refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
@@ -161,7 +163,7 @@ public class ReturnWarehouseActivity extends BaseActivity {
             public void onLoadmore(RefreshLayout refreshlayout) {
                 pageNo++;
                 obtainNetData();
-                refreshlayout.finishLoadmore();
+                refreshlayout.finishLoadmore(500);
             }
         });
 

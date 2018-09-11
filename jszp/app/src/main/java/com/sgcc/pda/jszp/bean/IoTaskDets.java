@@ -5,11 +5,11 @@ import java.io.Serializable;
 /**
  * author:赵锦
  * date:2018/8/27 0027 11:01
- *
+ * <p>
  * 出库计划明细数据集
  */
 public class IoTaskDets implements Serializable {
-    private long planDetNo;//出库计划明细编号
+    private String planDetNo;//出库计划明细编号
     private String planNo;//出库计划编号
     private String splitTaskNo;//拆分任务编号
     private String nvType;//出库方式
@@ -24,9 +24,9 @@ public class IoTaskDets implements Serializable {
     private String isReturnSend;//是否返配送
     /**
      * 00    待签收
-     01   新建
-     02   已下发
-     03   已完成
+     * 01   新建
+     * 02   已下发
+     * 03   已完成
      */
     private String status;//状态
     private String statusLabel;//状态名称
@@ -37,10 +37,16 @@ public class IoTaskDets implements Serializable {
     /**
      * 返程入库第二界面三级数据
      */
-            private String dpName;
-            private String dpNo;
-            private long taskId;
-            private String taskNo;
+    private String dpName;
+    private String dpNo;
+    private long taskId;
+    private String taskNo;
+
+
+    private String arriveBatchNo;//到货批次号
+    private String platformName;//站台名称
+
+    private AutoDocsItem autoDocs;//车辆信息数据集
 
     public String getDpName() {
         return dpName;
@@ -98,11 +104,11 @@ public class IoTaskDets implements Serializable {
         this.statusLabel = statusLabel;
     }
 
-    public long getPlanDetNo() {
+    public String getPlanDetNo() {
         return planDetNo;
     }
 
-    public void setPlanDetNo(long planDetNo) {
+    public void setPlanDetNo(String planDetNo) {
         this.planDetNo = planDetNo;
     }
 
@@ -208,5 +214,29 @@ public class IoTaskDets implements Serializable {
 
     public void setReturnType(String returnType) {
         this.returnType = returnType;
+    }
+
+    public String getArriveBatchNo() {
+        return arriveBatchNo;
+    }
+
+    public void setArriveBatchNo(String arriveBatchNo) {
+        this.arriveBatchNo = arriveBatchNo;
+    }
+
+    public String getPlatformName() {
+        return platformName;
+    }
+
+    public void setPlatformName(String platformName) {
+        this.platformName = platformName;
+    }
+
+    public AutoDocsItem getAutoDocs() {
+        return autoDocs;
+    }
+
+    public void setAutoDocs(AutoDocsItem autoDocs) {
+        this.autoDocs = autoDocs;
     }
 }

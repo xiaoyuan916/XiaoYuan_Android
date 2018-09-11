@@ -1,5 +1,6 @@
 package com.sgcc.pda.jszp.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
@@ -65,6 +66,7 @@ public class QueryDeviceActivity extends BaseActivity {
     private TextView tv_sleected;
     private View v_selected;
 
+    @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -110,8 +112,9 @@ public class QueryDeviceActivity extends BaseActivity {
         }
 
         deviceInfoFragment.upDataUI(obj);
+
         if (obj.getAsset().getTracks() != null) {
-            deviceStateFragment.upDataUI(obj);
+            deviceStateFragment.setData(obj.getAsset().getTracks());
         }
     }
 

@@ -117,11 +117,14 @@ public class JszpBoxsManualActivity extends BaseActivity {
                 break;
             case R.id.iv_return:
                 Intent intent1 = new Intent(this, JszpTurnoverBoxRecallActivity.class);
+                intent1.putExtra("mRecallID",mRecallID);
+                intent1.putExtra("boxCount",mBoxCount);
                 startActivity(intent1);
                 break;
             case R.id.tv_scan:
-                Intent intent2 = new Intent(this, JszpTurnoverBoxRecallActivity.class);
+                Intent intent2 = new Intent(this, JszpTurnoverBoxScanActivity.class);
                 intent2.putExtra("mBoxCount",mBoxCount);
+                intent2.putExtra("mRecallID",mRecallID);
                 startActivity(intent2);
                 finish();
                 break;

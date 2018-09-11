@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:text="订单编号：30014745335"
                 android:textColor="#ff292929"
-                android:textSize="16sp"/>
+                android:textSize="13dp"/>
             <TextView
                 android:id="@+id/tv_query_order_date"
                 android:layout_width="wrap_content"

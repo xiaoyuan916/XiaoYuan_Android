@@ -33,6 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="300只/25箱"
+            android:layout_marginLeft="7dp"
             android:textColor="#ff999999"
             android:textSize="14sp" />
     </LinearLayout>

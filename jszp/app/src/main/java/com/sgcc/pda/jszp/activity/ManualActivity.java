@@ -1,6 +1,9 @@
 package com.sgcc.pda.jszp.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -11,12 +14,19 @@ import android.widget.TextView;
 import com.sgcc.pda.jszp.R;
 import com.sgcc.pda.jszp.base.BaseActivity;
 import com.sgcc.pda.jszp.base.MyComment;
+import com.sgcc.pda.jszp.bean.JSZPEquipmentScanningRequestEntity;
+import com.sgcc.pda.jszp.bean.ScanResultEntity;
+import com.sgcc.pda.jszp.http.JSZPOkgoHttpUtils;
+import com.sgcc.pda.jszp.http.JSZPUrls;
 import com.sgcc.pda.sdk.utils.ToastUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.sgcc.pda.jszp.util.JzspConstants.RESULT_FINISH;
+
 public class ManualActivity extends BaseActivity {
+    private static final int SCAN_DEV_WHAT = 1001;
 
     @BindView(R.id.tv_title)
     TextView tvTitle;
@@ -35,7 +45,31 @@ public class ManualActivity extends BaseActivity {
     public int getLayoutResId() {
         return R.layout.activity_manual;
     }
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case SCAN_DEV_WHAT:
+                    ScanResultEntity scanResultEntity =
+                            (ScanResultEntity) msg.obj;
+                    ScanResultEntity.ScanDate scanData
+                            = scanResultEntity.getScanData();
+                    if(scanData.getNomarlDevData()!=null) {
+                        Intent intent = new Intent();
+                        intent.putExtra("scanData", scanData);
+                        intent.putExtra("position", position);
+                        setResult(RESULT_FINISH, intent);
+                        finish();
+                    }else{
+                        ToastUtils.showToast(ManualActivity.this,"条形码数据异常");
+                    }
+                    break;
 
+            }
+        }
+    };
     @Override
     public void initView() {
         type = getIntent().getIntExtra("type", -1);
@@ -104,9 +138,7 @@ public class ManualActivity extends BaseActivity {
                     tvHead.setText("请输入快递单号");
                 }
                 break;
-
         }
-
     }
 
     @Override
@@ -151,8 +183,16 @@ public class ManualActivity extends BaseActivity {
                 }
                 break;
             case MyComment.SCAN_EXPRESS_DEVICE:
-                intent.putExtra("position",position);
-                setResult(RESULT_OK, intent);
+                if (sub_type == 1) {
+                    //sao扫描快递单号
+                    intent.putExtra("position",position);
+                    setResult(RESULT_OK, intent);
+                }else{
+                    //扫描设备
+                    scanData(etOrdernum.getText().toString());
+                    return;
+                }
+
                 break;
         }
         finish();
@@ -160,9 +200,18 @@ public class ManualActivity extends BaseActivity {
 
     @Override
     public void returnback(View v) {
-        setResult(RESULT_CANCELED);
         finish();
     }
+    //提交扫描接口
+    private void scanData(String code) {
+        JSZPEquipmentScanningRequestEntity jszpEquipmentScanningRequestEntity = new JSZPEquipmentScanningRequestEntity();
+        jszpEquipmentScanningRequestEntity.setBarCodes(code);
+        jszpEquipmentScanningRequestEntity.setIoFlag(false);
+        jszpEquipmentScanningRequestEntity.setResultFlag(true);
 
+        JSZPOkgoHttpUtils.postString(JSZPUrls.URL_SCAN_DEV,
+                this, jszpEquipmentScanningRequestEntity,
+                mHandler, SCAN_DEV_WHAT, ScanResultEntity.class);
+    }
 
 }

@@ -25,9 +25,12 @@ import com.sgcc.pda.jszp.fragment.JszpOrderStatusFragment;
 import com.sgcc.pda.jszp.http.JSZPOkgoHttpUtils;
 import com.sgcc.pda.jszp.http.JSZPUrls;
 import com.sgcc.pda.jszp.util.JszpDateUtils;
+import com.sgcc.pda.jszp.util.JszpStatusUtils;
 import com.sgcc.pda.jszp.util.JzspConstants;
+import com.sgcc.pda.sdk.utils.DateUtil;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -132,12 +135,12 @@ public class JszpOrderDetailsActivity extends BaseActivity {
                 break;
         }
         tv_query_order_number.setText("订单编号：" + obj.getDistApp().getAppNo());
-        tv_query_order_address.setText(obj.getDistApp().getHandleOrgNo());
-        tv_query_order_check.setText(obj.getDistApp().getAppStatus());
+        tv_query_order_address.setText("申请单位： "+obj.getDistApp().getHandleOrgNo());
+        tv_query_order_check.setText(JszpStatusUtils.obtainAppStatus(obj.getDistApp().getAppStatus()));
         tv_order_distribution_warehouse.setText(obj.getDistApp().getWhNo());
-        tv_order_presentation_date.setText(obj.getDistApp().getAppDate());
+        tv_order_presentation_date.setText(DateUtil.toYYmmDD(new Date(obj.getDistApp().getDistDate())));
         //剩余时间
-        tv_order_residual_time.setText(JszpDateUtils.getResidualTime(obj.getDistApp().getAppPlanDate()));
+        tv_order_residual_time.setText(obj.getDistApp().getRemainingTime());
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.sgcc.pda.jszp.util;
 
 import android.provider.ContactsContract;
+import android.text.TextUtils;
 
 import com.sgcc.pda.sdk.utils.DateUtil;
 
@@ -15,6 +16,9 @@ import java.util.Locale;
  */
 public class JszpDateUtils {
     public static String getResidualTime(String date) {
+        if (TextUtils.isEmpty(date)){
+            return "";
+        }
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
         Date parse = null;
         try {

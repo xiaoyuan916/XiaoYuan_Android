@@ -5,14 +5,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.freelib.multiitem.adapter.holder.BaseViewHolder;
 import com.sgcc.pda.jszp.R;
 import com.sgcc.pda.jszp.bean.JSZPOutboundScanQueryResultEntity;
+import com.sgcc.pda.jszp.bean.ScanDeleteRequest;
+import com.sgcc.pda.jszp.bean.ScanDeleteResult;
+import com.sgcc.pda.jszp.http.JSZPOkgoHttpUtils;
+import com.sgcc.pda.jszp.http.JSZPUrls;
 
 import java.util.ArrayList;
 
 public class JSZPOutboundScanQueryAdapter extends RecyclerView.Adapter<JSZPOutboundScanQueryAdapter.ViewHolder> {
+
+private DeleteItemListerner deleteItemListerner;
 
     private ArrayList<JSZPOutboundScanQueryResultEntity.
             JSZPOutboundScanQueryScanResultEntity.JSZPOutboundScanQueryDevData> devDatas;
@@ -23,7 +31,7 @@ public class JSZPOutboundScanQueryAdapter extends RecyclerView.Adapter<JSZPOutbo
     }
 
     public void setDatas(ArrayList<JSZPOutboundScanQueryResultEntity.
-            JSZPOutboundScanQueryScanResultEntity.JSZPOutboundScanQueryDevData> devDatas){
+            JSZPOutboundScanQueryScanResultEntity.JSZPOutboundScanQueryDevData> devDatas) {
         this.devDatas.addAll(devDatas);
         notifyDataSetChanged();
     }
@@ -35,12 +43,22 @@ public class JSZPOutboundScanQueryAdapter extends RecyclerView.Adapter<JSZPOutbo
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         JSZPOutboundScanQueryResultEntity.JSZPOutboundScanQueryScanResultEntity.
                 JSZPOutboundScanQueryDevData jszpOutboundScanQueryDevData = devDatas.get(position);
         holder.tv_asset_barcode.setText(jszpOutboundScanQueryDevData.getBarCode());
         holder.tv_device_status.setText(jszpOutboundScanQueryDevData.getStatusCode());
+        //单个删除
+        holder.iv_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (deleteItemListerner != null)
+                    deleteItemListerner.deleteItem(position);
+            }
+
+        });
     }
+
 
     @Override
     public int getItemCount() {
@@ -51,13 +69,29 @@ public class JSZPOutboundScanQueryAdapter extends RecyclerView.Adapter<JSZPOutbo
 
         private TextView tv_asset_barcode;
         private TextView tv_device_status;
-        private CheckBox cb_device;
+        private ImageView iv_delete;
 
         public ViewHolder(View itemView) {
             super(itemView);
             tv_asset_barcode = (TextView) itemView.findViewById(R.id.tv_asset_barcode);
             tv_device_status = (TextView) itemView.findViewById(R.id.tv_device_status);
-            cb_device = (CheckBox) itemView.findViewById(R.id.cb_device);
+            iv_delete = (ImageView) itemView.findViewById(R.id.iv_device_delete);
         }
+    }
+
+    public DeleteItemListerner getDeleteItemListerner() {
+        return deleteItemListerner;
+    }
+
+    public void setDeleteItemListerner(DeleteItemListerner deleteItemListerner) {
+        this.deleteItemListerner = deleteItemListerner;
+    }
+
+    public interface DeleteItemListerner {
+
+        void deleteItem(int position);
+
+
+
     }
 }

@@ -8,9 +8,9 @@ import android.widget.TextView;
 import com.freelib.multiitem.adapter.holder.BaseViewHolder;
 import com.freelib.multiitem.adapter.holder.BaseViewHolderManager;
 import com.sgcc.pda.jszp.R;
-import com.sgcc.pda.jszp.bean.OptionItem;
+import com.sgcc.pda.jszp.bean.CodeTypeEntity;
 
-public class OptionAdapter<T extends OptionItem> extends BaseViewHolderManager<T> {
+public class OptionAdapter<T extends CodeTypeEntity> extends BaseViewHolderManager<T> {
 
     Context context;
 
@@ -29,7 +29,7 @@ public class OptionAdapter<T extends OptionItem> extends BaseViewHolderManager<T
             tvName.setTextColor(context.getResources().getColor(R.color.darkgray));
             ivSelected.setVisibility(View.GONE);
         }
-        tvName.setText(t.getName());
+        tvName.setText(t.getCodeName());
     }
 
     @Override

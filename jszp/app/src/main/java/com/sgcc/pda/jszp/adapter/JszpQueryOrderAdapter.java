@@ -15,9 +15,11 @@ import com.sgcc.pda.jszp.activity.JszpOrderDetailsActivity;
 import com.sgcc.pda.jszp.activity.QueryOrderListActivity;
 import com.sgcc.pda.jszp.bean.JszpQueryDistAppsItemEntity;
 import com.sgcc.pda.jszp.util.JzspConstants;
+import com.sgcc.pda.sdk.utils.DateUtil;
 
 import org.w3c.dom.Text;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -57,11 +59,11 @@ public class JszpQueryOrderAdapter extends RecyclerView.Adapter<JszpQueryOrderAd
                 holder.mIv_query_order_state.setBackgroundResource(R.mipmap.jszp_maintain);
                 break;
         }
-        holder.tv_query_order_number.setText("订单编号：" + itemEntity.getAppNo());
-        holder.mTv_query_order_date.setText(itemEntity.getDistDate());
-        holder.mTv_query_order_address.setText(itemEntity.getDpNo());
+        holder.tv_query_order_number.setText("订单编号：" + itemEntity.getAppNo().trim());
+        holder.mTv_query_order_date.setText(DateUtil.toYYmmDD(new Date(itemEntity.getDistDate())));
+        holder.mTv_query_order_address.setText(itemEntity.getOrgName());
         holder.mTv_query_order_remaining_time.setText(itemEntity.getRemainingTime());
-        holder.mTv_query_order_check.setText(itemEntity.getAppStatus());
+        holder.mTv_query_order_check.setText(itemEntity.getAppStatusLabel());
         initListener(holder,itemEntity);
     }
 

@@ -34,7 +34,11 @@ public class ModifierCountActivity extends BaseActivity {
         tvRight.setVisibility(View.VISIBLE);
         tvRight.setText("确定");
         int count=getIntent().getIntExtra("plancount",0);
+        int realcount = getIntent().getIntExtra("realcount",0);
         tvCount.setText(count+"只");
+//        if(realcount!=0) {
+//            etRealCount.setText(realcount + "");
+//        }
         etRealCount.setSelection(etRealCount.getText().length());
     }
 

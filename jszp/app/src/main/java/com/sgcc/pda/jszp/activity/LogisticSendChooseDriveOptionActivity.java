@@ -1,5 +1,6 @@
 package com.sgcc.pda.jszp.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
@@ -62,6 +63,7 @@ public class LogisticSendChooseDriveOptionActivity extends BaseActivity {
 
     //结果实体
     private LogisticsAutoDocsEntity logisticsAutoDocsEntity;
+    @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -130,7 +132,7 @@ public class LogisticSendChooseDriveOptionActivity extends BaseActivity {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 refreshListData();
-                refreshlayout.finishRefresh();
+                refreshlayout.finishRefresh(500);
             }
         });
         refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
@@ -138,7 +140,7 @@ public class LogisticSendChooseDriveOptionActivity extends BaseActivity {
             public void onLoadmore(RefreshLayout refreshlayout) {
                 pageNo++;
                 getListData();
-                refreshlayout.finishLoadmore();
+                refreshlayout.finishLoadmore(500);
             }
         });
     }

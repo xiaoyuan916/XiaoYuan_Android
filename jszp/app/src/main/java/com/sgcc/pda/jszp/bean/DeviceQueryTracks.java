@@ -11,6 +11,12 @@ public class DeviceQueryTracks {
     private String busi_type;//业务类型
     private String date;//发生时间
 
+   public DeviceQueryTracks(String busi_id,String busi_type,String date){
+        this.busi_id = busi_id;
+        this.busi_type = busi_type;
+        this.date = date;
+    }
+
     public String getBusi_id() {
         return busi_id;
     }
