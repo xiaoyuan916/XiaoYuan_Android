@@ -1,0 +1,44 @@
+apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao'
+android {
+    compileSdkVersion 27
+    defaultConfig {
+        applicationId "com.xiao.jszpdemo"
+        minSdkVersion 18
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.lzy.net:okgo:3.0.4'
+    implementation 'com.squareup.okhttp3:okhttp:3.8.1'
+    //1.0.5 当1.1.0出现问题可以回退到1.0.5.1
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.5.1'
+    //没有使用特殊Header，可以不加这行
+    implementation 'com.android.support:design:27.1.1'
+    //版本随意（非必须，引用可以解决无法预览问题）
+    implementation 'com.google.code.gson:gson:2.2.4'
+    //greendao的使用
+    implementation 'org.greenrobot:greendao:3.2.2' // add library
+    //扫描
+    implementation project(path: ':scan2')
+}
+
+greendao {
+    schemaVersion 1  //版本
+    daoPackage 'com.xiao.jszpdemo.greendao' // 一般为app包名+生成文件的文件夹名
+    targetGenDir 'src/main/java' //生成文件路径
+}
