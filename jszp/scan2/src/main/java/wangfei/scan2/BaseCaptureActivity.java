@@ -34,7 +34,7 @@ import wangfei.scan2.globla.DecodeHintType;
 import wangfei.scan2.globla.Result;
 import wangfei.scan2.globla.ResultPoint;
 import wangfei.scan2.client.android.camera.CameraManager;
-import wangfei.swipeback.SwipeBackActivity;
+import wangfei.scan2.swipeback.SwipeBackActivity;
 
 import java.io.IOException;
 import java.util.Collection;
