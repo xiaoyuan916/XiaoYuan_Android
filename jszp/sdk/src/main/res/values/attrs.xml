@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!-- 可拖动控件属性 -->
-    <declare-styleable name="DragViewAttrs">
-        <attr name="layoutSrc" format="reference" />
-    </declare-styleable>
-</resources>
