@@ -25,22 +25,7 @@ public class MainActivity extends Activity implements OnClickListener {
     private final String TAG = "MainActivity";
 
     BridgeWebView webView;
-
     Button button;
-
-    int RESULT_CODE = 0;
-
-    ValueCallback<Uri> mUploadMessage;
-
-    static class Location {
-        String address;
-    }
-
-    static class User {
-        String name;
-        Location location;
-        String testStr;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
