@@ -2,64 +2,45 @@ package com.xiao.jsbrige;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.webkit.ValueCallback;
-import android.webkit.WebChromeClient;
 import android.widget.Button;
 
-import com.github.lzyzsd.jsbridge.BridgeHandler;
-import com.github.lzyzsd.jsbridge.BridgeWebView;
-import com.github.lzyzsd.jsbridge.CallBackFunction;
-import com.github.lzyzsd.jsbridge.DefaultHandler;
-import com.google.gson.Gson;
-import com.xiao.jsbrige.jsbrige.XiaoCallHandler;
-import com.xiao.jsbrige.jsbrige.XiaoRegisterHandler;
-import com.xiao.jsbrige.jsbrige.XiaoWebChromeClient;
+import com.xiao.jsbrige.activity.XiaoDemoActivity;
+import com.xiao.jsbrige.activity.XiaoVueProActivity;
 
-public class MainActivity extends Activity implements OnClickListener {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+public class MainActivity extends Activity {
 
     private final String TAG = "MainActivity";
 
-    BridgeWebView webView;
-    Button button;
+    @BindView(R.id.bt_demo)
+    Button btDemo;
+    @BindView(R.id.bt_vue_pro)
+    Button btVuePro;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initView();
-        initData();
-        initListener();
+        ButterKnife.bind(this);
     }
 
-    private void initView() {
-        webView = (BridgeWebView) findViewById(R.id.webView);
-        button = (Button) findViewById(R.id.button);
-    }
-
-    private void initData() {
-        //webView初始化
-        webView.setDefaultHandler(new DefaultHandler());
-        webView.setWebChromeClient(new XiaoWebChromeClient());
-        webView.loadUrl("file:///android_asset/demo/demo.html");
-        //注册js调用java的代码
-        XiaoRegisterHandler.getInstance().submitFromWeb(webView);
-        webView.send("hello");
-    }
-
-    private void initListener() {
-        button.setOnClickListener(this);
-    }
-
-
-    @Override
-    public void onClick(View v) {
-        if (button.equals(v)) {
-            XiaoCallHandler.getInstance().functionInJs(webView);
+    @OnClick({R.id.bt_demo,R.id.bt_vue_pro})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.bt_demo:
+                startActivity(new Intent(MainActivity.this, XiaoDemoActivity.class));
+                break;
+            case R.id.bt_vue_pro:
+                startActivity(new Intent(MainActivity.this, XiaoVueProActivity.class));
+                break;
+            default:
+                break;
         }
     }
 
