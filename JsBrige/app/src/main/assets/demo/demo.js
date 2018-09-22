@@ -3,7 +3,7 @@ function testClick1() {
         'submitFromWeb'
         , {'param': '中文测试'}
         , function(responseData) {
-            document.getElementById("show").innerHTML = "send get responseData from java, data = " + responseData
+            document.getElementById("show").innerHTML = "js调用java = " + responseData
         }
     );
 }

@@ -32,8 +32,8 @@ public class XiaoRegisterHandler {
         webView.registerHandler("submitFromWeb", new BridgeHandler() {
             @Override
             public void handler(String data, CallBackFunction function) {
-                Log.i(TAG, "handler = submitFromWeb, data from web = " + data);
-                function.onCallBack("submitFromWeb exe, response data 中文 from Java");
+                Log.i(TAG, "js调用原生返回的数据 " + data);
+                function.onCallBack("js调用原生返回的数据");
             }
         });
     }

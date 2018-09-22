@@ -31,10 +31,10 @@ public class XiaoCallHandler {
      * @param webView
      */
     public void functionInJs(BridgeWebView webView){
-        webView.callHandler("functionInJs", "data from Java", new CallBackFunction() {
+        webView.callHandler("functionInJs", "java的functionInJs返回数据", new CallBackFunction() {
             @Override
             public void onCallBack(String data) {
-                Log.i(TAG, "reponse data from js " + data);
+                Log.i(TAG, "functionInJs 方法 " + data);
             }
         });
     }
