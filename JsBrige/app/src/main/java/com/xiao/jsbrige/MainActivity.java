@@ -16,6 +16,9 @@ import com.github.lzyzsd.jsbridge.BridgeWebView;
 import com.github.lzyzsd.jsbridge.CallBackFunction;
 import com.github.lzyzsd.jsbridge.DefaultHandler;
 import com.google.gson.Gson;
+import com.xiao.jsbrige.jsbrige.XiaoCallHandler;
+import com.xiao.jsbrige.jsbrige.XiaoRegisterHandler;
+import com.xiao.jsbrige.jsbrige.XiaoWebChromeClient;
 
 public class MainActivity extends Activity implements OnClickListener {
 
@@ -43,94 +46,36 @@ public class MainActivity extends Activity implements OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initView();
+        initData();
+        initListener();
+    }
 
+    private void initView() {
         webView = (BridgeWebView) findViewById(R.id.webView);
-
         button = (Button) findViewById(R.id.button);
+    }
 
-        button.setOnClickListener(this);
-
+    private void initData() {
+        //webView初始化
         webView.setDefaultHandler(new DefaultHandler());
-
-        webView.setWebChromeClient(new WebChromeClient() {
-
-            @SuppressWarnings("unused")
-            public void openFileChooser(ValueCallback<Uri> uploadMsg, String AcceptType, String capture) {
-                this.openFileChooser(uploadMsg);
-            }
-
-            @SuppressWarnings("unused")
-            public void openFileChooser(ValueCallback<Uri> uploadMsg, String AcceptType) {
-                this.openFileChooser(uploadMsg);
-            }
-
-            public void openFileChooser(ValueCallback<Uri> uploadMsg) {
-                mUploadMessage = uploadMsg;
-                pickFile();
-            }
-        });
-
-        webView.loadUrl("file:///android_asset/demo.html");
-
-        webView.registerHandler("submitFromWeb", new BridgeHandler() {
-
-            @Override
-            public void handler(String data, CallBackFunction function) {
-                Log.i(TAG, "handler = submitFromWeb, data from web = " + data);
-                function.onCallBack("submitFromWeb exe, response data 中文 from Java");
-            }
-
-        });
-
-        User user = new User();
-        Location location = new Location();
-        location.address = "SDU";
-        user.location = location;
-        user.name = "大头鬼";
-
-        webView.callHandler("functionInJs", new Gson().toJson(user), new CallBackFunction() {
-            @Override
-            public void onCallBack(String data) {
-
-            }
-        });
-
+        webView.setWebChromeClient(new XiaoWebChromeClient());
+        webView.loadUrl("file:///android_asset/demo/demo.html");
+        //注册js调用java的代码
+        XiaoRegisterHandler.getInstance().submitFromWeb(webView);
         webView.send("hello");
-
     }
 
-    public void pickFile() {
-        Intent chooserIntent = new Intent(Intent.ACTION_GET_CONTENT);
-        chooserIntent.setType("image/*");
-        startActivityForResult(chooserIntent, RESULT_CODE);
+    private void initListener() {
+        button.setOnClickListener(this);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (requestCode == RESULT_CODE) {
-            if (null == mUploadMessage){
-                return;
-            }
-            Uri result = intent == null || resultCode != RESULT_OK ? null : intent.getData();
-            mUploadMessage.onReceiveValue(result);
-            mUploadMessage = null;
-        }
-    }
 
     @Override
     public void onClick(View v) {
         if (button.equals(v)) {
-            webView.callHandler("functionInJs", "data from Java", new CallBackFunction() {
-
-                @Override
-                public void onCallBack(String data) {
-                    // TODO Auto-generated method stub
-                    Log.i(TAG, "reponse data from js " + data);
-                }
-
-            });
+            XiaoCallHandler.getInstance().functionInJs(webView);
         }
-
     }
 
 }
