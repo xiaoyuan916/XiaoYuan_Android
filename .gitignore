@@ -46,3 +46,6 @@ captures/
 /jszp/xutils/xutils.iml
 /JszpDemo/.idea
 /JszpDemo/.gradle
+/tensorflow_android/.idea
+/tensorflow_android/gradle
+/tensorflow_android/.gradle
