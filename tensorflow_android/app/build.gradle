@@ -9,6 +9,12 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            moduleName "libtensorflow_inference"       //生成的so文件名字，调用C程序的代码中会用到该名字
+            abiFilters "armeabi", "armeabi-v7a", "x86" //输出指定三种平台下的so库
+        }
+        
     }
     buildTypes {
         release {
