@@ -49,3 +49,5 @@ captures/
 /tensorflow_android/.idea
 /tensorflow_android/gradle
 /tensorflow_android/.gradle
+/JniApplication/.idea
+/JniApplication/.gradle
