@@ -8,6 +8,7 @@ import android.widget.Button;
 
 import com.xiao.tensorflow.activity.TensorFlowPhotoDistinguishActivity;
 import com.xiao.tensorflow.demo.ClassifierActivity;
+import com.xiao.tensorflow.demo.DetectorActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,7 +35,7 @@ public class MainActivity extends Activity {
                 startActivity(new Intent(MainActivity.this, TensorFlowPhotoDistinguishActivity.class));
                 break;
             case R.id.bt_real_time_distinguish:
-                startActivity(new Intent(MainActivity.this, ClassifierActivity.class));
+                startActivity(new Intent(MainActivity.this, DetectorActivity.class));
                 break;
         }
     }
