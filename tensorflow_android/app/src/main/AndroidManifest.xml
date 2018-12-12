@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.xiao.tensorflow">
+    package="com.xiao.tensorflow"
+    tools:ignore="ImpliedTouchscreenHardware,MissingLeanbackSupport">
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-feature android:name="android.hardware.camera" />
-    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature android:name="android.hardware.camera"
+        tools:ignore="UnsupportedTvHardware" />
+    <uses-feature android:name="android.hardware.camera.autofocus"
+        tools:ignore="UnsupportedTvHardware" />
 
     <application
         android:allowBackup="true"
@@ -15,7 +19,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning,MissingTvBanner">
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,6 +28,45 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.TensorFlowPhotoDistinguishActivity" />
+        <activity android:name="com.xiao.tensorflow.demo.ClassifierActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/activity_name_classification">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name="com.xiao.tensorflow.demo.DetectorActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/activity_name_detection">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name="com.xiao.tensorflow.demo.StylizeActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/activity_name_stylize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name="com.xiao.tensorflow.demo.SpeechActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/activity_name_speech">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
