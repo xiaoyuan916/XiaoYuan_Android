@@ -51,3 +51,4 @@ captures/
 /tensorflow_android/.gradle
 /JniApplication/.idea
 /JniApplication/.gradle
+/FaceRecognition/gradle
