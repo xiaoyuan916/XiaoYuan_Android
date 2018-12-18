@@ -52,3 +52,6 @@ captures/
 /JniApplication/.idea
 /JniApplication/.gradle
 /FaceRecognition/gradle
+/MavenRespository/gradle
+/MavenRespository/.gradle
+/MavenRespository/.idea
