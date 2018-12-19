@@ -31,7 +31,7 @@ dependencies {
 //def定义的变量才会在project中
 def POM_NAME='pushsdk'
 
-def POM_VERSION='1.0.0'
+def POM_VERSION='1.0.1'
 
 def POM_ARTIFACTID="pushsdk"//项目名称id
 
