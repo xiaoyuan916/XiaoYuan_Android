@@ -37,6 +37,8 @@ dependencies {
     implementation project(path: ':scan2')
     //获取log日志架构
     implementation 'com.orhanobut:logger:2.2.0'
+    //retrofit2加入
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
 }
 
 greendao {
