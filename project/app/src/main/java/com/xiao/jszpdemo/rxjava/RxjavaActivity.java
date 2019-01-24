@@ -15,7 +15,9 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class RxjavaActivity extends AppCompatActivity {
 
@@ -45,7 +47,8 @@ public class RxjavaActivity extends AppCompatActivity {
                 emitter.onNext(3);
                 emitter.onComplete();
             }
-        });
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
         //创建一个下游 Observer
         Observer<Integer> observer = new Observer<Integer>() {
             @Override
