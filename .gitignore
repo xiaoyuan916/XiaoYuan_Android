@@ -55,3 +55,5 @@ captures/
 /MavenRespository/gradle
 /MavenRespository/.gradle
 /MavenRespository/.idea
+/JsBrige/.idea
+/FaceRecognition/.idea
