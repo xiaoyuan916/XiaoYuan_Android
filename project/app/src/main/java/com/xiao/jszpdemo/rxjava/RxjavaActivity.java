@@ -37,6 +37,19 @@ public class RxjavaActivity extends AppCompatActivity {
         startRxJava();
     }
 
+    /**
+     * Schedulers.io() 代表io操作的线程, 通常用于网络,读写文件等io密集型的操作；
+     * Schedulers.computation() 代表CPU计算密集型的操作, 例如需要大量计算的操作；
+     * Schedulers.newThread() 代表一个常规的新线程；
+     * AndroidSchedulers.mainThread() 代表Android的主线程
+     *
+     * 使用
+     * .subscribeOn(Schedulers.newThread())
+     *                 .subscribeOn(Schedulers.io())
+     *                 .observeOn(AndroidSchedulers.mainThread())
+     *
+     *
+     */
     private void startRxJava() {
         //创建一个上游 Observable：
         Observable<Integer> observable = Observable.create(new ObservableOnSubscribe<Integer>() {
