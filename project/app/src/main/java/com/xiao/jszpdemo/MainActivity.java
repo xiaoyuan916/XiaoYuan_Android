@@ -10,6 +10,7 @@ import com.xiao.jszpdemo.activity.GreenDaoActivity;
 import com.xiao.jszpdemo.activity.OkHttpActivity;
 import com.xiao.jszpdemo.activity.RefrshActivity;
 import com.xiao.jszpdemo.activity.Scan3Activity;
+import com.xiao.jszpdemo.rxjava.RxPermissionsActivity;
 import com.xiao.jszpdemo.rxjava.RxjavaActivity;
 
 import butterknife.BindView;
@@ -28,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     Button btRxjava;
     @BindView(R.id.bt_greendao)
     Button btGreendao;
+    @BindView(R.id.bt_permission_go)
+    Button btPermissionGo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.bt_refresh, R.id.bt_okhttp, R.id.bt_scaner, R.id.bt_rxjava, R.id.bt_greendao})
+    @OnClick({R.id.bt_refresh, R.id.bt_okhttp, R.id.bt_scaner,
+            R.id.bt_rxjava, R.id.bt_greendao,R.id.bt_permission_go})
     public void onViewClicked(View v) {
         switch (v.getId()) {
             case R.id.bt_refresh:
@@ -53,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.bt_greendao:
                 startActivity(new Intent(MainActivity.this, GreenDaoActivity.class));
+                break;
+            case R.id.bt_permission_go:
+                startActivity(new Intent(MainActivity.this, RxPermissionsActivity.class));
                 break;
         }
     }

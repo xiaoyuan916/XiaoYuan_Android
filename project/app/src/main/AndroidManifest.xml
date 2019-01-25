@@ -10,7 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.GreenDaoActivity"></activity>
+        <activity android:name=".rxjava.RxPermissionsActivity"></activity>
+        <activity android:name=".activity.GreenDaoActivity" />
         <activity android:name=".rxjava.RxjavaActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
