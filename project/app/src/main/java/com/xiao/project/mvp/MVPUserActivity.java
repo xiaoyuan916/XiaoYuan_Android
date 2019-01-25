@@ -13,6 +13,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * 视图层(View)
+ * 负责绘制UI元素、与用户进行交互，对应于xml、Activity、Fragment、Adapter
+ * 模型层(Model)
+ * 负责存储、检索、操纵数据，一般包含网络请求，数据库处理，I/O流。
+ * 控制层(Presenter)
+ * Presenter是整个MVP体系的控制中心，作为View与Model交互的中间纽带，处理View于Model间的交互和业务逻辑。
+ */
 public class MVPUserActivity extends AppCompatActivity implements IUserView {
 
     @BindView(R.id.id_txv)
