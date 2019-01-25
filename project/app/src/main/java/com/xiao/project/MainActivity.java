@@ -10,6 +10,7 @@ import com.xiao.project.activity.GreenDaoActivity;
 import com.xiao.project.activity.OkHttpActivity;
 import com.xiao.project.activity.RefrshActivity;
 import com.xiao.project.activity.Scan3Activity;
+import com.xiao.project.mvp.MVPUserActivity;
 import com.xiao.project.rxjava.RxPermissionsActivity;
 import com.xiao.project.rxjava.RxjavaActivity;
 
@@ -31,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     Button btGreendao;
     @BindView(R.id.bt_permission_go)
     Button btPermissionGo;
+    @BindView(R.id.bt_mvp)
+    Button btMvp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +43,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @OnClick({R.id.bt_refresh, R.id.bt_okhttp, R.id.bt_scaner,
-            R.id.bt_rxjava, R.id.bt_greendao,R.id.bt_permission_go})
+            R.id.bt_rxjava, R.id.bt_greendao, R.id.bt_permission_go,
+            R.id.bt_mvp})
     public void onViewClicked(View v) {
         switch (v.getId()) {
             case R.id.bt_refresh:
@@ -60,6 +64,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.bt_permission_go:
                 startActivity(new Intent(MainActivity.this, RxPermissionsActivity.class));
+                break;
+            case R.id.bt_mvp:
+                startActivity(new Intent(MainActivity.this, MVPUserActivity.class));
                 break;
         }
     }

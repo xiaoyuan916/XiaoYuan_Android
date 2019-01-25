@@ -3,7 +3,7 @@ apply plugin: 'org.greenrobot.greendao'
 android {
     compileSdkVersion 27
     defaultConfig {
-        applicationId "com.xiao.jszpdemo"
+        applicationId "com.xiao.project"
         minSdkVersion 18
         targetSdkVersion 27
         versionCode 1
