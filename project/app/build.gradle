@@ -47,6 +47,8 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     //权限校验
     implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
+    //图片扫描
+    implementation 'cn.simonlee.xcodescanner:zbar:1.1.10'
 }
 
 greendao {
