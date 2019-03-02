@@ -42,6 +42,27 @@ public class BluetoothOperationActivity extends AppCompatActivity implements Obs
     private final static String MY_UUID = "00001101-0000-1000-8000-00805F9B34FB";   //SPP服务UUID号
     private final static String    UUID = "00001800-0000-1000-8000-00805f9b34fb";
 
+    /**
+     * service的UUID00001800-0000-1000-8000-00805f9b34fb
+     * characteristic的UUID00002a00-0000-1000-8000-00805f9b34fb
+     * characteristic的UUID00002a01-0000-1000-8000-00805f9b34fb
+     * characteristic的UUID00002a04-0000-1000-8000-00805f9b34fb
+     * service的UUID0000180a-0000-1000-8000-00805f9b34fb
+     * characteristic的UUID00002a29-0000-1000-8000-00805f9b34fb
+     * characteristic的UUID00002a24-0000-1000-8000-00805f9b34fb
+     * characteristic的UUID00002a25-0000-1000-8000-00805f9b34fb
+     * characteristic的UUID00002a27-0000-1000-8000-00805f9b34fb
+     * characteristic的UUID00002a26-0000-1000-8000-00805f9b34fb
+     * characteristic的UUID00002a28-0000-1000-8000-00805f9b34fb
+     * characteristic的UUID00002a23-0000-1000-8000-00805f9b34fb
+     * characteristic的UUID00002a2a-0000-1000-8000-00805f9b34fb
+     * service的UUID49535343-fe7d-4ae5-8fa9-9fafd205e455
+     * characteristic的UUID49535343-6daa-4d02-abf6-19569aca69fe
+     * characteristic的UUID49535343-aca3-481c-91ec-d85e28a60318
+     * characteristic的UUID49535343-1e4d-4bd9-ba61-23c647249616
+     * characteristic的UUID49535343-8841-43f4-a8d4-ecbe34729bb3
+     * characteristic的UUID49535343-026e-3a9b-954c-97daef17e26e
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,41 +84,63 @@ public class BluetoothOperationActivity extends AppCompatActivity implements Obs
                 BluetoothGatt gatt = BleManager.getInstance().getBluetoothGatt(bleDevice);
 //                BluetoothGattService service = gatt.getService(UUID.fromString(MY_UUID));
                 List<BluetoothGattService> services = gatt.getServices();
-                for (BluetoothGattService service :services){
-                    Log.d(getClass().getSimpleName(),"service的UUID"+service.getUuid().toString());
+                for (BluetoothGattService service : services) {
+                    Log.d(getClass().getSimpleName(), "service的UUID" + service.getUuid().toString());
                     for (BluetoothGattCharacteristic characteristic : service.getCharacteristics()) {
-                        Log.d(getClass().getSimpleName(),"characteristic的UUID"+characteristic.getUuid().toString());
+                        Log.d(getClass().getSimpleName(), "characteristic的UUID" + characteristic.getUuid().toString());
+//                        readData(service.getUuid().toString(),characteristic.getUuid().toString());
                     }
                 }
 
                 break;
 
             case R.id.bt_read:
-                BleManager.getInstance().read(
-                        bleDevice,
-//                        characteristic.getService().getUuid().toString(),
-//                        characteristic.getUuid().toString(),
-                        null,null,
-                        new BleReadCallback() {
-
-                            @Override
-                            public void onReadSuccess(final byte[] data) {
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        String xGetString = DataTransfer.xGetString(data);
-                                        Log.d(getClass().getSimpleName(),xGetString);
-//                                        addText(txt, xGetString);
-                                    }
-                                });
-                            }
-
-                            @Override
-                            public void onReadFailure(final BleException exception) {
-                            }
-                        });
+                readData("00001800-0000-1000-8000-00805f9b34fb",
+                        "00002a00-0000-1000-8000-00805f9b34fb");
                 break;
         }
+    }
+
+    private void readData(String uuid_service,
+                          String uuid_read) {
+        BleManager.getInstance().read(
+                bleDevice,
+                MY_UUID,
+                MY_UUID,
+                new BleReadCallback() {
+                    @Override
+                    public void onReadSuccess(final byte[] data) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                //处理数据
+                                dealData(data);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onReadFailure(final BleException exception) {
+                    }
+                });
+    }
+
+    private void dealData(byte[] datum) {
+
+        String xGetString = DataTransfer.xGetString(datum);
+        Log.d(getClass().getSimpleName(), xGetString);
+
+//        byte frequencyPointIdByte = datum[0];
+//        frequencyPointIdByte = (byte)(frequencyPointIdByte >> 2);
+//        frequencyPointIdByte = (byte)(frequencyPointIdByte & 63);
+//        UmdFrequencyPoint frequencyPoint = UmdFrequencyPoint.ValueOfId(frequencyPointIdByte);
+//        int antennaId = datum[0];
+//        int totalRead = antennaId & 3;
+//        UII uii = UII.getNewInstanceByBytes(datum, 1);
+//        UmdRssi rssi = new UmdRssi(datum[datum.length - 1]);
+//        String xGetString = DataTransfer.xGetString(uii.getBytes());
+//        Log.d(getClass().getSimpleName(),xGetString);
+
     }
 
     @Override
@@ -109,6 +152,7 @@ public class BluetoothOperationActivity extends AppCompatActivity implements Obs
 
     /**
      * 监听蓝牙失去连接
+     *
      * @param bleDevice
      */
     @Override
