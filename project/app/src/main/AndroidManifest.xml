@@ -32,6 +32,10 @@
             android:name=".activity.ScrollingActivity"
             android:label="@string/title_activity_scrolling"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".bluetooth.MainActivity">
+        </activity>
+
+        <activity android:name="bluetooth.operation.OperationActivity" />
     </application>
 
 </manifest>
