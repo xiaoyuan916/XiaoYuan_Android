@@ -52,6 +52,9 @@ dependencies {
     implementation 'cn.simonlee.xcodescanner:zbar:1.1.10'
     //蓝牙模块
     implementation 'com.clj.fastble:FastBleLib:2.3.4'
+    // https://mvnrepository.com/artifact/commons-codec/commons-codec
+    implementation group: 'commons-codec', name: 'commons-codec', version: '1.10'
+
 }
 
 greendao {
