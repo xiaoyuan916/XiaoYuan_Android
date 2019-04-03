@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".magicindicator.MagicIndicatorActivity"></activity>
         <activity android:name=".bluetooth.BluetoothOperationActivity" />
         <activity android:name=".activity.XCodeScannerActivity" />
         <activity android:name=".mvvm.MVVMActivity" />
@@ -37,7 +38,7 @@
             android:name=".bluetooth.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name="bluetooth.operation.OperationActivity" />
-        <activity android:name=".toxsl.XSLActivity"></activity>
+        <activity android:name=".toxsl.XSLActivity" />
     </application>
 
 </manifest>

@@ -54,7 +54,8 @@ dependencies {
     implementation 'com.clj.fastble:FastBleLib:2.3.4'
     // https://mvnrepository.com/artifact/commons-codec/commons-codec
     implementation group: 'commons-codec', name: 'commons-codec', version: '1.10'
-
+    //MagicIndicator指示器  https://github.com/hackware1993/MagicIndicator
+    implementation 'com.github.hackware1993:MagicIndicator:1.5.0'
 }
 
 greendao {
