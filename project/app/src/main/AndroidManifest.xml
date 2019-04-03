@@ -12,14 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".magicindicator.MagicIndicatorActivity"></activity>
-        <activity android:name=".bluetooth.BluetoothOperationActivity" />
-        <activity android:name=".activity.XCodeScannerActivity" />
-        <activity android:name=".mvvm.MVVMActivity" />
-        <activity android:name=".mvp.MVPUserActivity" />
-        <activity android:name=".rxjava.RxPermissionsActivity" />
-        <activity android:name=".activity.GreenDaoActivity" />
-        <activity android:name=".rxjava.RxjavaActivity" />
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,6 +32,14 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name="bluetooth.operation.OperationActivity" />
         <activity android:name=".toxsl.XSLActivity" />
+        <activity android:name=".activity.XCodeScannerActivity"/>
+        <activity android:name=".magicindicator.MagicIndicatorActivity"/>
+        <activity android:name=".bluetooth.BluetoothOperationActivity" />
+        <activity android:name=".mvvm.MVVMActivity" />
+        <activity android:name=".mvp.MVPUserActivity" />
+        <activity android:name=".rxjava.RxPermissionsActivity" />
+        <activity android:name=".activity.GreenDaoActivity" />
+        <activity android:name=".rxjava.RxjavaActivity" />
     </application>
 
 </manifest>

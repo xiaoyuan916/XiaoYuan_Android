@@ -10,6 +10,7 @@ import com.xiao.project.activity.GreenDaoActivity;
 import com.xiao.project.activity.OkHttpActivity;
 import com.xiao.project.activity.RefrshActivity;
 import com.xiao.project.activity.Scan3Activity;
+import com.xiao.project.activity.XCodeScannerActivity;
 import com.xiao.project.mvp.MVPUserActivity;
 import com.xiao.project.rxjava.RxPermissionsActivity;
 import com.xiao.project.rxjava.RxjavaActivity;
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, OkHttpActivity.class));
                 break;
             case R.id.bt_scaner:
-                startActivity(new Intent(MainActivity.this, Scan3Activity.class));
+                startActivity(new Intent(MainActivity.this, XCodeScannerActivity.class));
                 break;
             case R.id.bt_rxjava:
                 startActivity(new Intent(MainActivity.this, RxjavaActivity.class));
