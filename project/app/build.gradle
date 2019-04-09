@@ -21,7 +21,6 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-//    implementation 'jxl.jar'
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     implementation 'com.lzy.net:okgo:3.0.4'
@@ -34,7 +33,8 @@ dependencies {
     //版本随意（非必须，引用可以解决无法预览问题）
     implementation 'com.google.code.gson:gson:2.8.5'
     //greendao的使用
-    implementation 'org.greenrobot:greendao:3.2.2' // add library
+    implementation 'org.greenrobot:greendao:3.2.2'
+    // add library
     //扫描
     implementation project(path: ':scan2')
     //获取log日志架构
@@ -54,10 +54,11 @@ dependencies {
     //蓝牙模块
     implementation 'com.clj.fastble:FastBleLib:2.3.4'
     // https://mvnrepository.com/artifact/commons-codec/commons-codec
-    implementation group: 'commons-codec', name: 'commons-codec', version: '1.10'
+    implementation 'commons-codec:commons-codec:1.10'
     //MagicIndicator指示器  https://github.com/hackware1993/MagicIndicator
     implementation 'com.github.hackware1993:MagicIndicator:1.5.0'
     implementation 'com.android.support:multidex:1.0.3'
+    implementation files('libs/BaiduLBS_Android.jar')
 }
 
 greendao {

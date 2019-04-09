@@ -3,13 +3,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.xiao.project">
     <!-- 地图SDK（包含其搜索功能）需要的基础权限 -->
-    <!-- 允许程序打开网络套接字 -->
-    <uses-permission android:name="android.permission.INTERNET" /> <!-- 允许程序设置内置sd卡的写权限 -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 允许程序获取网络状态 -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 允许程序访问WiFi网络信息 -->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 允许程序读写手机状态和身份 -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- 允许程序访问CellID或WiFi热点来获取粗略的位置 -->
+    <!--//获取设备网络状态，禁用后无法获取网络状态-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!--//网络权限，当禁用后，无法进行检索等相关业务-->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!--//读取设备硬件信息，统计数据-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!--//读取系统信息，包含系统版本等信息，用作统计-->
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <!--//获取设备的网络状态，鉴权所需网络代理-->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!--//允许sd卡写权限，需写入地图数据，禁用后无法显示地图-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!--//这个权限用于进行网络定位-->
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <!--//这个权限用于访问GPS定位-->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!--//获取统计数据-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!--//使用步行AR导航，配置Camera权限-->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!--//程序在手机屏幕关闭后后台进程仍然运行-->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:name=".application.JszpApplication"
@@ -20,7 +35,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".map.MapActivity"></activity>
+        <activity android:name=".map.BaiduMapActivity"/>
+        <activity android:name=".map.MapActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -52,6 +68,9 @@
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="181d092cc8f8c09e4d6a63e9293b0edb" />
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="dzeOBxnzXGqt5f0xM7SNLLoOd4d5an04" />
     </application>
 
 </manifest>

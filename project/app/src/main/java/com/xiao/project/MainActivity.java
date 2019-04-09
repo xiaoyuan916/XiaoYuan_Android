@@ -10,6 +10,7 @@ import com.xiao.project.activity.GreenDaoActivity;
 import com.xiao.project.activity.OkHttpActivity;
 import com.xiao.project.activity.RefrshActivity;
 import com.xiao.project.activity.XCodeScannerActivity;
+import com.xiao.project.map.BaiduMapActivity;
 import com.xiao.project.map.MapActivity;
 import com.xiao.project.mvp.MVPUserActivity;
 import com.xiao.project.rxjava.RxPermissionsActivity;
@@ -83,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, XSLActivity.class));
                 break;
             case R.id.bt_map:
-                startActivity(new Intent(MainActivity.this, MapActivity.class));
+                startActivity(new Intent(MainActivity.this, BaiduMapActivity.class));
                 break;
         }
     }
