@@ -9,8 +9,8 @@ import android.widget.Button;
 import com.xiao.project.activity.GreenDaoActivity;
 import com.xiao.project.activity.OkHttpActivity;
 import com.xiao.project.activity.RefrshActivity;
-import com.xiao.project.activity.Scan3Activity;
 import com.xiao.project.activity.XCodeScannerActivity;
+import com.xiao.project.map.MapActivity;
 import com.xiao.project.mvp.MVPUserActivity;
 import com.xiao.project.rxjava.RxPermissionsActivity;
 import com.xiao.project.rxjava.RxjavaActivity;
@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     Button btBluetooth;
     @BindView(R.id.bt_xsl)
     Button btXsl;
+    @BindView(R.id.bt_map)
+    Button btMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick({R.id.bt_refresh, R.id.bt_okhttp, R.id.bt_scaner,
             R.id.bt_rxjava, R.id.bt_greendao, R.id.bt_permission_go,
-            R.id.bt_mvp, R.id.bt_bluetooth,R.id.bt_xsl})
+            R.id.bt_mvp, R.id.bt_bluetooth, R.id.bt_xsl,R.id.bt_map})
     public void onViewClicked(View v) {
         switch (v.getId()) {
             case R.id.bt_refresh:
@@ -78,7 +80,10 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, com.xiao.project.bluetooth.MainActivity.class));
                 break;
             case R.id.bt_xsl:
-                startActivity(new Intent(MainActivity.this,XSLActivity.class));
+                startActivity(new Intent(MainActivity.this, XSLActivity.class));
+                break;
+            case R.id.bt_map:
+                startActivity(new Intent(MainActivity.this, MapActivity.class));
                 break;
         }
     }

@@ -2,18 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.xiao.project">
-    <!--地图SDK（包含其搜索功能）需要的基础权限-->
-    <!--允许程序打开网络套接字-->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <!--允许程序设置内置sd卡的写权限-->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!--允许程序获取网络状态-->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <!--允许程序访问WiFi网络信息-->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <!--允许程序读写手机状态和身份-->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <!--允许程序访问CellID或WiFi热点来获取粗略的位置-->
+    <!-- 地图SDK（包含其搜索功能）需要的基础权限 -->
+    <!-- 允许程序打开网络套接字 -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 允许程序设置内置sd卡的写权限 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 允许程序获取网络状态 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 允许程序访问WiFi网络信息 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 允许程序读写手机状态和身份 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- 允许程序访问CellID或WiFi热点来获取粗略的位置 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
@@ -25,7 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-
+        <activity android:name=".map.MapActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,8 +40,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name="bluetooth.operation.OperationActivity" />
         <activity android:name=".toxsl.XSLActivity" />
-        <activity android:name=".activity.XCodeScannerActivity"/>
-        <activity android:name=".magicindicator.MagicIndicatorActivity"/>
+        <activity android:name=".activity.XCodeScannerActivity" />
+        <activity android:name=".magicindicator.MagicIndicatorActivity" />
         <activity android:name=".bluetooth.BluetoothOperationActivity" />
         <activity android:name=".mvvm.MVVMActivity" />
         <activity android:name=".mvp.MVPUserActivity" />
@@ -56,8 +51,7 @@
 
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="181d092cc8f8c09e4d6a63e9293b0edb"/>
-
+            android:value="181d092cc8f8c09e4d6a63e9293b0edb" />
     </application>
 
 </manifest>
