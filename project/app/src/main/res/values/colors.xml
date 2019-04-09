@@ -6,4 +6,9 @@
 
     <color name="text2">#333333</color>
     <color name="color_1c">#1CB7B1</color>
+
+    <color name="act_background">#efefef</color>
+    <color name="gary">#898989</color>
+    <color name="blue">#4c90f9</color>
+    <color name="transparent">#00000000</color>
 </resources>

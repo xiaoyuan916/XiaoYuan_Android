@@ -13,7 +13,7 @@
     <string name="firstname">FirstName:</string>
     <string name="lastname">LastName:</string>
 
-
+    <string name="no_result">对不起，没有搜索到相关数据！</string>
     <string name="notifyTitle">提示</string>
     <string name="gpsNotifyMsg">当前手机扫描蓝牙需要打开定位功能。</string>
     <string name="setting">前往设置</string>
