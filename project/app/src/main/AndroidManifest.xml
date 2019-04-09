@@ -35,8 +35,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".map.BaiduMapActivity"/>
-        <activity android:name=".map.MapActivity" />
+        <activity android:name=".map.BaiduMapActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".map.MapActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
