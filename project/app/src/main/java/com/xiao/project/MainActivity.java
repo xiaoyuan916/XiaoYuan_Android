@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, XSLActivity.class));
                 break;
             case R.id.bt_map:
-                startActivity(new Intent(MainActivity.this, BaiduMapActivity.class));
+                startActivity(new Intent(MainActivity.this, MapActivity.class));
                 break;
         }
     }
