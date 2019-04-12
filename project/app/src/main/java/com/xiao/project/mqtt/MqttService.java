@@ -447,7 +447,6 @@ public class MqttService extends Service implements MqttCallback {
             try {
                 // 发送一个心跳包，保持与服务器长连接
                 sendKeepAlive();
-                return;
             } catch (MqttConnectivityException ex) {
                 Log.d(TAG, "发送心跳包MqttConnectivityException--->" + ex.getMessage());
                 // 如果保持长连接出现异常，重新连接
