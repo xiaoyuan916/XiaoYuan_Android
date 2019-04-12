@@ -10,9 +10,8 @@ import com.xiao.project.activity.GreenDaoActivity;
 import com.xiao.project.activity.OkHttpActivity;
 import com.xiao.project.activity.RefrshActivity;
 import com.xiao.project.activity.XCodeScannerActivity;
-import com.xiao.project.map.BaiduMapActivity;
 import com.xiao.project.map.DriveRouteActivity;
-import com.xiao.project.map.MapActivity;
+import com.xiao.project.mqtt.MqttActivity;
 import com.xiao.project.mvp.MVPUserActivity;
 import com.xiao.project.rxjava.RxPermissionsActivity;
 import com.xiao.project.rxjava.RxjavaActivity;
@@ -44,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
     Button btXsl;
     @BindView(R.id.bt_map)
     Button btMap;
+    @BindView(R.id.bt_mqtt)
+    Button btMqtt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,8 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick({R.id.bt_refresh, R.id.bt_okhttp, R.id.bt_scaner,
             R.id.bt_rxjava, R.id.bt_greendao, R.id.bt_permission_go,
-            R.id.bt_mvp, R.id.bt_bluetooth, R.id.bt_xsl,R.id.bt_map})
+            R.id.bt_mvp, R.id.bt_bluetooth, R.id.bt_xsl, R.id.bt_map,
+            R.id.bt_mqtt})
     public void onViewClicked(View v) {
         switch (v.getId()) {
             case R.id.bt_refresh:
@@ -86,6 +88,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.bt_map:
                 startActivity(new Intent(MainActivity.this, DriveRouteActivity.class));
+                break;
+            case R.id.bt_mqtt:
+                startActivity(new Intent(MainActivity.this, MqttActivity.class));
                 break;
         }
     }
