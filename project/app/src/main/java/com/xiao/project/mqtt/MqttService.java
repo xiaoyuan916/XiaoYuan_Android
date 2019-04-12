@@ -148,11 +148,11 @@ public class MqttService extends Service implements MqttCallback {
     @Override
     public void onCreate() {
         super.onCreate();
-
-        mDeviceId = String.format(DEVICE_ID_FORMAT, Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID));
+        mDeviceId="JavaSampleConsumer";
+//        mDeviceId = String.format(DEVICE_ID_FORMAT, Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID));
 //        mDeviceId = SharepreferenceUtil.getDevsnno(getApplicationContext());
 //        mDeviceId= SPUtils.getString(getApplicationContext(), Constants.USER_NAME);
-//        Log.d(TAG, "mDeviceId = " + mDeviceId);
+        Log.d(TAG, "mDeviceId = " + mDeviceId);
         HandlerThread thread = new HandlerThread(MQTT_THREAD_NAME);
         thread.start();
         /**创建一个Handler*/
@@ -369,7 +369,7 @@ public class MqttService extends Service implements MqttCallback {
 //        String messageIp = SharepreferenceUtil.get(getApplicationContext());
 //        int messagePort = SharepreferenceUtil.getMessagePort(getApplicationContext());
         String messageIp="192.168.11.107";
-        int messagePort =1883;
+        int messagePort =1893;
         Log.d("server", "消息服务地址：" + messageIp + "；端口：" + messagePort);
         String url = String.format(Locale.US, MQTT_URL_FORMAT, messageIp, messagePort);
         Log.d(TAG, "Connecting with URL: " + url);
