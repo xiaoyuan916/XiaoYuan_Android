@@ -488,7 +488,7 @@ public class MqttService extends Service implements MqttCallback {
 
         if (mKeepAliveTopic == null) {
             mKeepAliveTopic = mClient.getTopic(
-                    String.format(Locale.US, MQTT_KEEP_ALIVE_TOPIC_FORAMT, mDeviceId));
+                    String.format(Locale.CHINA, MQTT_KEEP_ALIVE_TOPIC_FORAMT, mDeviceId));
         }
 
 //        String messageIp = SharepreferenceUtil.getMessageIp(getApplicationContext());
