@@ -3,6 +3,9 @@ package com.xiao.project;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 
@@ -10,12 +13,19 @@ import com.xiao.project.activity.GreenDaoActivity;
 import com.xiao.project.activity.OkHttpActivity;
 import com.xiao.project.activity.RefrshActivity;
 import com.xiao.project.activity.XCodeScannerActivity;
+import com.xiao.project.adapter.RecyclerViewAdapter;
+import com.xiao.project.bean.MainItem;
 import com.xiao.project.map.DriveRouteActivity;
 import com.xiao.project.mqtt.MqttActivity;
 import com.xiao.project.mvp.MVPUserActivity;
+import com.xiao.project.notification.NotificationActivity;
 import com.xiao.project.rxjava.RxPermissionsActivity;
 import com.xiao.project.rxjava.RxjavaActivity;
 import com.xiao.project.toxsl.XSLActivity;
+import com.xiao.project.utils.RxRecyclerViewDividerTool;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,75 +33,43 @@ import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 
-    @BindView(R.id.bt_refresh)
-    Button btRefresh;
-    @BindView(R.id.bt_okhttp)
-    Button btOkhttp;
-    @BindView(R.id.bt_scaner)
-    Button btScaner;
-    @BindView(R.id.bt_rxjava)
-    Button btRxjava;
-    @BindView(R.id.bt_greendao)
-    Button btGreendao;
-    @BindView(R.id.bt_permission_go)
-    Button btPermissionGo;
-    @BindView(R.id.bt_mvp)
-    Button btMvp;
-    @BindView(R.id.bt_bluetooth)
-    Button btBluetooth;
-    @BindView(R.id.bt_xsl)
-    Button btXsl;
-    @BindView(R.id.bt_map)
-    Button btMap;
-    @BindView(R.id.bt_mqtt)
-    Button btMqtt;
+    @BindView(R.id.recyclerview)
+    RecyclerView recyclerview;
+
+    private List<MainItem> mData = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        initData();
+        initView();
     }
 
-    @OnClick({R.id.bt_refresh, R.id.bt_okhttp, R.id.bt_scaner,
-            R.id.bt_rxjava, R.id.bt_greendao, R.id.bt_permission_go,
-            R.id.bt_mvp, R.id.bt_bluetooth, R.id.bt_xsl, R.id.bt_map,
-            R.id.bt_mqtt})
-    public void onViewClicked(View v) {
-        switch (v.getId()) {
-            case R.id.bt_refresh:
-                startActivity(new Intent(MainActivity.this, RefrshActivity.class));
-                break;
-            case R.id.bt_okhttp:
-                startActivity(new Intent(MainActivity.this, OkHttpActivity.class));
-                break;
-            case R.id.bt_scaner:
-                startActivity(new Intent(MainActivity.this, XCodeScannerActivity.class));
-                break;
-            case R.id.bt_rxjava:
-                startActivity(new Intent(MainActivity.this, RxjavaActivity.class));
-                break;
-            case R.id.bt_greendao:
-                startActivity(new Intent(MainActivity.this, GreenDaoActivity.class));
-                break;
-            case R.id.bt_permission_go:
-                startActivity(new Intent(MainActivity.this, RxPermissionsActivity.class));
-                break;
-            case R.id.bt_mvp:
-                startActivity(new Intent(MainActivity.this, MVPUserActivity.class));
-                break;
-            case R.id.bt_bluetooth:
-                startActivity(new Intent(MainActivity.this, com.xiao.project.bluetooth.MainActivity.class));
-                break;
-            case R.id.bt_xsl:
-                startActivity(new Intent(MainActivity.this, XSLActivity.class));
-                break;
-            case R.id.bt_map:
-                startActivity(new Intent(MainActivity.this, DriveRouteActivity.class));
-                break;
-            case R.id.bt_mqtt:
-                startActivity(new Intent(MainActivity.this, MqttActivity.class));
-                break;
-        }
+    private void initView() {
+        recyclerview.setLayoutManager(new GridLayoutManager(MainActivity.this, 4));
+        recyclerview.addItemDecoration(new RxRecyclerViewDividerTool(dp2px(5f)));
+        RecyclerViewAdapter recyclerViewMain = new RecyclerViewAdapter(mData);
+        recyclerview.setAdapter(recyclerViewMain);
+    }
+
+    public int dp2px(float dpValue) {
+        final float scale = MainActivity.this.getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
+
+
+    private void initData() {
+        mData.add(new MainItem("下拉刷新",RefrshActivity.class));
+        mData.add(new MainItem("网络请求",OkHttpActivity.class));
+        mData.add(new MainItem("扫描",XCodeScannerActivity.class));
+        mData.add(new MainItem("GreenDao使用",GreenDaoActivity.class));
+        mData.add(new MainItem("RxPermissions",RxPermissionsActivity.class));
+        mData.add(new MainItem("bluetooth",com.xiao.project.bluetooth.MainActivity.class));
+        mData.add(new MainItem("XSL使用",XSLActivity.class));
+        mData.add(new MainItem("地图使用",DriveRouteActivity.class));
+        mData.add(new MainItem("Mqtt协议",MqttActivity.class));
+        mData.add(new MainItem("通知栏", NotificationActivity.class));
     }
 }

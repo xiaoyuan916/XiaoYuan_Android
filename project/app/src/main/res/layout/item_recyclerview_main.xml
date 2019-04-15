@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingEnd="0dp"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingStart="0dp"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="3dp">
+
+    <Button
+        android:id="@+id/bt_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="跳转" />
+
+</android.support.v7.widget.CardView>

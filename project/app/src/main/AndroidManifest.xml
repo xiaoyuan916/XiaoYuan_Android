@@ -25,7 +25,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".mqtt.MqttActivity"></activity>
+        <activity android:name=".notification.NotificationActivity"></activity>
+        <activity android:name=".mqtt.MqttActivity" />
         <activity
             android:name=".map.BaiduMapActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -74,8 +75,7 @@
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" />
-        <service
-            android:name=".mqtt.MqttService" />
+        <service android:name=".mqtt.MqttService" />
     </application>
 
 </manifest>
