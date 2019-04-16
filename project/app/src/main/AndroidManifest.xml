@@ -25,7 +25,24 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".notification.NotificationActivity"/>
+        <activity android:name=".messenger.MessengerActivity"></activity>
+
+        <service
+            android:name=".messenger.MessengerService"
+            android:enabled="false"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.xxyuan.aidl.calc"></action>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".socket.TCPServerService"
+            android:enabled="false"
+            android:exported="false" />
+
+        <activity android:name=".socket.TcpClientActivity" />
+        <activity android:name=".notification.NotificationActivity" />
         <activity android:name=".mqtt.MqttActivity" />
         <activity
             android:name=".map.BaiduMapActivity"
