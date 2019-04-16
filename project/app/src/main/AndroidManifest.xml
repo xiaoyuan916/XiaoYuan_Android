@@ -25,7 +25,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".notification.NotificationActivity"></activity>
+        <activity android:name=".notification.NotificationActivity"/>
         <activity android:name=".mqtt.MqttActivity" />
         <activity
             android:name=".map.BaiduMapActivity"
