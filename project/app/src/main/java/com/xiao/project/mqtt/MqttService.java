@@ -16,16 +16,17 @@ import android.provider.Settings;
 import android.util.Log;
 
 
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
-import org.eclipse.paho.client.mqttv3.MqttDefaultFilePersistence;
 import org.eclipse.paho.client.mqttv3.MqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.MqttPersistenceException;
 import org.eclipse.paho.client.mqttv3.MqttTopic;
-import org.eclipse.paho.client.mqttv3.internal.MemoryPersistence;
+import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
+import org.eclipse.paho.client.mqttv3.persist.MqttDefaultFilePersistence;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.Locale;
@@ -161,7 +162,7 @@ public class MqttService extends Service implements MqttCallback {
         try {
             /**新建一个本地临时存储数据的目录，该目录存储将要发送到服务器的数据，直到数据被发送到服务器*/
             mDataStore = new MqttDefaultFilePersistence(getCacheDir().getAbsolutePath());
-        } catch (MqttPersistenceException e) {
+        } catch (Exception e) {
             /**新建一个内存临时存储数据的目录*/
             mDataStore = null;
             mMemStore = new MemoryPersistence();
@@ -243,38 +244,34 @@ public class MqttService extends Service implements MqttCallback {
         }
     }
 
+    @Override
+    public void messageArrived(String topic, MqttMessage message) throws Exception {
+        messageArrived2(topic,message);
+    }
+
+    @Override
+    public void deliveryComplete(IMqttDeliveryToken token) {
+
+    }
+
     /**
      * 接收到服务器推送来的消息，收到消息后的MqttCallback回调
      */
-    @Override
-    public void messageArrived(MqttTopic topic, MqttMessage message) {
+    public void messageArrived2(String topic, MqttMessage message) {
         String msg = null;
         try {
             msg = new String(message.getPayload());
             // 接收到推送消息
             Log.d(TAG, "收到服务器端的消息推送");
-            Log.d(TAG, "  Topic:\t" + topic.getName() +
+            Log.d(TAG, "  Topic:\t" + topic +
                     "  Message:\t" + msg +
                     "  QoS:\t" + message.getQos());
 
             EventBus.getDefault().postSticky(message);
 
-        } catch (MqttException e) {
-            Log.d(TAG, "messageArrived接收消息异常MqttException：" + e.getMessage());
         } catch (Exception e) {
-            Log.d(TAG, "messageArrived接收消息异常Exception：" + e.getMessage());
+            Log.d(TAG, "messageArrived接收消息异常MqttException：" + e.getMessage());
         }
-
-    }
-
-
-    /**
-     * 消息发送完成
-     * Publish Message Completion
-     */
-    @Override
-    public void deliveryComplete(MqttDeliveryToken arg0) {
-        Log.d(TAG, "消息发送完成");
     }
 
     /**
