@@ -40,5 +40,7 @@ public class MqttActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Intent i = new Intent(this, MQTTService.class);
+        stopService(i);
     }
 }
