@@ -1,4 +1,4 @@
-package com.xiao.project.messenger;
+package com.xxyuan.service;
 
 import android.app.Service;
 import android.content.Intent;
@@ -8,13 +8,10 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
-import android.provider.SyncStateContract;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.xiao.project.conf.Constants;
 
-import io.reactivex.annotations.Nullable;
 
 public class MessengerService extends Service {
     private static final String TAG = MessengerService.class.getSimpleName();
@@ -48,7 +45,6 @@ public class MessengerService extends Service {
 
     private Messenger mMessenger = new Messenger(new MessengerHandler());
 
-    @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return mMessenger.getBinder();

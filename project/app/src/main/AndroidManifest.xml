@@ -25,17 +25,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".messenger.MessengerActivity"></activity>
+        <activity android:name=".messenger.MessengerActivity"/>
 
-        <service
-            android:name=".messenger.MessengerService"
-            android:enabled="false"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.xxyuan.aidl.calc"></action>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </service>
         <service
             android:name=".socket.TCPServerService"
             android:enabled="false"

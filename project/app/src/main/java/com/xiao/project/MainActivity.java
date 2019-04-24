@@ -1,13 +1,9 @@
 package com.xiao.project;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.Button;
 
 import com.xiao.project.activity.GreenDaoActivity;
 import com.xiao.project.activity.OkHttpActivity;
@@ -16,11 +12,10 @@ import com.xiao.project.activity.XCodeScannerActivity;
 import com.xiao.project.adapter.RecyclerViewAdapter;
 import com.xiao.project.bean.MainItem;
 import com.xiao.project.map.DriveRouteActivity;
+import com.xiao.project.messenger.MessengerActivity;
 import com.xiao.project.mqtt.MqttActivity;
-import com.xiao.project.mvp.MVPUserActivity;
 import com.xiao.project.notification.NotificationActivity;
 import com.xiao.project.rxjava.RxPermissionsActivity;
-import com.xiao.project.rxjava.RxjavaActivity;
 import com.xiao.project.socket.TcpClientActivity;
 import com.xiao.project.toxsl.XSLActivity;
 import com.xiao.project.utils.RxRecyclerViewDividerTool;
@@ -73,5 +68,6 @@ public class MainActivity extends AppCompatActivity {
         mData.add(new MainItem("Mqtt协议",MqttActivity.class));
         mData.add(new MainItem("通知栏", NotificationActivity.class));
         mData.add(new MainItem("socket编程", TcpClientActivity.class));
+        mData.add(new MainItem("messenger使用", MessengerActivity.class));
     }
 }
