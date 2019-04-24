@@ -30,7 +30,7 @@ public class MessengerService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
+        Log.d(TAG, "MessengerService的onStartCommand的startId:" + startId);
         return START_STICKY;
     }
 
@@ -49,26 +49,26 @@ public class MessengerService extends Service {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-
             switch (msg.what) {
                 case MSG_FROM_CLIENT:
-                    Log.i(TAG,"Message from client = " + msg.getData().getString("msg"));
-                    Message serviceMsg = Message.obtain();
-                    serviceMsg.what = MSG_FROM_SERVICE;
-                    Bundle data = new Bundle();
-                    data.putString("msg","service端消息");
-                    serviceMsg.setData(data);
-                    if(msg.replyTo != null){
-                        try {
-                            msg.replyTo.send(serviceMsg);
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
+                    Log.i(TAG, "Message from client = " + msg.getData().getString("msg"));
+                    recMsg(msg);
                     break;
-                default:
-                    //do nothing
+            }
+        }
+    }
+
+    private static void recMsg(Message msg) {
+        Message serviceMsg = Message.obtain();
+        serviceMsg.what = MSG_FROM_SERVICE;
+        Bundle data = new Bundle();
+        data.putString("msg", "service端消息");
+        serviceMsg.setData(data);
+        if (msg.replyTo != null) {
+            try {
+                msg.replyTo.send(serviceMsg);
+            } catch (RemoteException e) {
+                e.printStackTrace();
             }
         }
     }
