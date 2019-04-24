@@ -31,17 +31,16 @@ public class MessengerActivity extends AppCompatActivity {
 
     @BindView(R.id.bt_send_messenger_msg)
     Button btSendMessengerMsg;
+    private MessengerController mController;
 
-    private Messenger mClientMessenger;
-    private Messenger mServiceMessenger;
 
-    private static class MessengerHandler extends Handler {
+    private class MessengerHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
                 case MSG_FROM_SERVICE:
-                    Log.i(TAG,"Message from service = " + msg.getData().getString("msg"));
+                    Log.i(TAG, "Message from service = " + msg.getData().getString("msg"));
                     break;
             }
         }
@@ -52,66 +51,31 @@ public class MessengerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_messenger);
         ButterKnife.bind(this);
-        mClientMessenger = new Messenger(new MessengerHandler());
         bindService();
     }
 
     public void bindService() {
-        Intent intent = new Intent();
-        intent.setComponent(new ComponentName("com.xxyuan.service", "com.xxyuan.service.MessengerService"));
-        intent.setPackage(this.getPackageName());    //兼容Android 5.0
-        bindService(intent, mServiceConnection, Context.BIND_AUTO_CREATE);
+        mController = new MessengerController(new MessengerHandler());
+        String pageName="com.xxyuan.service";
+        String className="com.xxyuan.service.MessengerService";
+        mController.bindService(this,pageName,className);
     }
 
     @OnClick({R.id.bt_send_messenger_msg})
     public void onClickViewed(View v) {
         switch (v.getId()) {
             case R.id.bt_send_messenger_msg:
-                sendMessage();
+                mController.sendMessage("客户端消息");
                 break;
         }
     }
 
-    public void sendMessage() {
-        Message clientMsg = Message.obtain();
-        clientMsg.what = MSG_FROM_CLIENT;
-        clientMsg.replyTo = mClientMessenger;
-        Bundle data = new Bundle();
-        data.putString("msg","客户端消息");
-        clientMsg.setData(data);
-        if(mServiceMessenger != null) {
-            try {
-                mServiceMessenger.send(clientMsg);
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+
 
     @Override
     protected void onDestroy() {
-        unbindService(mServiceConnection);
+        mController.unbindService(this);
         super.onDestroy();
     }
 
-    private ServiceConnection mServiceConnection = new ServiceConnection() {
-        /**
-         * @param name
-         * @param service
-         */
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            Log.i(TAG,"绑定成功 name = " + name.toString());
-            mServiceMessenger = new Messenger(service);
-        }
-
-        /**
-         * @param name
-         */
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            Log.i(TAG,"绑定失败 name = " + name.toString());
-            mServiceMessenger = null;
-        }
-    };
 }
