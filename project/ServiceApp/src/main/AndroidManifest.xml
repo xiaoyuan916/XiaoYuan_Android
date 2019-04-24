@@ -20,12 +20,8 @@
         </activity>
         <service
             android:name=".MessengerService"
-            android:enabled="false"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.xxyuan.aidl.calc" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
+            android:enabled="true"
+            android:exported="true">
         </service>
     </application>
 
