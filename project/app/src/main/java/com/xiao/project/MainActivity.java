@@ -10,6 +10,7 @@ import com.xiao.project.activity.OkHttpActivity;
 import com.xiao.project.activity.RefrshActivity;
 import com.xiao.project.activity.XCodeScannerActivity;
 import com.xiao.project.adapter.RecyclerViewAdapter;
+import com.xiao.project.aidl.AIDLActivity;
 import com.xiao.project.bean.MainItem;
 import com.xiao.project.map.DriveRouteActivity;
 import com.xiao.project.messenger.MessengerActivity;
@@ -69,5 +70,6 @@ public class MainActivity extends AppCompatActivity {
         mData.add(new MainItem("通知栏", NotificationActivity.class));
         mData.add(new MainItem("socket编程", TcpClientActivity.class));
         mData.add(new MainItem("messenger使用", MessengerActivity.class));
+        mData.add(new MainItem("AIDL使用", AIDLActivity.class));
     }
 }

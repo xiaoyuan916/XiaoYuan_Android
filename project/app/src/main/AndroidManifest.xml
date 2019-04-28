@@ -25,7 +25,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".messenger.MessengerActivity"/>
+        <activity android:name=".aidl.AIDLActivity"></activity>
+        <activity android:name=".messenger.MessengerActivity" />
 
         <service
             android:name=".socket.TCPServerService"
@@ -83,12 +84,9 @@
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" />
-        <service android:name=".mqtt.MqttService" />
-        <!-- 这个service 必须要注册哈！！！ -->
-        <service android:name="org.eclipse.paho.android.service.MqttService" />
-        <!-- 这个service是自己写的 -->
+        <service android:name=".mqtt.MqttService" /> <!-- 这个service 必须要注册哈！！！ -->
+        <service android:name="org.eclipse.paho.android.service.MqttService" /> <!-- 这个service是自己写的 -->
         <service android:name=".websocket.MQTTService" />
-
     </application>
 
 </manifest>
