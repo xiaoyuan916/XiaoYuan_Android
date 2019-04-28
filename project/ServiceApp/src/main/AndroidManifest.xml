@@ -26,11 +26,12 @@
             android:exported="true" />
 
         <service
-            android:name="com.xxyuan.service.AIDLService"
+            android:name=".AIDLService"
+            android:enabled="true"
             android:process=":remote"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.xxyuan.service.AIDLService.action" />
+                <action android:name="AIDLService.action" />
             </intent-filter>
         </service>
     </application>

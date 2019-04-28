@@ -49,8 +49,8 @@ public class AIDLActivity extends AppCompatActivity {
 
     private void bindService() {
         Intent intent = new Intent();
-        intent.setClassName("com.xxyuan.service.aidl", "AIDLService");
-        intent.setAction("com.xxyuan.service.AIDLService.action");
+//        intent.setClassName("com.xxyuan.service.aidl", "AIDLService");
+        intent.setAction("AIDLService.action");
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setPackage(this.getPackageName());    //从 Android 5.0开始 隐式Intent绑定服务的方式已不能使用,所以这里需要设置Service所在服务端的包名
         bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
