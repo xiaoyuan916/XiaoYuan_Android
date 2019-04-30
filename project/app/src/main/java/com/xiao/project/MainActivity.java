@@ -10,15 +10,15 @@ import com.xiao.project.activity.OkHttpActivity;
 import com.xiao.project.activity.RefrshActivity;
 import com.xiao.project.activity.XCodeScannerActivity;
 import com.xiao.project.adapter.RecyclerViewAdapter;
-import com.xiao.project.aidl.AIDLActivity;
+import com.xiao.project.ui.aidl.AIDLActivity;
 import com.xiao.project.bean.MainItem;
-import com.xiao.project.map.DriveRouteActivity;
-import com.xiao.project.messenger.MessengerActivity;
-import com.xiao.project.mqtt.MqttActivity;
-import com.xiao.project.notification.NotificationActivity;
-import com.xiao.project.rxjava.RxPermissionsActivity;
-import com.xiao.project.socket.TcpClientActivity;
-import com.xiao.project.toxsl.XSLActivity;
+import com.xiao.project.ui.map.DriveRouteActivity;
+import com.xiao.project.ui.messenger.MessengerActivity;
+import com.xiao.project.ui.mqtt.MqttActivity;
+import com.xiao.project.ui.notification.NotificationActivity;
+import com.xiao.project.ui.rxjava.RxPermissionsActivity;
+import com.xiao.project.ui.socket.TcpClientActivity;
+import com.xiao.project.ui.toxsl.XSLActivity;
 import com.xiao.project.utils.RxRecyclerViewDividerTool;
 
 import java.util.ArrayList;
@@ -26,7 +26,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 

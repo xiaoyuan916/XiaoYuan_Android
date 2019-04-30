@@ -25,22 +25,23 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".aidl.AIDLActivity"></activity>
-        <activity android:name=".messenger.MessengerActivity" />
+        <activity android:name=".ui.tcp.TcpActivity"></activity>
+        <activity android:name=".ui.aidl.AIDLActivity" />
+        <activity android:name=".ui.messenger.MessengerActivity" />
 
         <service
-            android:name=".socket.TCPServerService"
+            android:name=".ui.socket.TCPServerService"
             android:enabled="false"
             android:exported="false" />
 
-        <activity android:name=".socket.TcpClientActivity" />
-        <activity android:name=".notification.NotificationActivity" />
-        <activity android:name=".mqtt.MqttActivity" />
+        <activity android:name=".ui.socket.TcpClientActivity" />
+        <activity android:name=".ui.notification.NotificationActivity" />
+        <activity android:name=".ui.mqtt.MqttActivity" />
         <activity
-            android:name=".map.BaiduMapActivity"
+            android:name=".ui.map.BaiduMapActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".map.MapActivity"
+            android:name=".ui.map.MapActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -60,17 +61,17 @@
             android:name=".bluetooth.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name="bluetooth.operation.OperationActivity" />
-        <activity android:name=".toxsl.XSLActivity" />
+        <activity android:name=".ui.toxsl.XSLActivity" />
         <activity android:name=".activity.XCodeScannerActivity" />
-        <activity android:name=".magicindicator.MagicIndicatorActivity" />
+        <activity android:name=".ui.magicindicator.MagicIndicatorActivity" />
         <activity android:name=".bluetooth.BluetoothOperationActivity" />
-        <activity android:name=".mvvm.MVVMActivity" />
-        <activity android:name=".mvp.MVPUserActivity" />
-        <activity android:name=".rxjava.RxPermissionsActivity" />
+        <activity android:name=".ui.mvvm.MVVMActivity" />
+        <activity android:name=".ui.mvp.MVPUserActivity" />
+        <activity android:name=".ui.rxjava.RxPermissionsActivity" />
         <activity android:name=".activity.GreenDaoActivity" />
-        <activity android:name=".rxjava.RxjavaActivity" />
+        <activity android:name=".ui.rxjava.RxjavaActivity" />
         <activity
-            android:name=".map.DriveRouteActivity"
+            android:name=".ui.map.DriveRouteActivity"
             android:screenOrientation="portrait" />
 
         <meta-data
@@ -84,9 +85,9 @@
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" />
-        <service android:name=".mqtt.MqttService" /> <!-- 这个service 必须要注册哈！！！ -->
+        <service android:name=".ui.mqtt.MqttService" /> <!-- 这个service 必须要注册哈！！！ -->
         <service android:name="org.eclipse.paho.android.service.MqttService" /> <!-- 这个service是自己写的 -->
-        <service android:name=".websocket.MQTTService" />
+        <service android:name=".service.websocket.MQTTService" />
     </application>
 
 </manifest>
