@@ -70,5 +70,6 @@ public class MainActivity extends AppCompatActivity {
         mData.add(new MainItem("socket编程", TcpClientActivity.class));
         mData.add(new MainItem("messenger使用", MessengerActivity.class));
         mData.add(new MainItem("AIDL使用", AIDLActivity.class));
+        mData.add(new MainItem("dsbrige使用", com.xiao.project.ui.dsbridge.MainActivity.class));
     }
 }

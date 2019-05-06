@@ -88,6 +88,11 @@
         <service android:name=".ui.mqtt.MqttService" /> <!-- 这个service 必须要注册哈！！！ -->
         <service android:name="org.eclipse.paho.android.service.MqttService" /> <!-- 这个service是自己写的 -->
         <service android:name=".service.websocket.MQTTService" />
+
+        <activity android:name=".ui.dsbridge.MainActivity"/>
+        <activity android:name=".ui.dsbridge.CallJavascriptActivity" />
+        <activity android:name=".ui.dsbridge.JavascriptCallNativeActivity" />
+        <activity android:name=".ui.dsbridge.WrokWithFlyioTestActivity"/>
     </application>
 
 </manifest>
