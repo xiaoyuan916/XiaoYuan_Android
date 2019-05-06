@@ -16,6 +16,7 @@ import wendu.dsbridge.CompletionHandler;
 public class JsApi{
     @JavascriptInterface
     public String testSyn(Object msg)  {
+        //js和java之间只能用string和int传递数据
         Log.d(getClass().getSimpleName(),msg+"");
         return msg + "［syn call］";
     }
