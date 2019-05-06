@@ -100,7 +100,7 @@ public class AjaxHandler {
                     responseData.put("statusCode",response.code());
                     responseData.put("statusMessage",response.message());
                     Map<String, List<String>> responseHeaders= response.headers().toMultimap();
-                    responseHeaders.remove(null);
+                     responseHeaders.clear();
                     responseData.put("headers",responseHeaders);
                     handler.complete(new JSONObject(responseData).toString());
                 }
