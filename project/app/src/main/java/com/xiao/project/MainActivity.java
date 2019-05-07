@@ -18,6 +18,7 @@ import com.xiao.project.ui.mqtt.MqttActivity;
 import com.xiao.project.ui.notification.NotificationActivity;
 import com.xiao.project.ui.rxjava.RxPermissionsActivity;
 import com.xiao.project.ui.socket.TcpClientActivity;
+import com.xiao.project.ui.tcp.TcpActivity;
 import com.xiao.project.ui.toxsl.XSLActivity;
 import com.xiao.project.utils.RxRecyclerViewDividerTool;
 
@@ -67,9 +68,10 @@ public class MainActivity extends AppCompatActivity {
         mData.add(new MainItem("地图使用",DriveRouteActivity.class));
         mData.add(new MainItem("Mqtt协议",MqttActivity.class));
         mData.add(new MainItem("通知栏", NotificationActivity.class));
-        mData.add(new MainItem("socket编程", TcpClientActivity.class));
+//        mData.add(new MainItem("socket编程", TcpClientActivity.class));
         mData.add(new MainItem("messenger使用", MessengerActivity.class));
         mData.add(new MainItem("AIDL使用", AIDLActivity.class));
         mData.add(new MainItem("dsbrige使用", com.xiao.project.ui.dsbridge.MainActivity.class));
+        mData.add(new MainItem("Tcp使用", TcpActivity.class));
     }
 }

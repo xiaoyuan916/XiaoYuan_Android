@@ -17,7 +17,7 @@ import java.net.Socket;
 
 public class TcpClient implements Runnable {
     private String TAG = "TcpClient";
-    private String serverIP = "192.168.88.141";
+    private String serverIP = "127.0.0.1";
     private int serverPort = 1234;
     private PrintWriter pw;
     private InputStream is;
