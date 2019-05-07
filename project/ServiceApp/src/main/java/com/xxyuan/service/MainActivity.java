@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Button;
 
+import com.xxyuan.service.tcpserver.ClientManager;
 import com.xxyuan.service.tcpserver.TcpServer;
 
 import java.util.concurrent.ExecutorService;
@@ -23,9 +24,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        ExecutorService exec = Executors.newCachedThreadPool();
-        Log.i("A", "onClick: 开始");
-        tcpServer = new TcpServer(1234);
-        exec.execute(tcpServer);
+//        ExecutorService exec = Executors.newCachedThreadPool();
+//        Log.i("A", "onClick: 开始");
+        ClientManager.startServer(this);
+//        exec.execute(tcpServer);
     }
 }
