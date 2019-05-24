@@ -25,7 +25,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.tcp.TcpActivity"></activity>
+        <activity android:name=".ui.activity.BusViewActivity"></activity>
+        <activity android:name=".ui.tcp.TcpActivity" />
         <activity android:name=".ui.aidl.AIDLActivity" />
         <activity android:name=".ui.messenger.MessengerActivity" />
 
@@ -89,10 +90,10 @@
         <service android:name="org.eclipse.paho.android.service.MqttService" /> <!-- 这个service是自己写的 -->
         <service android:name=".service.websocket.MQTTService" />
 
-        <activity android:name=".ui.dsbridge.MainActivity"/>
+        <activity android:name=".ui.dsbridge.MainActivity" />
         <activity android:name=".ui.dsbridge.CallJavascriptActivity" />
         <activity android:name=".ui.dsbridge.JavascriptCallNativeActivity" />
-        <activity android:name=".ui.dsbridge.WrokWithFlyioTestActivity"/>
+        <activity android:name=".ui.dsbridge.WrokWithFlyioTestActivity" />
     </application>
 
 </manifest>
