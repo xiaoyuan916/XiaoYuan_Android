@@ -5,6 +5,10 @@ package com.xiao.project.db;
  * Created by hp on 2018/1/23.
  */
 
+/**
+ * Created by hp on 2018/1/23.
+ */
+
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -17,7 +21,7 @@ public class DbManager {
     // 是否加密
     public static final boolean ENCRYPTED = true;
 
-    private static final String DB_NAME = "jszp.db";
+    private static final String DB_NAME = "project.db";
     private static DbManager mDbManager;
     private static DaoMaster.DevOpenHelper mDevOpenHelper;
     private static DaoMaster mDaoMaster;
@@ -83,7 +87,8 @@ public class DbManager {
         if (null == mDaoMaster) {
             synchronized (DbManager.class) {
                 if (null == mDaoMaster) {
-                    MyOpenHelper helper = new MyOpenHelper(context,DB_NAME,null);
+//                    MyOpenHelper helper = new MyOpenHelper(context,DB_NAME,null);
+                    DaoMaster.OpenHelper helper = new DaoMaster.DevOpenHelper(context,DB_NAME);
                     mDaoMaster = new DaoMaster(helper.getWritableDatabase());
                 }
             }
