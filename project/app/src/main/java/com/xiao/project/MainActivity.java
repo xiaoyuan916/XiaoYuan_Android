@@ -18,6 +18,7 @@ import com.xiao.project.ui.map.DriveRouteActivity;
 import com.xiao.project.ui.messenger.MessengerActivity;
 import com.xiao.project.ui.mqtt.MqttActivity;
 import com.xiao.project.ui.notification.NotificationActivity;
+import com.xiao.project.ui.okgo.OkGoDownActivity;
 import com.xiao.project.ui.rxjava.RxPermissionsActivity;
 import com.xiao.project.ui.socket.TcpClientActivity;
 import com.xiao.project.ui.tcp.TcpActivity;
@@ -77,6 +78,6 @@ public class MainActivity extends AppCompatActivity {
         mData.add(new MainItem("Tcp使用", TcpActivity.class));
         mData.add(new MainItem("busview显示", BusViewActivity.class));
         mData.add(new MainItem("Retrofit使用", RetrofitActivity.class));
-
+        mData.add(new MainItem("okgodown使用", OkGoDownActivity.class));
     }
 }
