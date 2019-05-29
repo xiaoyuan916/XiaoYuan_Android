@@ -49,6 +49,8 @@ dependencies {
     implementation 'com.orhanobut:logger:2.2.0'
     //retrofit2加入
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    //将刚才添加的retrofit依赖库中的retrofit替换成converter-gson即可
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
     //rxjava
     implementation 'io.reactivex.rxjava2:rxjava:2.2.2'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'

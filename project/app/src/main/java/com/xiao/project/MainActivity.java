@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import com.xiao.project.activity.GreenDaoActivity;
 import com.xiao.project.activity.OkHttpActivity;
 import com.xiao.project.activity.RefrshActivity;
+import com.xiao.project.activity.RetrofitActivity;
 import com.xiao.project.activity.XCodeScannerActivity;
 import com.xiao.project.adapter.RecyclerViewAdapter;
 import com.xiao.project.ui.activity.BusViewActivity;
@@ -75,5 +76,7 @@ public class MainActivity extends AppCompatActivity {
         mData.add(new MainItem("dsbrige使用", com.xiao.project.ui.dsbridge.MainActivity.class));
         mData.add(new MainItem("Tcp使用", TcpActivity.class));
         mData.add(new MainItem("busview显示", BusViewActivity.class));
+        mData.add(new MainItem("Retrofit使用", RetrofitActivity.class));
+
     }
 }
