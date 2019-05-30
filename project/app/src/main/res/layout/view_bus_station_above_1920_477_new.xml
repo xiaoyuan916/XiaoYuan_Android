@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="195px"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="185px"
+        android:layout_marginLeft="0dp"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/tv_station_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:ems="1"
+            android:gravity="bottom"
+            android:paddingBottom="8px"
+            android:maxLines="7"
+            android:text="南三"
+            android:textColor="@color/general_font_color_black"
+            android:textSize="22px"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_station_no"
+            android:layout_width="wrap_content"
+            android:layout_height="1px"
+            android:textSize="1px"
+            android:visibility="gone"/>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_station_dot"
+        android:layout_width="11px"
+        android:layout_height="11px"
+        android:layout_marginLeft="6px"
+        android:background="@drawable/station_dot_black_u_new_1920_477" />
+
+</LinearLayout>

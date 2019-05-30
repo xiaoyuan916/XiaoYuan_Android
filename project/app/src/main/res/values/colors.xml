@@ -11,4 +11,6 @@
     <color name="gary">#898989</color>
     <color name="blue">#4c90f9</color>
     <color name="transparent">#00000000</color>
+    <!-- 通用的字体颜色。（黑色） -->
+    <color name="general_font_color_black">#000000</color>
 </resources>

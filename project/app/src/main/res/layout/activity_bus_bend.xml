@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="422px"
+    android:layout_marginTop="4px"
+    android:background="@drawable/bg_line_u_1920_477"
+    xmlns:my_attr="http://schemas.android.com/apk/res/com.xiao.project"
+    tools:context=".ui.activity.BusBendActivity">
+
+    <ImageView
+        android:id="@+id/iv_origin_station"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="38px"
+        android:layout_marginTop="178px"
+        android:src="@drawable/origin_station_horizontal_u_1920_477_new" />
+
+    <ImageView
+        android:id="@+id/iv_terminal_station"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="38px"
+        android:layout_marginTop="210px"
+        android:src="@drawable/terminal_station_horizontal_u_1920_477_new" />
+
+    <LinearLayout
+        android:id="@+id/ll_above"
+        android:layout_width="match_parent"
+        android:layout_height="195px"
+        android:layout_marginLeft="85px"
+        android:layout_marginRight="65px"
+        android:layout_marginTop="4px"
+        android:orientation="horizontal"
+        android:visibility="visible" >
+
+        <com.xiao.project.widget.BusStationViewAbove
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            my_attr:stationDot="@drawable/station_dot_black"
+            my_attr:stationNameText="啊南三环大学路站1"
+            my_attr:stationNameTextColor="@color/general_font_color_black" />
+
+        <com.xiao.project.widget.BusStationViewAbove
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            my_attr:stationDot="@drawable/station_dot_black"
+            my_attr:stationNameText="南三环大学路站2"
+            my_attr:stationNameTextColor="@color/general_font_color_black" />
+
+        <com.xiao.project.widget.BusStationViewAbove
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            my_attr:stationDot="@drawable/station_dot_black"
+            my_attr:stationNameText="大学路站3"
+            my_attr:stationNameTextColor="@color/general_font_color_black" />
+
+        <com.xiao.project.widget.BusStationViewAbove
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            my_attr:stationDot="@drawable/station_dot_black"
+            my_attr:stationNameText="南三环大学路站4"
+            my_attr:stationNameTextColor="@color/general_font_color_black" />
+
+        <com.xiao.project.widget.BusStationViewAbove
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            my_attr:stationDot="@drawable/station_dot_black"
+            my_attr:stationNameText="南三环大学路站5"
+            my_attr:stationNameTextColor="@color/general_font_color_black" />
+
+        <com.xiao.project.widget.BusStationViewAbove
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            my_attr:stationDot="@drawable/station_dot_black"
+            my_attr:stationNameText="南三环大学路站5"
+            my_attr:stationNameTextColor="@color/general_font_color_black" />
+
+        <com.xiao.project.widget.BusStationViewAbove
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            my_attr:stationDot="@drawable/dot_black"
+            my_attr:stationNameText="学路站6"
+            my_attr:stationNameTextColor="@color/general_font_color_black" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_nether"
+        android:layout_width="match_parent"
+        android:layout_height="195px"
+        android:layout_marginTop="220px"
+        android:orientation="horizontal"
+        android:paddingLeft="85px"
+        android:paddingRight="65px"
+        android:visibility="visible" >
+
+        <com.xiao.project.widget.BusStationViewNether
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            my_attr:stationDot="@drawable/station_dot_black"
+            my_attr:stationNameText="12南三环大学路站啊"
+            my_attr:stationNameTextColor="@color/general_font_color_black" />
+
+        <com.xiao.project.widget.BusStationViewNether
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            my_attr:stationDot="@drawable/station_dot_black"
+            my_attr:stationNameText="11南三环大学路站"
+            my_attr:stationNameTextColor="@color/general_font_color_black" />
+
+        <com.xiao.project.widget.BusStationViewNether
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            my_attr:stationDot="@drawable/station_dot_black"
+            my_attr:stationNameText="10南三环大学路站"
+            my_attr:stationNameTextColor="@color/general_font_color_black" />
+
+        <com.xiao.project.widget.BusStationViewNether
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            my_attr:stationDot="@drawable/station_dot_black"
+            my_attr:stationNameText="9南三环大学路站"
+            my_attr:stationNameTextColor="@color/general_font_color_black" />
+
+        <com.xiao.project.widget.BusStationViewNether
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            my_attr:stationDot="@drawable/station_dot_black"
+            my_attr:stationNameText="8南三环大学路站"
+            my_attr:stationNameTextColor="@color/general_font_color_black" />
+
+        <com.xiao.project.widget.BusStationViewNether
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            my_attr:stationDot="@drawable/dot_black"
+            my_attr:stationNameText="7南三环大学路站"
+            my_attr:stationNameTextColor="@color/general_font_color_black" />
+    </LinearLayout>
+</RelativeLayout>

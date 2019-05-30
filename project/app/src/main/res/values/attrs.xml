@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 模仿系统 实现了一个自定义的属性集 -->
+    <declare-styleable name="bus_station_view">
+        <attr name="originTerminalStationVisibility">
+            <enum name="visible" value="0"></enum>
+            <enum name="invisible" value="1"></enum>
+            <enum name="gone" value="2"></enum>
+        </attr>
+        <attr name="originTerminalStation" format="reference" />
+        <attr name="stationDot" format="reference"></attr>
+        <attr name="stationNameText" format="string"></attr>
+        <attr name="stationNoText" format="string"></attr>
+        <attr name="stationNameTextColor" format="color"></attr>
+    </declare-styleable>
+
+    <!--  -->
+    <declare-styleable name="next_bus_station_view">
+        <attr name="nextStationArrows" format="reference" />
+        <attr name="nextStationTextSize" format="dimension"></attr>
+        <attr name="nextStationText" format="string"></attr>
+        <attr name="canTransferText" format="string"></attr>
+    </declare-styleable>
+
+
+</resources>
