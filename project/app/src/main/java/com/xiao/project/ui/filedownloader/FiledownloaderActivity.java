@@ -51,11 +51,11 @@ public class FiledownloaderActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         llsApkFilePath = Environment.getExternalStorageDirectory()
-                .getAbsolutePath() + "/down/LLS-v4.0-595-20160908-143200.apk";
+                .getAbsolutePath() + "/down";
 
     }
 
-    @OnClick({R.id.start_btn_1})
+    @OnClick({R.id.start_btn_1,R.id.pause_btn_1,R.id.delete_btn_1})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.start_btn_1:
@@ -65,7 +65,7 @@ public class FiledownloaderActivity extends AppCompatActivity {
                 FileDownloader.getImpl().pause(baseDownloadId);
                 break;
             case R.id.delete_btn_1:
-                new File(llsApkFilePath).delete();
+//                new File(llsApkFilePath).delete();
                 break;
         }
     }
@@ -73,7 +73,7 @@ public class FiledownloaderActivity extends AppCompatActivity {
     private void downFile() {
         baseDownloadId = FileDownloader.getImpl()
                 .create(Constant.LIULISHUO_APK_URL)
-                .setPath(llsApkFilePath, false)
+                .setPath(llsApkFilePath, true)
                 .setListener(new SingleFileDownloadListener()).start();
     }
 }

@@ -16,6 +16,7 @@ import com.xiao.project.ui.activity.BusViewActivity;
 import com.xiao.project.ui.aidl.AIDLActivity;
 import com.xiao.project.bean.MainItem;
 import com.xiao.project.ui.filedownloader.FiledownloaderActivity;
+import com.xiao.project.ui.filedownloader.FilesDownLoaderActivity;
 import com.xiao.project.ui.map.DriveRouteActivity;
 import com.xiao.project.ui.messenger.MessengerActivity;
 import com.xiao.project.ui.mqtt.MqttActivity;
@@ -81,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
         mData.add(new MainItem("busview显示", BusViewActivity.class));
         mData.add(new MainItem("Retrofit使用", RetrofitActivity.class));
         mData.add(new MainItem("弯型busview使用", BusBendActivity.class));
-        mData.add(new MainItem("filedownloader使用", FiledownloaderActivity.class));
+        mData.add(new MainItem("filedownloader使用多任务", FilesDownLoaderActivity.class));
+
     }
 }

@@ -5,8 +5,8 @@ import android.util.Log;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadListener;
 
-public class SingleFileDownloadListener extends FileDownloadListener {
-    private static String TAG = "SingleFileDownloadListener";
+public class ListFileDownloadListener extends FileDownloadListener {
+    private static String TAG = "ListFileDownloadListener";
 
     @Override
     protected void pending(BaseDownloadTask task, int soFarBytes, int totalBytes) {
