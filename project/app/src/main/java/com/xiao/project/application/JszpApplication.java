@@ -4,6 +4,8 @@ import android.app.Application;
 
 import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
+import com.liulishuo.filedownloader.FileDownloader;
+import com.liulishuo.filedownloader.connection.FileDownloadUrlConnection;
 
 
 public class JszpApplication extends Application {
@@ -14,6 +16,18 @@ public class JszpApplication extends Application {
         initOkhttp();
         //初始化地图
         initMap();
+        //初始化
+        initFileDownloader();
+    }
+
+    private void initFileDownloader() {
+        FileDownloader.setupOnApplicationOnCreate(this)
+                .connectionCreator(new FileDownloadUrlConnection
+                        .Creator(new FileDownloadUrlConnection.Configuration()
+                        .connectTimeout(15_000) // set connection timeout.
+                        .readTimeout(15_000) // set read timeout.
+                ))
+                .commit();
     }
 
     private void initMap() {
