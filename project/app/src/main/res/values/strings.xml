@@ -53,4 +53,8 @@
 
     <string name="flash_open">开启闪光灯</string>
     <string name="flash_close">关闭闪光灯</string>
+
+    <string name="start">Start</string>
+    <string name="pause">Pause</string>
+    <string name="delete">Delete</string>
 </resources>

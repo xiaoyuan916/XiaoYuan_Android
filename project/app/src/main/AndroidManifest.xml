@@ -25,7 +25,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.activity.BusBendActivity"
+        <activity android:name=".ui.filedownloader.FiledownloaderActivity"></activity>
+        <activity
+            android:name=".ui.activity.BusBendActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ui.okgo.OkGoDownActivity" />
         <activity android:name=".ui.okdownload.OkDownloadActivity" />
