@@ -13,6 +13,7 @@ import com.xiao.project.activity.XCodeScannerActivity;
 import com.xiao.project.adapter.RecyclerViewAdapter;
 import com.xiao.project.ui.activity.BusBendActivity;
 import com.xiao.project.ui.activity.BusViewActivity;
+import com.xiao.project.ui.activity.ThemGlideActivity;
 import com.xiao.project.ui.aidl.AIDLActivity;
 import com.xiao.project.bean.MainItem;
 import com.xiao.project.ui.filedownloader.FiledownloaderActivity;
@@ -83,6 +84,6 @@ public class MainActivity extends AppCompatActivity {
         mData.add(new MainItem("Retrofit使用", RetrofitActivity.class));
         mData.add(new MainItem("弯型busview使用", BusBendActivity.class));
         mData.add(new MainItem("filedownloader使用多任务", FilesDownLoaderActivity.class));
-
+        mData.add(new MainItem("Glide使用", ThemGlideActivity.class));
     }
 }

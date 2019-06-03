@@ -25,7 +25,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.filedownloader.FilesDownLoaderActivity"></activity>
+        <activity android:name=".ui.activity.ThemGlideActivity"></activity>
+        <activity android:name=".ui.filedownloader.FilesDownLoaderActivity" />
         <activity android:name=".ui.filedownloader.FiledownloaderActivity" />
         <activity
             android:name=".ui.activity.BusBendActivity"

@@ -84,6 +84,9 @@ dependencies {
     implementation 'com.liulishuo.okdownload:sqlite:1.0.5' //存储断点信息的数据库
     implementation 'com.liulishuo.okdownload:okhttp:1.0.5' //提供okhttp连接，如果使用的话，需要引入okhttp网络请求库
     implementation 'com.liulishuo.filedownloader:library:1.7.6'
+    //图片加载框架
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.5.0'
 }
 
 greendao {
