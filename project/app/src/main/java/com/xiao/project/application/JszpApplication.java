@@ -1,6 +1,8 @@
 package com.xiao.project.application;
 
 import android.app.Application;
+import android.content.Context;
+import android.support.multidex.MultiDex;
 
 import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
@@ -18,6 +20,13 @@ public class JszpApplication extends Application {
         initMap();
         //初始化
         initFileDownloader();
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        //解决低版本分包闪退问题
+        MultiDex.install(this);
     }
 
     private void initFileDownloader() {
