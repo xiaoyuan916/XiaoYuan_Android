@@ -62,6 +62,10 @@ public class JSZPInitOkgo {
         //HttpsUtils.SSLParams sslParams3 = HttpsUtils.getSslSocketFactory(getAssets().open("srca.cer"));
         //方法四：使用bks证书和密码管理客户端证书（双向认证），使用预埋证书，校验服务端证书（自签名证书）
         //HttpsUtils.SSLParams sslParams4 = HttpsUtils.getSslSocketFactory(getAssets().open("xxx.bks"), "123456", getAssets().open("yyy.cer"));
+        //方法五：小于5.0低版本的适配
+//        SafeTrustManager  safeTrustManager = new SafeTrustManager();
+//        SSLSocketFactoryCompat sslSocketFactoryCompat = new SSLSocketFactoryCompat(safeTrustManager);
+//        builder.sslSocketFactory(sslSocketFactoryCompat, safeTrustManager);
         builder.sslSocketFactory(sslParams1.sSLSocketFactory, sslParams1.trustManager);
         //配置https的域名匹配规则，详细看demo的初始化介绍，不需要就不要加入，使用不当会导致https握手失败
         builder.hostnameVerifier(new SafeHostnameVerifier());
