@@ -23,6 +23,11 @@ android {
             java.srcDirs = ['src/main/java', 'src/main/aidl']
         }
     }
+
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
 }
 
 dependencies {
@@ -47,7 +52,7 @@ dependencies {
     implementation 'org.greenrobot:greendao:3.2.2'
     // add library
     //扫描
-    implementation project(path: ':scan2')
+//    implementation project(path: ':scan2')
     //获取log日志架构
     implementation 'com.orhanobut:logger:2.2.0'
     //retrofit2加入
@@ -86,7 +91,18 @@ dependencies {
     implementation 'com.liulishuo.filedownloader:library:1.7.6'
     //图片加载框架
     implementation 'com.github.bumptech.glide:glide:4.9.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.5.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+    //视频播放,完整版引入
+//    implementation 'com.shuyu:GSYVideoPlayer:7.0.1'
+    implementation 'com.shuyu:gsyVideoPlayer-java:6.0.3'
+    //是否需要ExoPlayer模式
+    implementation 'com.shuyu:GSYVideoPlayer-exo2:6.0.3'
+    //根据你的需求ijk模式的so
+    implementation 'com.shuyu:gsyVideoPlayer-armv5:6.0.3'
+    implementation 'com.shuyu:gsyVideoPlayer-armv7a:6.0.3'
+    implementation 'com.shuyu:gsyVideoPlayer-arm64:6.0.3'
+    //更多ijk的编码支持
+//    implementation 'com.shuyu:gsyVideoPlayer-ex_so:7.0.1'
 }
 
 greendao {

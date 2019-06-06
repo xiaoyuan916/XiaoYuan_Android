@@ -27,6 +27,7 @@ import com.xiao.project.ui.rxjava.RxPermissionsActivity;
 import com.xiao.project.ui.socket.TcpClientActivity;
 import com.xiao.project.ui.tcp.TcpActivity;
 import com.xiao.project.ui.toxsl.XSLActivity;
+import com.xiao.project.ui.video.VideoActivity;
 import com.xiao.project.utils.RxRecyclerViewDividerTool;
 
 import java.util.ArrayList;
@@ -85,5 +86,6 @@ public class MainActivity extends AppCompatActivity {
         mData.add(new MainItem("弯型busview使用", BusBendActivity.class));
         mData.add(new MainItem("filedownloader使用多任务", FilesDownLoaderActivity.class));
         mData.add(new MainItem("Glide使用", ThemGlideActivity.class));
+        mData.add(new MainItem("视频播放", VideoActivity.class));
     }
 }
