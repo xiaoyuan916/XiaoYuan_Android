@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        recyclerview.setLayoutManager(new GridLayoutManager(MainActivity.this, 4));
+        recyclerview.setLayoutManager(new GridLayoutManager(MainActivity.this, 6));
         recyclerview.addItemDecoration(new RxRecyclerViewDividerTool(dp2px(5f)));
         RecyclerViewAdapter recyclerViewMain = new RecyclerViewAdapter(mData);
         recyclerview.setAdapter(recyclerViewMain);
