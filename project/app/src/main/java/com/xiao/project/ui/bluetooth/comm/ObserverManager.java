@@ -1,4 +1,4 @@
-package com.xiao.project.bluetooth.comm;
+package com.xiao.project.ui.bluetooth.comm;
 
 
 import com.clj.fastble.data.BleDevice;

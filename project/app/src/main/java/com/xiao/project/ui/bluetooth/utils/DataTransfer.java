@@ -1,4 +1,4 @@
-package com.xiao.project.bluetooth.utils;
+package com.xiao.project.ui.bluetooth.utils;
 
 /**
  * tool class

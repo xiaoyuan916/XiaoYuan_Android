@@ -1,4 +1,4 @@
-package com.xiao.project.bluetooth.operation;
+package com.xiao.project.ui.bluetooth.operation;
 
 import android.annotation.TargetApi;
 import android.bluetooth.BluetoothGatt;

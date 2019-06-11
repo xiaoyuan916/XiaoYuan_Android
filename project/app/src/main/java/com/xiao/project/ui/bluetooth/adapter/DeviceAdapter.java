@@ -1,4 +1,4 @@
-package com.xiao.project.bluetooth.adapter;
+package com.xiao.project.ui.bluetooth.adapter;
 
 
 import android.content.Context;

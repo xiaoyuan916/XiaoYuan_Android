@@ -71,13 +71,13 @@
             android:label="@string/title_activity_scrolling"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".bluetooth.MainActivity"
+            android:name=".ui.bluetooth.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name="bluetooth.operation.OperationActivity" />
+        <activity android:name=".ui.bluetooth.operation.OperationActivity" />
         <activity android:name=".ui.toxsl.XSLActivity" />
         <activity android:name=".activity.XCodeScannerActivity" />
         <activity android:name=".ui.magicindicator.MagicIndicatorActivity" />
-        <activity android:name=".bluetooth.BluetoothOperationActivity" />
+        <activity android:name=".ui.bluetooth.BluetoothOperationActivity" />
         <activity android:name=".ui.mvvm.MVVMActivity" />
         <activity android:name=".ui.mvp.MVPUserActivity" />
         <activity android:name=".ui.rxjava.RxPermissionsActivity" />

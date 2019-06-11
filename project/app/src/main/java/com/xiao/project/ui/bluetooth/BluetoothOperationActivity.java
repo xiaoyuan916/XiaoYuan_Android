@@ -1,11 +1,9 @@
-package com.xiao.project.bluetooth;
+package com.xiao.project.ui.bluetooth;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -15,21 +13,18 @@ import com.clj.fastble.BleManager;
 import com.clj.fastble.callback.BleReadCallback;
 import com.clj.fastble.data.BleDevice;
 import com.clj.fastble.exception.BleException;
-import com.xiao.project.MainActivity;
 import com.xiao.project.R;
-import com.xiao.project.activity.RefrshActivity;
-import com.xiao.project.bluetooth.comm.Observer;
-import com.xiao.project.bluetooth.comm.ObserverManager;
-import com.xiao.project.bluetooth.utils.DataTransfer;
+import com.xiao.project.ui.bluetooth.comm.Observer;
+import com.xiao.project.ui.bluetooth.comm.ObserverManager;
+import com.xiao.project.ui.bluetooth.utils.DataTransfer;
 
 import java.util.List;
-import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.xiao.project.bluetooth.operation.OperationActivity.KEY_DATA;
+import static com.xiao.project.ui.bluetooth.operation.OperationActivity.KEY_DATA;
 
 public class BluetoothOperationActivity extends AppCompatActivity implements Observer {
 

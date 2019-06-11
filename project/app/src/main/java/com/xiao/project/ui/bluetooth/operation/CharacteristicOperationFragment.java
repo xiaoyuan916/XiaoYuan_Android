@@ -1,4 +1,4 @@
-package com.xiao.project.bluetooth.operation;
+package com.xiao.project.ui.bluetooth.operation;
 
 import android.annotation.TargetApi;
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -25,7 +25,7 @@ import com.clj.fastble.data.BleDevice;
 import com.clj.fastble.exception.BleException;
 import com.clj.fastble.utils.HexUtil;
 import com.xiao.project.R;
-import com.xiao.project.bluetooth.utils.DataTransfer;
+import com.xiao.project.ui.bluetooth.utils.DataTransfer;
 
 import java.util.ArrayList;
 import java.util.List;

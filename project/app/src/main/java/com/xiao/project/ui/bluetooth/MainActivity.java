@@ -1,4 +1,4 @@
-package com.xiao.project.bluetooth;
+package com.xiao.project.ui.bluetooth;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -42,9 +42,9 @@ import com.clj.fastble.data.BleDevice;
 import com.clj.fastble.exception.BleException;
 import com.clj.fastble.scan.BleScanRuleConfig;
 import com.xiao.project.R;
-import com.xiao.project.bluetooth.adapter.DeviceAdapter;
-import com.xiao.project.bluetooth.comm.ObserverManager;
-import com.xiao.project.bluetooth.operation.OperationActivity;
+import com.xiao.project.ui.bluetooth.adapter.DeviceAdapter;
+import com.xiao.project.ui.bluetooth.comm.ObserverManager;
+import com.xiao.project.ui.bluetooth.operation.OperationActivity;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.xiao.project.bluetooth.operation;
+package com.xiao.project.ui.bluetooth.operation;
 
 
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -14,8 +14,8 @@ import android.view.View;
 import com.clj.fastble.BleManager;
 import com.clj.fastble.data.BleDevice;
 import com.xiao.project.R;
-import com.xiao.project.bluetooth.comm.Observer;
-import com.xiao.project.bluetooth.comm.ObserverManager;
+import com.xiao.project.ui.bluetooth.comm.Observer;
+import com.xiao.project.ui.bluetooth.comm.ObserverManager;
 
 import java.util.ArrayList;
 import java.util.List;
