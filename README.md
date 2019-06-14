@@ -21,3 +21,7 @@
 6，tensorflow_android项目
 
 > tensorflow和Android相结合的项目
+
+7，SerialPortProject项目
+
+> 串口开发的项目

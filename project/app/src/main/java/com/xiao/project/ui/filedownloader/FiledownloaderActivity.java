@@ -72,7 +72,7 @@ public class FiledownloaderActivity extends AppCompatActivity {
 
     private void downFile() {
         baseDownloadId = FileDownloader.getImpl()
-                .create(Constant.LIULISHUO_APK_URL)
+                .create(Constant.THEME_URL)
                 .setPath(llsApkFilePath, true)
                 .setListener(new SingleFileDownloadListener()).start();
     }

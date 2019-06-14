@@ -8,6 +8,7 @@ import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.liulishuo.filedownloader.connection.FileDownloadUrlConnection;
+import com.liulishuo.filedownloader.util.FileDownloadLog;
 
 
 public class JszpApplication extends Application {
@@ -37,6 +38,7 @@ public class JszpApplication extends Application {
                         .readTimeout(15_000) // set read timeout.
                 ))
                 .commit();
+        FileDownloadLog.NEED_LOG=true;
     }
 
     private void initMap() {

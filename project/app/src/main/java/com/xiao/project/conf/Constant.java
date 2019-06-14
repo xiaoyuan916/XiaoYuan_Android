@@ -1,8 +1,13 @@
 package com.xiao.project.conf;
 
+import com.liulishuo.filedownloader.FileDownloader;
+
 public interface Constant {
     String LIULISHUO_CONTENT_DISPOSITION_FILENAME = "LLS-v4.0-595-20160908-143200.apk";
     String LIULISHUO_APK_URL = "http://cdn.llsapp.com/android/LLS-v4.0-595-20160908-143200.apk";
+
+    String THEME_URL="http://192.168.58.95:10030/tiamaes-tmsp-screen-rsa/tmlbs/other/9553D0A7FE6B43EA88416AA2D87570F8.zip";
+
     String[] URLS = {
             // 随机小资源一般不超过10
             "http://girlatlas.b0.upaiyun.com/35/20150106/19152b4c633b321f4479.jpg!mid",
