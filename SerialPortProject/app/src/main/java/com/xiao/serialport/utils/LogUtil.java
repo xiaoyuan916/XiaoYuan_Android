@@ -5,6 +5,6 @@ import com.blankj.utilcode.util.LogUtils;
 public class LogUtil {
     public static void init(){
         LogUtils.Config config = LogUtils.getConfig();
-
+        config.setBorderSwitch(false);
     }
 }
