@@ -17,6 +17,7 @@ import com.xiao.project.ui.activity.BusViewActivity;
 import com.xiao.project.ui.activity.ThemGlideActivity;
 import com.xiao.project.ui.aidl.AIDLActivity;
 import com.xiao.project.bean.MainItem;
+import com.xiao.project.ui.chart.ChartActivity;
 import com.xiao.project.ui.filedownloader.FiledownloaderActivity;
 import com.xiao.project.ui.filedownloader.FilesDownLoaderActivity;
 import com.xiao.project.ui.map.DriveRouteActivity;
@@ -87,5 +88,6 @@ public class MainActivity extends AppCompatActivity {
         mData.add(new MainItem("Glide使用", ThemGlideActivity.class));
         mData.add(new MainItem("视频播放", VideoActivity.class));
         mData.add(new MainItem("菜单界面", NavActivity.class));
+        mData.add(new MainItem("图表界面", ChartActivity.class));
     }
 }
