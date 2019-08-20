@@ -25,9 +25,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.video.VideoActivity"
+        <activity
+            android:name=".activity.NavActivity"
+            android:label="@string/title_activity_nav"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".ui.video.VideoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity android:name=".ui.activity.ThemGlideActivity" />
         <activity android:name=".ui.filedownloader.FilesDownLoaderActivity" />
         <activity android:name=".ui.filedownloader.FiledownloaderActivity" />

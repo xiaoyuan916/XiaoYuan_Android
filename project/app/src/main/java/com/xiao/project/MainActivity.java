@@ -6,6 +6,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.xiao.project.activity.GreenDaoActivity;
+import com.xiao.project.activity.NavActivity;
 import com.xiao.project.activity.OkHttpActivity;
 import com.xiao.project.activity.RefrshActivity;
 import com.xiao.project.activity.RetrofitActivity;
@@ -85,5 +86,6 @@ public class MainActivity extends AppCompatActivity {
         mData.add(new MainItem("filedownloader使用多任务", FiledownloaderActivity.class));
         mData.add(new MainItem("Glide使用", ThemGlideActivity.class));
         mData.add(new MainItem("视频播放", VideoActivity.class));
+        mData.add(new MainItem("菜单界面", NavActivity.class));
     }
 }

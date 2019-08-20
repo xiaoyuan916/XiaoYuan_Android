@@ -36,7 +36,7 @@ public class XiaoDemoActivity extends AppCompatActivity implements View.OnClickL
         webView.setDefaultHandler(new DefaultHandler());
         webView.setWebChromeClient(new XiaoWebChromeClient());
 //        webView.loadUrl("file:///android_asset/demo/demo.html");
-        webView.loadUrl("http://192.168.22.91");
+        webView.loadUrl("http://192.168.31.115");
         //注册js调用java的代码
         XiaoRegisterHandler.getInstance().submitFromWeb(webView);
     }
