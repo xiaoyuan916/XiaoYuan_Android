@@ -3,12 +3,15 @@ package com.xiao.project.application;
 import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
+import android.util.Log;
 
 import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.liulishuo.filedownloader.connection.FileDownloadUrlConnection;
 import com.liulishuo.filedownloader.util.FileDownloadLog;
+import com.tencent.smtt.sdk.QbSdk;
+import com.tencent.smtt.sdk.TbsListener;
 
 
 public class JszpApplication extends Application {
@@ -21,6 +24,44 @@ public class JszpApplication extends Application {
         initMap();
         //初始化
         initFileDownloader();
+        //初始化x5
+        initX5();
+    }
+
+    private void initX5() {
+
+        //搜集本地tbs内核信息并上报服务器，服务器返回结果决定使用哪个内核。
+        QbSdk.PreInitCallback cb = new QbSdk.PreInitCallback() {
+            @Override
+            public void onCoreInitFinished() {
+                Log.d("tbs", " onCoreInitFinished  ");
+            }
+
+            @Override
+            public void onViewInitFinished(boolean b) {
+                //x5內核初始化完成的回调，为true表示x5内核加载成功，否则表示x5内核加载失败，会自动切换到系统内核。
+                Log.d("tbs","加载内核是否成功:"+b);
+            }
+        };
+
+        QbSdk.setTbsListener(new TbsListener() {
+            @Override
+            public void onDownloadFinish(int i) {
+                Log.d("apptbs", "onDownloadFinish");
+            }
+
+            @Override
+            public void onInstallFinish(int i) {
+                Log.d("apptbs", "onInstallFinish");
+            }
+
+            @Override
+            public void onDownloadProgress(int i) {
+                Log.d("apptbs", "onDownloadProgress:" + i);
+            }
+        });
+
+        QbSdk.initX5Environment(getApplicationContext(), cb);
     }
 
     @Override
