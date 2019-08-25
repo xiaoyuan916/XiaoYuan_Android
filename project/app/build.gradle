@@ -106,8 +106,12 @@ dependencies {
 //    implementation 'com.shuyu:gsyVideoPlayer-ex_so:7.0.1'
     implementation project(':FingerPrintManager')
     implementation project(':GestureUnlock')
-    // dialog
     implementation 'com.github.cazaea:sweet-alert-dialog:1.0.0'
+    //表格处理
+    implementation 'com.github.huangyanbin:SmartTable:2.2.0'
+    //基础工具库
+    implementation 'com.blankj:utilcode:1.25.8'
+
 }
 
 greendao {

@@ -18,6 +18,7 @@ import com.xiao.project.ui.activity.ThemGlideActivity;
 import com.xiao.project.ui.aidl.AIDLActivity;
 import com.xiao.project.bean.MainItem;
 import com.xiao.project.ui.chart.ChartActivity;
+import com.xiao.project.ui.clearcache.ClearCacheActivity;
 import com.xiao.project.ui.filedownloader.FiledownloaderActivity;
 import com.xiao.project.ui.filedownloader.FilesDownLoaderActivity;
 import com.xiao.project.ui.gesturelock.FingerprintGestureActivity;
@@ -26,6 +27,7 @@ import com.xiao.project.ui.messenger.MessengerActivity;
 import com.xiao.project.ui.mqtt.MqttActivity;
 import com.xiao.project.ui.notification.NotificationActivity;
 import com.xiao.project.ui.rxjava.RxPermissionsActivity;
+import com.xiao.project.ui.table.SmartTableActivity;
 import com.xiao.project.ui.tcp.TcpActivity;
 import com.xiao.project.ui.theme.ThemeSwitchingActivity;
 import com.xiao.project.ui.toxsl.XSLActivity;
@@ -93,11 +95,11 @@ public class MainActivity extends AppCompatActivity {
         mData.add(new MainItem("图表界面", ChartActivity.class));
         mData.add(new MainItem("指纹手势密码", FingerprintGestureActivity.class));
         mData.add(new MainItem("主题切换", ThemeSwitchingActivity.class));
-        mData.add(new MainItem("表格处理", ThemeSwitchingActivity.class));
+        mData.add(new MainItem("表格处理", SmartTableActivity.class));
+        mData.add(new MainItem("清除缓存", ClearCacheActivity.class));
+        mData.add(new MainItem("版本处理", ThemeSwitchingActivity.class));
         mData.add(new MainItem("搜索筛选", ThemeSwitchingActivity.class));
         mData.add(new MainItem("文档预览", ThemeSwitchingActivity.class));
         mData.add(new MainItem("圈阅功能", ThemeSwitchingActivity.class));
-        mData.add(new MainItem("版本处理", ThemeSwitchingActivity.class));
-        mData.add(new MainItem("清除缓存", ThemeSwitchingActivity.class));
     }
 }
