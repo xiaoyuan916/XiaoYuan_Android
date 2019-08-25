@@ -78,4 +78,8 @@
     <string name="text_intent_light">豪哥变白了</string>
     <string name="text_intent_drak">豪哥变黑了</string>
 
+    <string name="gesture_input_old_pwd">输入旧的密码</string>
+    <string name="gesture_set_pwd">设置手势密码</string>
+    <string name="gesture_set_new_pwd">设置新的手势密码</string>
+
 </resources>

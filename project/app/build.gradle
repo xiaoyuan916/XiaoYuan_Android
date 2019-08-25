@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.xiao.project"
-        minSdkVersion 17
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -104,6 +104,10 @@ dependencies {
     implementation 'com.shuyu:gsyVideoPlayer-arm64:6.0.3'
     //更多ijk的编码支持
 //    implementation 'com.shuyu:gsyVideoPlayer-ex_so:7.0.1'
+    implementation project(':FingerPrintManager')
+    implementation project(':GestureUnlock')
+    // dialog
+    implementation 'com.github.cazaea:sweet-alert-dialog:1.0.0'
 }
 
 greendao {

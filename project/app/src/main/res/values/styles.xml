@@ -58,4 +58,10 @@
         <item name="android:background">@color/color_white</item>
         <item name="android:text">@string/text_intent_drak</item>
     </style>
+
+
+    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">18sp</item>
+    </style>
+
 </resources>

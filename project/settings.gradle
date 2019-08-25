@@ -1,1 +1,1 @@
-include ':app', ':scan2', ':ServiceApp'
+include ':app', ':scan2', ':ServiceApp', ':FingerPrintManager', ':GestureUnlock'

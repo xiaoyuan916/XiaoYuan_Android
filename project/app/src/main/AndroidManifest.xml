@@ -4,19 +4,6 @@
     package="com.xiao.project">
     <!-- 地图SDK（包含其搜索功能）需要的基础权限 -->
     <!-- //网络权限，当禁用后，无法进行检索等相关业务 -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- //读取设备硬件信息，统计数据 -->
-    <uses-permission android:name="android.permission.INTERNET" /> <!-- //读取系统信息，包含系统版本等信息，用作统计 -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- //获取设备的网络状态，鉴权所需网络代理 -->
-    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" /> <!-- //允许sd卡写权限，需写入地图数据，禁用后无法显示地图 -->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- //这个权限用于进行网络定位 -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- //这个权限用于访问GPS定位 -->
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" /> <!-- //获取统计数据 -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- //使用步行AR导航，配置Camera权限 -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- //程序在手机屏幕关闭后后台进程仍然运行 -->
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-
-    <!-- //获取设备网络状态，禁用后无法获取网络状态 -->
     <application
         android:name=".application.JszpApplication"
         android:allowBackup="true"
@@ -26,7 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.theme.ThemeSwitchingActivity"/>
+        <activity android:name=".ui.gesturelock.FingerprintGestureActivity"/>
+        <activity android:name=".ui.gesturelock.GestureUnlockActivity"/>
+        <activity android:name=".ui.theme.ThemeSwitchingActivity" />
         <activity android:name=".ui.chart.ChartActivity" />
         <activity
             android:name=".activity.NavActivity"
@@ -49,9 +38,7 @@
         <activity android:name=".ui.tcp.TcpActivity" />
         <activity android:name=".ui.aidl.AIDLActivity" />
         <activity android:name=".ui.messenger.MessengerActivity" />
-
         <activity android:name=".ui.socket.TcpClientActivity" />
-
         <activity android:name=".ui.notification.NotificationActivity" />
         <activity android:name=".ui.mqtt.MqttActivity" />
         <activity
@@ -68,8 +55,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.RefrshActivity" />
-        <activity android:name=".activity.OkHttpActivity" />
-<!--        <activity android:name=".activity.Scan3Activity" />-->
+        <activity android:name=".activity.OkHttpActivity" /> <!-- <activity android:name=".activity.Scan3Activity" /> -->
         <activity
             android:name=".activity.ScrollingActivity"
             android:label="@string/title_activity_scrolling"
@@ -91,11 +77,10 @@
             android:name=".ui.map.DriveRouteActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".ui.dsbridge.MainActivity" />
-
         <activity android:name=".ui.dsbridge.CallJavascriptActivity" />
         <activity android:name=".ui.dsbridge.JavascriptCallNativeActivity" />
-
         <activity android:name=".ui.dsbridge.WrokWithFlyioTestActivity" />
+
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="181d092cc8f8c09e4d6a63e9293b0edb" /> <!-- 这个service 必须要注册哈！！！ -->
@@ -106,7 +91,6 @@
             android:name=".ui.socket.TCPServerService"
             android:enabled="false"
             android:exported="false" />
-
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
@@ -114,6 +98,18 @@
         <service android:name=".ui.mqtt.MqttService" />
         <service android:name="org.eclipse.paho.android.service.MqttService" />
         <service android:name=".service.websocket.MQTTService" />
-    </application>
+    </application> <!-- //读取设备硬件信息，统计数据 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- //读取系统信息，包含系统版本等信息，用作统计 -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- //获取设备的网络状态，鉴权所需网络代理 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- //允许sd卡写权限，需写入地图数据，禁用后无法显示地图 -->
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" /> <!-- //这个权限用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- //这个权限用于访问GPS定位 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- //获取统计数据 -->
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" /> <!-- //使用步行AR导航，配置Camera权限 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- //程序在手机屏幕关闭后后台进程仍然运行 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
 </manifest>
