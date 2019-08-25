@@ -97,4 +97,10 @@ public class DocumentPreviewActivity extends AppCompatActivity implements TbsRea
     public void onCallBackAction(Integer integer, Object o, Object o1) {
         Log.d("call", "==================+++++====-=-=++" + integer);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mTbsReaderView.onStop();
+    }
 }
