@@ -72,4 +72,10 @@
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
 
+    <string name="text_light">白天</string>
+    <string name="text_dark">夜晚</string>
+    <string name="text_intent">跳转</string>
+    <string name="text_intent_light">豪哥变白了</string>
+    <string name="text_intent_drak">豪哥变黑了</string>
+
 </resources>

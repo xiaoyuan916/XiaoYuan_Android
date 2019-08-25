@@ -13,4 +13,11 @@
     <color name="transparent">#00000000</color>
     <!-- 通用的字体颜色。（黑色） -->
     <color name="general_font_color_black">#000000</color>
+
+    <color name="color_primary">#ff333333</color>
+    <color name="color_primary_dark">#ff222222</color>
+    <color name="color_bg_main_drak">#ff333333</color>
+    <color name="color_bg_main_light">#ffee</color>
+    <color name="color_white">#FFF</color>
+    <color name="color_black">#000</color>
 </resources>
