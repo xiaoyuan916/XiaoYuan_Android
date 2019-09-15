@@ -11,6 +11,7 @@ import android.widget.RemoteViews;
 
 import com.xiao.project.R;
 import com.xiao.project.activity.RefrshActivity;
+import com.xiao.project.utils.NotificationUtil2;
 import com.xiao.project.utils.NotificationUtils;
 
 import butterknife.BindView;
@@ -39,7 +40,15 @@ public class NotificationActivity extends AppCompatActivity {
     }
 
     private void notifyMsg() {
-        sendNotification2();
+//        sendNotification3();
+
+//        NotificationUtil2.showNotification(this);
+
+//        NotificationUtil2.showNotificationProgress(this);
+
+        NotificationUtil2.showFullScreen(this);
+
+//        NotificationUtil2.shwoNotify(this);
     }
 
     private void sendNotification2() {
@@ -81,7 +90,7 @@ public class NotificationActivity extends AppCompatActivity {
                 //设置自定义view通知栏布局
                 .setContent(getRemoteViews())
                 //设置sound
-                .setSound(android.provider.Settings.System.DEFAULT_NOTIFICATION_URI)
+//                .setSound(android.provider.Settings.System.DEFAULT_NOTIFICATION_URI)
                 //设置优先级
                 .setPriority(Notification.PRIORITY_DEFAULT)
                 //自定义震动效果

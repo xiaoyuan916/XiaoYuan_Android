@@ -101,5 +101,6 @@ public class MainActivity extends AppCompatActivity {
         mData.add(new MainItem("清除缓存", ClearCacheActivity.class));
         mData.add(new MainItem("搜索筛选", SearchFilterActivity.class));
         mData.add(new MainItem("文档预览", DocumentPreviewActivity.class));
+//        mData.add(new MainItem("侧滑菜单", SwipeRecyclerViewActivity.class));
     }
 }
