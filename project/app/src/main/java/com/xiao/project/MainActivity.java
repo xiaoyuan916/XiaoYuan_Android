@@ -21,7 +21,6 @@ import com.xiao.project.ui.chart.ChartActivity;
 import com.xiao.project.ui.clearcache.ClearCacheActivity;
 import com.xiao.project.ui.documentpreview.DocumentPreviewActivity;
 import com.xiao.project.ui.filedownloader.FiledownloaderActivity;
-import com.xiao.project.ui.filedownloader.FilesDownLoaderActivity;
 import com.xiao.project.ui.gesturelock.FingerprintGestureActivity;
 import com.xiao.project.ui.map.DriveRouteActivity;
 import com.xiao.project.ui.messenger.MessengerActivity;
@@ -34,6 +33,7 @@ import com.xiao.project.ui.tcp.TcpActivity;
 import com.xiao.project.ui.theme.ThemeSwitchingActivity;
 import com.xiao.project.ui.toxsl.XSLActivity;
 import com.xiao.project.ui.video.VideoActivity;
+import com.xiao.project.ui.vlayout.view.VlayoutActivity;
 import com.xiao.project.utils.RxRecyclerViewDividerTool;
 
 import java.util.ArrayList;
@@ -102,5 +102,6 @@ public class MainActivity extends AppCompatActivity {
         mData.add(new MainItem("搜索筛选", SearchFilterActivity.class));
         mData.add(new MainItem("文档预览", DocumentPreviewActivity.class));
 //        mData.add(new MainItem("侧滑菜单", SwipeRecyclerViewActivity.class));
+        mData.add(new MainItem("多布局瀑布流", VlayoutActivity.class));
     }
 }

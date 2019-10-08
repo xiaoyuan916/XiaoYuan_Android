@@ -115,7 +115,12 @@ dependencies {
     implementation 'com.blankj:utilcode:1.25.8'
     //侧滑菜单
 //    implementation 'com.yanzhenjie.recyclerview:support:1.3.2'
-
+    //Vlayout
+    implementation('com.alibaba.android:vlayout:1.2.8@aar') {
+        transitive = true
+    }
+    //banner
+    implementation 'com.youth.banner:banner:1.4.10'
 }
 
 greendao {

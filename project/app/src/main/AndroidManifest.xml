@@ -2,7 +2,20 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.xiao.project">
-    <!-- //这个权限用于进行网络定位 -->
+    <!-- //这个权限用于访问GPS定位 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- //获取统计数据 -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- //使用步行AR导航，配置Camera权限 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- //程序在手机屏幕关闭后后台进程仍然运行 -->
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- 硬件加速对X5视频播放非常重要，建议开启 -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+
     <application
         android:name=".application.JszpApplication"
         android:allowBackup="true"
@@ -12,7 +25,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activity.SwipeRecyclerViewActivity"></activity>
+        <activity android:name=".ui.vlayout.view.VlayoutActivity"></activity>
+        <activity android:name=".activity.SwipeRecyclerViewActivity" />
         <activity
             android:name=".ui.documentpreview.DocumentPreviewActivity"
             android:hardwareAccelerated="true" />
@@ -104,19 +118,6 @@
         <service android:name=".ui.mqtt.MqttService" />
         <service android:name="org.eclipse.paho.android.service.MqttService" />
         <service android:name=".service.websocket.MQTTService" />
-    </application> <!-- //这个权限用于访问GPS定位 -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- //获取统计数据 -->
-    <uses-permission android:name="android.permission.INTERNET" /> <!-- //使用步行AR导航，配置Camera权限 -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- //程序在手机屏幕关闭后后台进程仍然运行 -->
-    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.CAMERA" /> <!-- 硬件加速对X5视频播放非常重要，建议开启 -->
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-
-    <uses-permission android:name="android.permission.GET_TASKS" />
+    </application>
 
 </manifest>
